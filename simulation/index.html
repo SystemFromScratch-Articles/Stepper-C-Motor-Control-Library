@@ -1,0 +1,2052 @@
+
+<!doctype html>
+<html lang="en" class="no-js">
+  <head>
+    
+      <meta charset="utf-8">
+      <meta name="viewport" content="width=device-width,initial-scale=1">
+      
+        <meta name="description" content="User manual of the Stepper-C system: a hardware-agnostic stepper motor control library in C11, its Scilab/Xcos simulation with software in the loop and the ngspice model of the B-G431B-ESC1 power stage.">
+      
+      
+        <meta name="author" content="Anton Vynohradov">
+      
+      
+        <link rel="canonical" href="https://systemfromscratch-articles.github.io/Stepper-C-Motor-Control-Library/simulation/">
+      
+      
+        <link rel="prev" href="../api/">
+      
+      
+        <link rel="next" href="../sil/">
+      
+      
+        
+      
+      
+      <link rel="icon" href="../assets/images/brand/systemfromscratch-logo.png">
+      <meta name="generator" content="mkdocs-1.6.1, mkdocs-material-9.8.0">
+    
+    
+      
+        <title>Simulation - Stepper-C System Manual</title>
+      
+    
+    
+      <link rel="stylesheet" href="../assets/stylesheets/main.57a0d79d.min.css">
+      
+        
+        <link rel="stylesheet" href="../assets/stylesheets/palette.fb2fffe2.min.css">
+      
+      
+
+
+    
+    
+      
+    
+    
+      
+        
+        
+        <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
+        <link rel="stylesheet" href="https://fonts.googleapis.com/css?family=Inter:300,300i,400,400i,700,700i%7CJetBrains+Mono:400,400i,700,700i&display=fallback">
+        <style>:root{--md-text-font:"Inter";--md-code-font:"JetBrains Mono"}</style>
+      
+    
+    
+      <link rel="stylesheet" href="../assets/stylesheets/extra.css">
+    
+    <script>__md_scope=new URL("..",location),__md_hash=e=>[...e].reduce(((e,_)=>(e<<5)-e+_.charCodeAt(0)),0),__md_get=(e,_=localStorage,t=__md_scope)=>JSON.parse(_.getItem(t.pathname+"."+e)),__md_set=(e,_,t=localStorage,a=__md_scope)=>{try{t.setItem(a.pathname+"."+e,JSON.stringify(_))}catch(e){}}</script>
+    
+      
+
+    
+    
+  </head>
+  
+  
+    
+    
+      
+    
+    
+    
+    
+    <body dir="ltr" data-md-color-scheme="default" data-md-color-primary="custom" data-md-color-accent="custom">
+  
+    
+    <input class="md-toggle" data-md-toggle="drawer" type="checkbox" id="__drawer" autocomplete="off">
+    <input class="md-toggle" data-md-toggle="search" type="checkbox" id="__search" autocomplete="off">
+    <label class="md-overlay" for="__drawer"></label>
+    <div data-md-component="skip">
+      
+        
+        <a href="#simulation" class="md-skip">
+          Skip to content
+        </a>
+      
+    </div>
+    <div data-md-component="announce">
+      
+    </div>
+    
+    
+      
+
+<header class="md-header" data-md-component="header">
+  <nav class="md-header__inner md-grid" aria-label="Header">
+    <a href=".." title="Stepper-C System Manual" class="md-header__button md-logo" aria-label="Stepper-C System Manual" data-md-component="logo">
+      
+  <img src="../assets/images/brand/systemfromscratch-logo-on-dark.png" alt="logo">
+
+    </a>
+    <label class="md-header__button md-icon" for="__drawer">
+      
+      <svg xmlns="http://www.w3.org/2000/svg" viewBox="0 0 24 24"><path d="M3 6h18v2H3zm0 5h18v2H3zm0 5h18v2H3z"/></svg>
+    </label>
+    <div class="md-header__title" data-md-component="header-title">
+      <div class="md-header__ellipsis">
+        <div class="md-header__topic">
+          <span class="md-ellipsis">
+            Stepper-C System Manual
+          </span>
+        </div>
+        <div class="md-header__topic" data-md-component="header-topic">
+          <span class="md-ellipsis">
+            
+              Simulation
+            
+          </span>
+        </div>
+      </div>
+    </div>
+    
+      
+        <form class="md-header__option" data-md-component="palette">
+  
+    
+    
+    
+    <input class="md-option" data-md-color-media="(prefers-color-scheme: light)" data-md-color-scheme="default" data-md-color-primary="custom" data-md-color-accent="custom"  aria-label="Switch to dark mode"  type="radio" name="__palette" id="__palette_0">
+    
+      <label class="md-header__button md-icon" title="Switch to dark mode" for="__palette_1" hidden>
+        <svg xmlns="http://www.w3.org/2000/svg" viewBox="0 0 24 24"><path d="m17.75 4.09-2.53 1.94.91 3.06-2.63-1.81-2.63 1.81.91-3.06-2.53-1.94L12.44 4l1.06-3 1.06 3zm3.5 6.91-1.64 1.25.59 1.98-1.7-1.17-1.7 1.17.59-1.98L15.75 11l2.06-.05L18.5 9l.69 1.95zm-2.28 4.95c.83-.08 1.72 1.1 1.19 1.85-.32.45-.66.87-1.08 1.27C15.17 23 8.84 23 4.94 19.07c-3.91-3.9-3.91-10.24 0-14.14.4-.4.82-.76 1.27-1.08.75-.53 1.93.36 1.85 1.19-.27 2.86.69 5.83 2.89 8.02a9.96 9.96 0 0 0 8.02 2.89m-1.64 2.02a12.08 12.08 0 0 1-7.8-3.47c-2.17-2.19-3.33-5-3.49-7.82-2.81 3.14-2.7 7.96.31 10.98 3.02 3.01 7.84 3.12 10.98.31"/></svg>
+      </label>
+    
+  
+    
+    
+    
+    <input class="md-option" data-md-color-media="(prefers-color-scheme: dark)" data-md-color-scheme="slate" data-md-color-primary="custom" data-md-color-accent="custom"  aria-label="Switch to light mode"  type="radio" name="__palette" id="__palette_1">
+    
+      <label class="md-header__button md-icon" title="Switch to light mode" for="__palette_0" hidden>
+        <svg xmlns="http://www.w3.org/2000/svg" viewBox="0 0 24 24"><path d="M12 7a5 5 0 0 1 5 5 5 5 0 0 1-5 5 5 5 0 0 1-5-5 5 5 0 0 1 5-5m0 2a3 3 0 0 0-3 3 3 3 0 0 0 3 3 3 3 0 0 0 3-3 3 3 0 0 0-3-3m0-7 2.39 3.42C13.65 5.15 12.84 5 12 5s-1.65.15-2.39.42zM3.34 7l4.16-.35A7.2 7.2 0 0 0 5.94 8.5c-.44.74-.69 1.5-.83 2.29zm.02 10 1.76-3.77a7.131 7.131 0 0 0 2.38 4.14zM20.65 7l-1.77 3.79a7.02 7.02 0 0 0-2.38-4.15zm-.01 10-4.14.36c.59-.51 1.12-1.14 1.54-1.86.42-.73.69-1.5.83-2.29zM12 22l-2.41-3.44c.74.27 1.55.44 2.41.44.82 0 1.63-.17 2.37-.44z"/></svg>
+      </label>
+    
+  
+</form>
+      
+    
+    
+      <script>var palette=__md_get("__palette");if(palette&&palette.color){if("(prefers-color-scheme)"===palette.color.media){var media=matchMedia("(prefers-color-scheme: light)"),input=document.querySelector(media.matches?"[data-md-color-media='(prefers-color-scheme: light)']":"[data-md-color-media='(prefers-color-scheme: dark)']");palette.color.media=input.getAttribute("data-md-color-media"),palette.color.scheme=input.getAttribute("data-md-color-scheme"),palette.color.primary=input.getAttribute("data-md-color-primary"),palette.color.accent=input.getAttribute("data-md-color-accent")}for(var[key,value]of Object.entries(palette.color))document.body.setAttribute("data-md-color-"+key,value)}</script>
+    
+    
+      <a href="../downloads/Stepper-C_System_Manual.pdf" class="md-header__button md-icon" title="Download PDF user manual" aria-label="Download PDF user manual" download>
+        <svg xmlns="http://www.w3.org/2000/svg" viewBox="0 0 24 24"><path d="M19 3H5c-1.1 0-2 .9-2 2v14c0 1.1.9 2 2 2h14c1.1 0 2-.9 2-2V5c0-1.1-.9-2-2-2m-9.5 8.5c0 .8-.7 1.5-1.5 1.5H7v2H5.5V9H8c.8 0 1.5.7 1.5 1.5zm5 2c0 .8-.7 1.5-1.5 1.5h-2.5V9H13c.8 0 1.5.7 1.5 1.5zm4-3H17v1h1.5V13H17v2h-1.5V9h3zm-6.5 0h1v3h-1zm-5 0h1v1H7z"/></svg>
+      </a>
+    
+    
+    
+      
+      
+        <label class="md-header__button md-icon" for="__search">
+          
+          <svg xmlns="http://www.w3.org/2000/svg" viewBox="0 0 24 24"><path d="M9.5 3A6.5 6.5 0 0 1 16 9.5c0 1.61-.59 3.09-1.56 4.23l.27.27h.79l5 5-1.5 1.5-5-5v-.79l-.27-.27A6.52 6.52 0 0 1 9.5 16 6.5 6.5 0 0 1 3 9.5 6.5 6.5 0 0 1 9.5 3m0 2C7 5 5 7 5 9.5S7 14 9.5 14 14 12 14 9.5 12 5 9.5 5"/></svg>
+        </label>
+        <div class="md-search" data-md-component="search" role="dialog">
+  <label class="md-search__overlay" for="__search"></label>
+  <div class="md-search__inner" role="search">
+    <form class="md-search__form" name="search">
+      <input type="text" class="md-search__input" name="query" aria-label="Search" placeholder="Search" autocapitalize="off" autocorrect="off" autocomplete="off" spellcheck="false" data-md-component="search-query" required>
+      <label class="md-search__icon md-icon" for="__search">
+        
+        <svg xmlns="http://www.w3.org/2000/svg" viewBox="0 0 24 24"><path d="M9.5 3A6.5 6.5 0 0 1 16 9.5c0 1.61-.59 3.09-1.56 4.23l.27.27h.79l5 5-1.5 1.5-5-5v-.79l-.27-.27A6.52 6.52 0 0 1 9.5 16 6.5 6.5 0 0 1 3 9.5 6.5 6.5 0 0 1 9.5 3m0 2C7 5 5 7 5 9.5S7 14 9.5 14 14 12 14 9.5 12 5 9.5 5"/></svg>
+        
+        <svg xmlns="http://www.w3.org/2000/svg" viewBox="0 0 24 24"><path d="M20 11v2H8l5.5 5.5-1.42 1.42L4.16 12l7.92-7.92L13.5 5.5 8 11z"/></svg>
+      </label>
+      <nav class="md-search__options" aria-label="Search">
+        
+        <button type="reset" class="md-search__icon md-icon" title="Clear" aria-label="Clear" tabindex="-1">
+          
+          <svg xmlns="http://www.w3.org/2000/svg" viewBox="0 0 24 24"><path d="M19 6.41 17.59 5 12 10.59 6.41 5 5 6.41 10.59 12 5 17.59 6.41 19 12 13.41 17.59 19 19 17.59 13.41 12z"/></svg>
+        </button>
+      </nav>
+      
+        <div class="md-search__suggest" data-md-component="search-suggest"></div>
+      
+    </form>
+    <div class="md-search__output">
+      <div class="md-search__scrollwrap" tabindex="0" data-md-scrollfix>
+        <div class="md-search-result" data-md-component="search-result">
+          <div class="md-search-result__meta">
+            Initializing search
+          </div>
+          <ol class="md-search-result__list" role="presentation"></ol>
+        </div>
+      </div>
+    </div>
+  </div>
+</div>
+      
+    
+    
+      <div class="md-header__source">
+        <a href="https://github.com/AntonVynohradov/Stepper-C" title="Go to repository" class="md-source" data-md-component="source">
+  <div class="md-source__icon md-icon">
+    
+    <svg xmlns="http://www.w3.org/2000/svg" viewBox="0 0 512 512"><!--! Font Awesome Free 7.1.0 by @fontawesome - https://fontawesome.com License - https://fontawesome.com/license/free (Icons: CC BY 4.0, Fonts: SIL OFL 1.1, Code: MIT License) Copyright 2025 Fonticons, Inc.--><path d="M173.9 397.4c0 2-2.3 3.6-5.2 3.6-3.3.3-5.6-1.3-5.6-3.6 0-2 2.3-3.6 5.2-3.6 3-.3 5.6 1.3 5.6 3.6m-31.1-4.5c-.7 2 1.3 4.3 4.3 4.9 2.6 1 5.6 0 6.2-2s-1.3-4.3-4.3-5.2c-2.6-.7-5.5.3-6.2 2.3m44.2-1.7c-2.9.7-4.9 2.6-4.6 4.9.3 2 2.9 3.3 5.9 2.6 2.9-.7 4.9-2.6 4.6-4.6-.3-1.9-3-3.2-5.9-2.9M252.8 8C114.1 8 8 113.3 8 252c0 110.9 69.8 205.8 169.5 239.2 12.8 2.3 17.3-5.6 17.3-12.1 0-6.2-.3-40.4-.3-61.4 0 0-70 15-84.7-29.8 0 0-11.4-29.1-27.8-36.6 0 0-22.9-15.7 1.6-15.4 0 0 24.9 2 38.6 25.8 21.9 38.6 58.6 27.5 72.9 20.9 2.3-16 8.8-27.1 16-33.7-55.9-6.2-112.3-14.3-112.3-110.5 0-27.5 7.6-41.3 23.6-58.9-2.6-6.5-11.1-33.3 2.6-67.9 20.9-6.5 69 27 69 27 20-5.6 41.5-8.5 62.8-8.5s42.8 2.9 62.8 8.5c0 0 48.1-33.6 69-27 13.7 34.7 5.2 61.4 2.6 67.9 16 17.7 25.8 31.5 25.8 58.9 0 96.5-58.9 104.2-114.8 110.5 9.2 7.9 17 22.9 17 46.4 0 33.7-.3 75.4-.3 83.6 0 6.5 4.6 14.4 17.3 12.1C436.2 457.8 504 362.9 504 252 504 113.3 391.5 8 252.8 8M105.2 352.9c-1.3 1-1 3.3.7 5.2 1.6 1.6 3.9 2.3 5.2 1 1.3-1 1-3.3-.7-5.2-1.6-1.6-3.9-2.3-5.2-1m-10.8-8.1c-.7 1.3.3 2.9 2.3 3.9 1.6 1 3.6.7 4.3-.7.7-1.3-.3-2.9-2.3-3.9-2-.6-3.6-.3-4.3.7m32.4 35.6c-1.6 1.3-1 4.3 1.3 6.2 2.3 2.3 5.2 2.6 6.5 1 1.3-1.3.7-4.3-1.3-6.2-2.2-2.3-5.2-2.6-6.5-1m-11.4-14.7c-1.6 1-1.6 3.6 0 5.9s4.3 3.3 5.6 2.3c1.6-1.3 1.6-3.9 0-6.2-1.4-2.3-4-3.3-5.6-2"/></svg>
+  </div>
+  <div class="md-source__repository">
+    Motor Control Library
+  </div>
+</a>
+      </div>
+    
+  </nav>
+  
+</header>
+    
+    <div class="md-container" data-md-component="container">
+      
+      
+        
+          
+            
+<nav class="md-tabs" aria-label="Tabs" data-md-component="tabs">
+  <div class="md-grid">
+    <ul class="md-tabs__list">
+      
+        
+  
+  
+  
+  
+    <li class="md-tabs__item">
+      <a href=".." class="md-tabs__link">
+        
+  
+  
+    
+  
+  Home
+
+      </a>
+    </li>
+  
+
+      
+        
+  
+  
+  
+  
+    
+    
+      <li class="md-tabs__item">
+        <a href="../overview/" class="md-tabs__link">
+          
+  
+  
+  Guide
+
+        </a>
+      </li>
+    
+  
+
+      
+        
+  
+  
+  
+  
+    
+    
+      <li class="md-tabs__item">
+        <a href="../motor-model/" class="md-tabs__link">
+          
+  
+  
+  Theory
+
+        </a>
+      </li>
+    
+  
+
+      
+        
+  
+  
+  
+    
+  
+  
+    
+    
+      <li class="md-tabs__item md-tabs__item--active">
+        <a href="../library/" class="md-tabs__link">
+          
+  
+  
+  Modules
+
+        </a>
+      </li>
+    
+  
+
+      
+        
+  
+  
+  
+  
+    
+    
+      <li class="md-tabs__item">
+        <a href="../tests/" class="md-tabs__link">
+          
+  
+  
+  Verification
+
+        </a>
+      </li>
+    
+  
+
+      
+        
+  
+  
+  
+  
+    
+    
+      <li class="md-tabs__item">
+        <a href="../parameters/" class="md-tabs__link">
+          
+  
+  
+  Reference
+
+        </a>
+      </li>
+    
+  
+
+      
+        
+  
+  
+  
+  
+    
+    
+      <li class="md-tabs__item">
+        <a href="../about/" class="md-tabs__link">
+          
+  
+  
+  About
+
+        </a>
+      </li>
+    
+  
+
+      
+    </ul>
+  </div>
+</nav>
+          
+        
+      
+      <main class="md-main" data-md-component="main">
+        <div class="md-main__inner md-grid">
+          
+            
+              
+              <div class="md-sidebar md-sidebar--primary" data-md-component="sidebar" data-md-type="navigation" >
+                <div class="md-sidebar__scrollwrap">
+                  <div class="md-sidebar__inner">
+                    
+
+
+  
+
+
+<nav class="md-nav md-nav--primary md-nav--lifted" aria-label="Navigation" data-md-level="0">
+  <label class="md-nav__title" for="__drawer">
+    <a href=".." title="Stepper-C System Manual" class="md-nav__button md-logo" aria-label="Stepper-C System Manual" data-md-component="logo">
+      
+  <img src="../assets/images/brand/systemfromscratch-logo-on-dark.png" alt="logo">
+
+    </a>
+    Stepper-C System Manual
+  </label>
+  
+    <div class="md-nav__source">
+      <a href="https://github.com/AntonVynohradov/Stepper-C" title="Go to repository" class="md-source" data-md-component="source">
+  <div class="md-source__icon md-icon">
+    
+    <svg xmlns="http://www.w3.org/2000/svg" viewBox="0 0 512 512"><!--! Font Awesome Free 7.1.0 by @fontawesome - https://fontawesome.com License - https://fontawesome.com/license/free (Icons: CC BY 4.0, Fonts: SIL OFL 1.1, Code: MIT License) Copyright 2025 Fonticons, Inc.--><path d="M173.9 397.4c0 2-2.3 3.6-5.2 3.6-3.3.3-5.6-1.3-5.6-3.6 0-2 2.3-3.6 5.2-3.6 3-.3 5.6 1.3 5.6 3.6m-31.1-4.5c-.7 2 1.3 4.3 4.3 4.9 2.6 1 5.6 0 6.2-2s-1.3-4.3-4.3-5.2c-2.6-.7-5.5.3-6.2 2.3m44.2-1.7c-2.9.7-4.9 2.6-4.6 4.9.3 2 2.9 3.3 5.9 2.6 2.9-.7 4.9-2.6 4.6-4.6-.3-1.9-3-3.2-5.9-2.9M252.8 8C114.1 8 8 113.3 8 252c0 110.9 69.8 205.8 169.5 239.2 12.8 2.3 17.3-5.6 17.3-12.1 0-6.2-.3-40.4-.3-61.4 0 0-70 15-84.7-29.8 0 0-11.4-29.1-27.8-36.6 0 0-22.9-15.7 1.6-15.4 0 0 24.9 2 38.6 25.8 21.9 38.6 58.6 27.5 72.9 20.9 2.3-16 8.8-27.1 16-33.7-55.9-6.2-112.3-14.3-112.3-110.5 0-27.5 7.6-41.3 23.6-58.9-2.6-6.5-11.1-33.3 2.6-67.9 20.9-6.5 69 27 69 27 20-5.6 41.5-8.5 62.8-8.5s42.8 2.9 62.8 8.5c0 0 48.1-33.6 69-27 13.7 34.7 5.2 61.4 2.6 67.9 16 17.7 25.8 31.5 25.8 58.9 0 96.5-58.9 104.2-114.8 110.5 9.2 7.9 17 22.9 17 46.4 0 33.7-.3 75.4-.3 83.6 0 6.5 4.6 14.4 17.3 12.1C436.2 457.8 504 362.9 504 252 504 113.3 391.5 8 252.8 8M105.2 352.9c-1.3 1-1 3.3.7 5.2 1.6 1.6 3.9 2.3 5.2 1 1.3-1 1-3.3-.7-5.2-1.6-1.6-3.9-2.3-5.2-1m-10.8-8.1c-.7 1.3.3 2.9 2.3 3.9 1.6 1 3.6.7 4.3-.7.7-1.3-.3-2.9-2.3-3.9-2-.6-3.6-.3-4.3.7m32.4 35.6c-1.6 1.3-1 4.3 1.3 6.2 2.3 2.3 5.2 2.6 6.5 1 1.3-1.3.7-4.3-1.3-6.2-2.2-2.3-5.2-2.6-6.5-1m-11.4-14.7c-1.6 1-1.6 3.6 0 5.9s4.3 3.3 5.6 2.3c1.6-1.3 1.6-3.9 0-6.2-1.4-2.3-4-3.3-5.6-2"/></svg>
+  </div>
+  <div class="md-source__repository">
+    Motor Control Library
+  </div>
+</a>
+    </div>
+  
+  <ul class="md-nav__list" data-md-scrollfix>
+    
+      
+      
+  
+  
+  
+  
+    <li class="md-nav__item">
+      <a href=".." class="md-nav__link">
+        
+  
+  
+  <span class="md-ellipsis">
+    
+  
+    Home
+  
+
+    
+  </span>
+  
+  
+
+      </a>
+    </li>
+  
+
+    
+      
+      
+  
+  
+  
+  
+    
+    
+    
+    
+      
+      
+        
+      
+    
+    
+    <li class="md-nav__item md-nav__item--nested">
+      
+        
+        
+        <input class="md-nav__toggle md-toggle " type="checkbox" id="__nav_2" >
+        
+          
+          <label class="md-nav__link" for="__nav_2" id="__nav_2_label" tabindex="0">
+            
+  
+  
+  <span class="md-ellipsis">
+    
+  
+    Guide
+  
+
+    
+  </span>
+  
+  
+
+            <span class="md-nav__icon md-icon"></span>
+          </label>
+        
+        <nav class="md-nav" data-md-level="1" aria-labelledby="__nav_2_label" aria-expanded="false">
+          <label class="md-nav__title" for="__nav_2">
+            <span class="md-nav__icon md-icon"></span>
+            
+  
+    Guide
+  
+
+          </label>
+          <ul class="md-nav__list" data-md-scrollfix>
+            
+              
+                
+  
+  
+  
+  
+    <li class="md-nav__item">
+      <a href="../overview/" class="md-nav__link">
+        
+  
+  
+  <span class="md-ellipsis">
+    
+  
+    Introduction
+  
+
+    
+  </span>
+  
+  
+
+      </a>
+    </li>
+  
+
+              
+            
+              
+                
+  
+  
+  
+  
+    <li class="md-nav__item">
+      <a href="../system/" class="md-nav__link">
+        
+  
+  
+  <span class="md-ellipsis">
+    
+  
+    System Architecture
+  
+
+    
+  </span>
+  
+  
+
+      </a>
+    </li>
+  
+
+              
+            
+              
+                
+  
+  
+  
+  
+    <li class="md-nav__item">
+      <a href="../getting-started/" class="md-nav__link">
+        
+  
+  
+  <span class="md-ellipsis">
+    
+  
+    Getting Started
+  
+
+    
+  </span>
+  
+  
+
+      </a>
+    </li>
+  
+
+              
+            
+          </ul>
+        </nav>
+      
+    </li>
+  
+
+    
+      
+      
+  
+  
+  
+  
+    
+    
+    
+    
+      
+      
+        
+      
+    
+    
+    <li class="md-nav__item md-nav__item--nested">
+      
+        
+        
+        <input class="md-nav__toggle md-toggle " type="checkbox" id="__nav_3" >
+        
+          
+          <label class="md-nav__link" for="__nav_3" id="__nav_3_label" tabindex="0">
+            
+  
+  
+  <span class="md-ellipsis">
+    
+  
+    Theory
+  
+
+    
+  </span>
+  
+  
+
+            <span class="md-nav__icon md-icon"></span>
+          </label>
+        
+        <nav class="md-nav" data-md-level="1" aria-labelledby="__nav_3_label" aria-expanded="false">
+          <label class="md-nav__title" for="__nav_3">
+            <span class="md-nav__icon md-icon"></span>
+            
+  
+    Theory
+  
+
+          </label>
+          <ul class="md-nav__list" data-md-scrollfix>
+            
+              
+                
+  
+  
+  
+  
+    <li class="md-nav__item">
+      <a href="../motor-model/" class="md-nav__link">
+        
+  
+  
+  <span class="md-ellipsis">
+    
+  
+    Motor Model
+  
+
+    
+  </span>
+  
+  
+
+      </a>
+    </li>
+  
+
+              
+            
+              
+                
+  
+  
+  
+  
+    <li class="md-nav__item">
+      <a href="../control/" class="md-nav__link">
+        
+  
+  
+  <span class="md-ellipsis">
+    
+  
+    Control Algorithms
+  
+
+    
+  </span>
+  
+  
+
+      </a>
+    </li>
+  
+
+              
+            
+          </ul>
+        </nav>
+      
+    </li>
+  
+
+    
+      
+      
+  
+  
+    
+  
+  
+  
+    
+    
+    
+    
+      
+        
+        
+      
+      
+        
+      
+    
+    
+    <li class="md-nav__item md-nav__item--active md-nav__item--section md-nav__item--nested">
+      
+        
+        
+        <input class="md-nav__toggle md-toggle " type="checkbox" id="__nav_4" checked>
+        
+          
+          <label class="md-nav__link" for="__nav_4" id="__nav_4_label" tabindex="">
+            
+  
+  
+  <span class="md-ellipsis">
+    
+  
+    Modules
+  
+
+    
+  </span>
+  
+  
+
+            <span class="md-nav__icon md-icon"></span>
+          </label>
+        
+        <nav class="md-nav" data-md-level="1" aria-labelledby="__nav_4_label" aria-expanded="true">
+          <label class="md-nav__title" for="__nav_4">
+            <span class="md-nav__icon md-icon"></span>
+            
+  
+    Modules
+  
+
+          </label>
+          <ul class="md-nav__list" data-md-scrollfix>
+            
+              
+                
+  
+  
+  
+  
+    <li class="md-nav__item">
+      <a href="../library/" class="md-nav__link">
+        
+  
+  
+  <span class="md-ellipsis">
+    
+  
+    Stepper-C Library
+  
+
+    
+  </span>
+  
+  
+
+      </a>
+    </li>
+  
+
+              
+            
+              
+                
+  
+  
+  
+  
+    <li class="md-nav__item">
+      <a href="../api/" class="md-nav__link">
+        
+  
+  
+  <span class="md-ellipsis">
+    
+  
+    API Reference
+  
+
+    
+  </span>
+  
+  
+
+      </a>
+    </li>
+  
+
+              
+            
+              
+                
+  
+  
+    
+  
+  
+  
+    <li class="md-nav__item md-nav__item--active">
+      
+      <input class="md-nav__toggle md-toggle" type="checkbox" id="__toc">
+      
+      
+        
+      
+      
+        <label class="md-nav__link md-nav__link--active" for="__toc">
+          
+  
+  
+  <span class="md-ellipsis">
+    
+  
+    Simulation
+  
+
+    
+  </span>
+  
+  
+
+          <span class="md-nav__icon md-icon"></span>
+        </label>
+      
+      <a href="./" class="md-nav__link md-nav__link--active">
+        
+  
+  
+  <span class="md-ellipsis">
+    
+  
+    Simulation
+  
+
+    
+  </span>
+  
+  
+
+      </a>
+      
+        
+
+<nav class="md-nav md-nav--secondary" aria-label="Table of contents">
+  
+  
+  
+    
+  
+  
+    <label class="md-nav__title" for="__toc">
+      <span class="md-nav__icon md-icon"></span>
+      Table of contents
+    </label>
+    <ul class="md-nav__list" data-md-component="toc" data-md-scrollfix>
+      
+        <li class="md-nav__item">
+  <a href="#repository-layout" class="md-nav__link">
+    <span class="md-ellipsis">
+      
+        Repository layout
+      
+    </span>
+  </a>
+  
+</li>
+      
+        <li class="md-nav__item">
+  <a href="#parameters" class="md-nav__link">
+    <span class="md-ellipsis">
+      
+        Parameters
+      
+    </span>
+  </a>
+  
+</li>
+      
+        <li class="md-nav__item">
+  <a href="#open-loop-motor-simulation" class="md-nav__link">
+    <span class="md-ellipsis">
+      
+        Open-loop motor simulation
+      
+    </span>
+  </a>
+  
+</li>
+      
+        <li class="md-nav__item">
+  <a href="#closed-loop-prototype" class="md-nav__link">
+    <span class="md-ellipsis">
+      
+        Closed-loop prototype
+      
+    </span>
+  </a>
+  
+</li>
+      
+        <li class="md-nav__item">
+  <a href="#motion-generator-twin" class="md-nav__link">
+    <span class="md-ellipsis">
+      
+        Motion generator twin
+      
+    </span>
+  </a>
+  
+</li>
+      
+        <li class="md-nav__item">
+  <a href="#power-stage-models" class="md-nav__link">
+    <span class="md-ellipsis">
+      
+        Power stage models
+      
+    </span>
+  </a>
+  
+</li>
+      
+        <li class="md-nav__item">
+  <a href="#python-twins" class="md-nav__link">
+    <span class="md-ellipsis">
+      
+        Python twins
+      
+    </span>
+  </a>
+  
+</li>
+      
+        <li class="md-nav__item">
+  <a href="#running-the-tests" class="md-nav__link">
+    <span class="md-ellipsis">
+      
+        Running the tests
+      
+    </span>
+  </a>
+  
+</li>
+      
+        <li class="md-nav__item">
+  <a href="#adapting-the-model-to-another-motor-or-board" class="md-nav__link">
+    <span class="md-ellipsis">
+      
+        Adapting the model to another motor or board
+      
+    </span>
+  </a>
+  
+</li>
+      
+    </ul>
+  
+</nav>
+      
+    </li>
+  
+
+              
+            
+              
+                
+  
+  
+  
+  
+    <li class="md-nav__item">
+      <a href="../sil/" class="md-nav__link">
+        
+  
+  
+  <span class="md-ellipsis">
+    
+  
+    Software in the Loop
+  
+
+    
+  </span>
+  
+  
+
+      </a>
+    </li>
+  
+
+              
+            
+              
+                
+  
+  
+  
+  
+    <li class="md-nav__item">
+      <a href="../power-stage/" class="md-nav__link">
+        
+  
+  
+  <span class="md-ellipsis">
+    
+  
+    Power Stage Model
+  
+
+    
+  </span>
+  
+  
+
+      </a>
+    </li>
+  
+
+              
+            
+          </ul>
+        </nav>
+      
+    </li>
+  
+
+    
+      
+      
+  
+  
+  
+  
+    
+    
+    
+    
+      
+      
+        
+      
+    
+    
+    <li class="md-nav__item md-nav__item--nested">
+      
+        
+        
+        <input class="md-nav__toggle md-toggle " type="checkbox" id="__nav_5" >
+        
+          
+          <label class="md-nav__link" for="__nav_5" id="__nav_5_label" tabindex="0">
+            
+  
+  
+  <span class="md-ellipsis">
+    
+  
+    Verification
+  
+
+    
+  </span>
+  
+  
+
+            <span class="md-nav__icon md-icon"></span>
+          </label>
+        
+        <nav class="md-nav" data-md-level="1" aria-labelledby="__nav_5_label" aria-expanded="false">
+          <label class="md-nav__title" for="__nav_5">
+            <span class="md-nav__icon md-icon"></span>
+            
+  
+    Verification
+  
+
+          </label>
+          <ul class="md-nav__list" data-md-scrollfix>
+            
+              
+                
+  
+  
+  
+  
+    <li class="md-nav__item">
+      <a href="../tests/" class="md-nav__link">
+        
+  
+  
+  <span class="md-ellipsis">
+    
+  
+    Test Catalogue
+  
+
+    
+  </span>
+  
+  
+
+      </a>
+    </li>
+  
+
+              
+            
+              
+                
+  
+  
+  
+  
+    <li class="md-nav__item">
+      <a href="../results/" class="md-nav__link">
+        
+  
+  
+  <span class="md-ellipsis">
+    
+  
+    Results and Design Guidance
+  
+
+    
+  </span>
+  
+  
+
+      </a>
+    </li>
+  
+
+              
+            
+              
+                
+  
+  
+  
+  
+    <li class="md-nav__item">
+      <a href="../hardware/" class="md-nav__link">
+        
+  
+  
+  <span class="md-ellipsis">
+    
+  
+    Hardware Bring-up
+  
+
+    
+  </span>
+  
+  
+
+      </a>
+    </li>
+  
+
+              
+            
+          </ul>
+        </nav>
+      
+    </li>
+  
+
+    
+      
+      
+  
+  
+  
+  
+    
+    
+    
+    
+      
+      
+        
+      
+    
+    
+    <li class="md-nav__item md-nav__item--nested">
+      
+        
+        
+        <input class="md-nav__toggle md-toggle " type="checkbox" id="__nav_6" >
+        
+          
+          <label class="md-nav__link" for="__nav_6" id="__nav_6_label" tabindex="0">
+            
+  
+  
+  <span class="md-ellipsis">
+    
+  
+    Reference
+  
+
+    
+  </span>
+  
+  
+
+            <span class="md-nav__icon md-icon"></span>
+          </label>
+        
+        <nav class="md-nav" data-md-level="1" aria-labelledby="__nav_6_label" aria-expanded="false">
+          <label class="md-nav__title" for="__nav_6">
+            <span class="md-nav__icon md-icon"></span>
+            
+  
+    Reference
+  
+
+          </label>
+          <ul class="md-nav__list" data-md-scrollfix>
+            
+              
+                
+  
+  
+  
+  
+    <li class="md-nav__item">
+      <a href="../parameters/" class="md-nav__link">
+        
+  
+  
+  <span class="md-ellipsis">
+    
+  
+    Parameter Reference
+  
+
+    
+  </span>
+  
+  
+
+      </a>
+    </li>
+  
+
+              
+            
+              
+                
+  
+  
+  
+  
+    <li class="md-nav__item">
+      <a href="../glossary/" class="md-nav__link">
+        
+  
+  
+  <span class="md-ellipsis">
+    
+  
+    Glossary
+  
+
+    
+  </span>
+  
+  
+
+      </a>
+    </li>
+  
+
+              
+            
+              
+                
+  
+  
+  
+  
+    <li class="md-nav__item">
+      <a href="../changelog/" class="md-nav__link">
+        
+  
+  
+  <span class="md-ellipsis">
+    
+  
+    Changelog
+  
+
+    
+  </span>
+  
+  
+
+      </a>
+    </li>
+  
+
+              
+            
+          </ul>
+        </nav>
+      
+    </li>
+  
+
+    
+      
+      
+  
+  
+  
+  
+    
+    
+    
+    
+      
+      
+        
+      
+    
+    
+    <li class="md-nav__item md-nav__item--nested">
+      
+        
+        
+        <input class="md-nav__toggle md-toggle " type="checkbox" id="__nav_7" >
+        
+          
+          <label class="md-nav__link" for="__nav_7" id="__nav_7_label" tabindex="0">
+            
+  
+  
+  <span class="md-ellipsis">
+    
+  
+    About
+  
+
+    
+  </span>
+  
+  
+
+            <span class="md-nav__icon md-icon"></span>
+          </label>
+        
+        <nav class="md-nav" data-md-level="1" aria-labelledby="__nav_7_label" aria-expanded="false">
+          <label class="md-nav__title" for="__nav_7">
+            <span class="md-nav__icon md-icon"></span>
+            
+  
+    About
+  
+
+          </label>
+          <ul class="md-nav__list" data-md-scrollfix>
+            
+              
+                
+  
+  
+  
+  
+    <li class="md-nav__item">
+      <a href="../about/" class="md-nav__link">
+        
+  
+  
+  <span class="md-ellipsis">
+    
+  
+    Author & Company
+  
+
+    
+  </span>
+  
+  
+
+      </a>
+    </li>
+  
+
+              
+            
+              
+                
+  
+  
+  
+  
+    <li class="md-nav__item">
+      <a href="../LICENSE/" class="md-nav__link">
+        
+  
+  
+  <span class="md-ellipsis">
+    
+  
+    License
+  
+
+    
+  </span>
+  
+  
+
+      </a>
+    </li>
+  
+
+              
+            
+          </ul>
+        </nav>
+      
+    </li>
+  
+
+    
+  </ul>
+</nav>
+                  </div>
+                </div>
+              </div>
+            
+            
+              
+              <div class="md-sidebar md-sidebar--secondary" data-md-component="sidebar" data-md-type="toc" >
+                <div class="md-sidebar__scrollwrap">
+                  <div class="md-sidebar__inner">
+                    
+
+<nav class="md-nav md-nav--secondary" aria-label="Table of contents">
+  
+  
+  
+    
+  
+  
+    <label class="md-nav__title" for="__toc">
+      <span class="md-nav__icon md-icon"></span>
+      Table of contents
+    </label>
+    <ul class="md-nav__list" data-md-component="toc" data-md-scrollfix>
+      
+        <li class="md-nav__item">
+  <a href="#repository-layout" class="md-nav__link">
+    <span class="md-ellipsis">
+      
+        Repository layout
+      
+    </span>
+  </a>
+  
+</li>
+      
+        <li class="md-nav__item">
+  <a href="#parameters" class="md-nav__link">
+    <span class="md-ellipsis">
+      
+        Parameters
+      
+    </span>
+  </a>
+  
+</li>
+      
+        <li class="md-nav__item">
+  <a href="#open-loop-motor-simulation" class="md-nav__link">
+    <span class="md-ellipsis">
+      
+        Open-loop motor simulation
+      
+    </span>
+  </a>
+  
+</li>
+      
+        <li class="md-nav__item">
+  <a href="#closed-loop-prototype" class="md-nav__link">
+    <span class="md-ellipsis">
+      
+        Closed-loop prototype
+      
+    </span>
+  </a>
+  
+</li>
+      
+        <li class="md-nav__item">
+  <a href="#motion-generator-twin" class="md-nav__link">
+    <span class="md-ellipsis">
+      
+        Motion generator twin
+      
+    </span>
+  </a>
+  
+</li>
+      
+        <li class="md-nav__item">
+  <a href="#power-stage-models" class="md-nav__link">
+    <span class="md-ellipsis">
+      
+        Power stage models
+      
+    </span>
+  </a>
+  
+</li>
+      
+        <li class="md-nav__item">
+  <a href="#python-twins" class="md-nav__link">
+    <span class="md-ellipsis">
+      
+        Python twins
+      
+    </span>
+  </a>
+  
+</li>
+      
+        <li class="md-nav__item">
+  <a href="#running-the-tests" class="md-nav__link">
+    <span class="md-ellipsis">
+      
+        Running the tests
+      
+    </span>
+  </a>
+  
+</li>
+      
+        <li class="md-nav__item">
+  <a href="#adapting-the-model-to-another-motor-or-board" class="md-nav__link">
+    <span class="md-ellipsis">
+      
+        Adapting the model to another motor or board
+      
+    </span>
+  </a>
+  
+</li>
+      
+    </ul>
+  
+</nav>
+                  </div>
+                </div>
+              </div>
+            
+          
+          
+            <div class="md-content" data-md-component="content">
+              
+              <article class="md-content__inner md-typeset">
+                
+                  
+
+
+
+<h1 id="simulation">Simulation<a class="headerlink" href="#simulation" title="Permanent link">&para;</a></h1>
+<p><a href="https://github.com/AntonVynohradov/sfs-stepper-sim">sfs-stepper-sim</a> is the Scilab/Xcos environment in which every algorithm of Stepper-C is
+first developed and later verified: the motor model, a Scilab prototype of the control
+loops, an averaged and a switching power stage, the software-in-the-loop diagram and
+Python twins of everything. This chapter covers the Scilab side; the Xcos diagram has
+its own chapter, <a href="../sil/">Software in the Loop</a>.</p>
+<h2 id="repository-layout">Repository layout<a class="headerlink" href="#repository-layout" title="Permanent link">&para;</a></h2>
+<table>
+<thead>
+<tr>
+<th>Folder / file</th>
+<th>Content</th>
+</tr>
+</thead>
+<tbody>
+<tr>
+<td><code>loader.sce</code></td>
+<td>loads every function (<code>getd</code> of <code>params</code>, <code>model</code>, <code>sil</code>, <code>xcos</code>, <code>xcos/blocks</code>) and the Xcos libraries</td>
+</tr>
+<tr>
+<td><code>params/</code></td>
+<td>parameter functions: motor, board, controller, motion, ngspice stage values</td>
+</tr>
+<tr>
+<td><code>model/</code></td>
+<td>motor equations, solvers, power stages, current loop, motion generator, references, SIL parameter builders</td>
+</tr>
+<tr>
+<td><code>sil/</code></td>
+<td>C sources of the Xcos blocks (<code>sil/c/sstep_xcos.c</code>), build script, library lookup</td>
+</tr>
+<tr>
+<td><code>xcos/</code></td>
+<td>diagram generator <code>sil_diagram.sci</code>, block interfaces <code>xcos/blocks/*.sci</code></td>
+</tr>
+<tr>
+<td><code>start_sil.sce</code></td>
+<td>builds the library and opens the SIL diagram</td>
+</tr>
+<tr>
+<td><code>tests/</code></td>
+<td><code>run_all.sce</code>, test scripts, helpers, reference data <code>tests/reference/*.csv</code></td>
+</tr>
+<tr>
+<td><code>tools/</code></td>
+<td>Python twins <code>ref_model.py</code>, <code>ref_ctrl.py</code>, <code>ref_motion.py</code>, <code>ref_switching.py</code>, <code>ref_ext.py</code></td>
+</tr>
+<tr>
+<td><code>demos/</code></td>
+<td>scripts with plots: open loop, switching stage</td>
+</tr>
+</tbody>
+</table>
+<p>Start every session with</p>
+<div class="highlight"><pre><span></span><code><a id="__codelineno-0-1" name="__codelineno-0-1" href="#__codelineno-0-1"></a><span class="nb">exec</span><span class="p">(</span><span class="s">"loader.sce"</span><span class="p">,</span><span class="w"> </span><span class="o">-</span><span class="mi">1</span><span class="p">);</span>
+</code></pre></div>
+<h2 id="parameters">Parameters<a class="headerlink" href="#parameters" title="Permanent link">&para;</a></h2>
+<p>Parameters are Scilab structures returned by functions, so a scenario changes a field
+without editing a file.</p>
+<table>
+<thead>
+<tr>
+<th>Function</th>
+<th>Content</th>
+</tr>
+</thead>
+<tbody>
+<tr>
+<td><code>motor_17hs19_2004s1()</code></td>
+<td><code>R</code>, <code>L</code>, <code>I_rated</code>, <code>Kt</code>, <code>Ns</code>, <code>Td</code>, <code>J</code>, <code>B</code>, <code>Tc</code>, <code>w_c</code> (see <a href="../motor-model/#parameters-of-the-17hs19-2004s1">Motor Model</a>)</td>
+</tr>
+<tr>
+<td><code>board_bg431b_esc1()</code></td>
+<td><code>vbus</code> 24 V, <code>topology</code> <code>"shared"</code>, <code>fs</code> 20 kHz; trips and ADC scaling for the SIL; <code>stage</code> <code>"avg"</code>/<code>"switching"</code>, <code>dead_ns</code>, <code>rds_on</code>, <code>vd</code>, <code>sw_nstep</code></td>
+</tr>
+<tr>
+<td><code>stage_esc1_spice()</code></td>
+<td>generated by ngspice: <code>rds_on</code>, <code>r_leg</code>, <code>vd</code>, <code>dead_timer_ns</code>, <code>dead_eff_ns</code>, <code>shunt_settle_ns</code>, <code>duty_max_sampling</code></td>
+</tr>
+<tr>
+<td><code>ctrl_default()</code></td>
+<td><code>bw_hz</code> 1000, <code>delay</code> 1 (computation delay, as on the MCU), <code>ff</code> 1 (back-EMF feed-forward), <code>nsub</code> 4 (RK4 steps per period)</td>
+</tr>
+<tr>
+<td><code>motion_default()</code></td>
+<td><code>M</code> 16, <code>f_slow</code> 1000 Hz, <code>v_max</code> 16 000 µsteps/s, <code>acc</code>/<code>dec</code> 160 000 µsteps/s², <code>i_run</code> 2 A, <code>i_hold</code> 1 A, <code>hold_delay</code> 0.1 s</td>
+</tr>
+</tbody>
+</table>
+<h2 id="open-loop-motor-simulation">Open-loop motor simulation<a class="headerlink" href="#open-loop-motor-simulation" title="Permanent link">&para;</a></h2>
+<p><code>stepper_simulate(mot, src, srcp, t, x0, locked)</code> integrates the motor with lsoda for a
+voltage source <code>u = src(t, x, srcp)</code> returning <code>[v_A; v_B; T_L]</code>:</p>
+<div class="highlight"><pre><span></span><code><a id="__codelineno-1-1" name="__codelineno-1-1" href="#__codelineno-1-1"></a><span class="n">mot</span><span class="w"> </span><span class="p">=</span><span class="w"> </span><span class="n">motor_17hs19_2004s1</span><span class="p">();</span>
+<a id="__codelineno-1-2" name="__codelineno-1-2" href="#__codelineno-1-2"></a><span class="n">srcp</span><span class="w"> </span><span class="p">=</span><span class="w"> </span><span class="nb">struct</span><span class="p">(</span><span class="s">"V"</span><span class="p">,</span><span class="w"> </span><span class="n">mot</span><span class="p">.</span><span class="n">R</span><span class="w"> </span><span class="o">*</span><span class="w"> </span><span class="n">mot</span><span class="p">.</span><span class="n">I_rated</span><span class="p">,</span><span class="w"> </span><span class="s">"f_el"</span><span class="p">,</span><span class="w"> </span><span class="mi">5</span><span class="p">,</span><span class="w"> </span><span class="s">"TL"</span><span class="p">,</span><span class="w"> </span><span class="mi">0</span><span class="p">);</span><span class="w">   </span><span class="c1">// rotating voltage, 5 Hz el.</span>
+<a id="__codelineno-1-3" name="__codelineno-1-3" href="#__codelineno-1-3"></a><span class="n">t</span><span class="w"> </span><span class="p">=</span><span class="w"> </span><span class="mi">0</span><span class="p">:</span><span class="mf">1e-4</span><span class="p">:</span><span class="mf">0.4</span><span class="p">;</span>
+<a id="__codelineno-1-4" name="__codelineno-1-4" href="#__codelineno-1-4"></a><span class="n">x</span><span class="w"> </span><span class="p">=</span><span class="w"> </span><span class="n">stepper_simulate</span><span class="p">(</span><span class="n">mot</span><span class="p">,</span><span class="w"> </span><span class="n">src_open_loop</span><span class="p">,</span><span class="w"> </span><span class="n">srcp</span><span class="p">,</span><span class="w"> </span><span class="n">t</span><span class="p">);</span><span class="w">              </span><span class="c1">// x = [iA; iB; w; theta]</span>
+<a id="__codelineno-1-5" name="__codelineno-1-5" href="#__codelineno-1-5"></a><span class="n">plot</span><span class="p">(</span><span class="n">t</span><span class="p">,</span><span class="w"> </span><span class="n">x</span><span class="p">(</span><span class="mi">1</span><span class="p">,</span><span class="w"> </span><span class="p">:),</span><span class="w"> </span><span class="n">t</span><span class="p">,</span><span class="w"> </span><span class="n">x</span><span class="p">(</span><span class="mi">2</span><span class="p">,</span><span class="w"> </span><span class="p">:));</span>
+</code></pre></div>
+<p>Sources: <code>src_dc</code> (constant voltages and load) and <code>src_open_loop</code> (rotating voltage
+vector). <code>demos/demo_open_loop.sce</code> plots currents, speed and load angle.</p>
+<h2 id="closed-loop-prototype">Closed-loop prototype<a class="headerlink" href="#closed-loop-prototype" title="Permanent link">&para;</a></h2>
+<p><code>sim_closed_loop</code> is the discrete prototype of the Stepper-C fast loop, run period by
+period exactly in the order of the MCU: sample the currents, compute the references and
+the controller, apply the voltage computed in the previous period (<code>c.delay = 1</code>) for one
+period, integrate the motor.</p>
+<div class="highlight"><pre><span></span><code><a id="__codelineno-2-1" name="__codelineno-2-1" href="#__codelineno-2-1"></a><span class="p">[</span><span class="n">rec</span><span class="p">,</span><span class="w"> </span><span class="n">st</span><span class="p">,</span><span class="w"> </span><span class="n">ext</span><span class="p">]</span><span class="w"> </span><span class="p">=</span><span class="w"> </span><span class="n">sim_closed_loop</span><span class="p">(</span><span class="n">mot</span><span class="p">,</span><span class="w"> </span><span class="n">brd</span><span class="p">,</span><span class="w"> </span><span class="n">c</span><span class="p">,</span><span class="w"> </span><span class="n">ref</span><span class="p">,</span><span class="w"> </span><span class="n">refp</span><span class="p">,</span><span class="w"> </span><span class="n">T</span><span class="p">,</span><span class="w"> </span><span class="n">locked</span><span class="p">,</span><span class="w"> </span><span class="n">st</span><span class="p">)</span>
+</code></pre></div>
+<table>
+<thead>
+<tr>
+<th>Argument</th>
+<th>Meaning</th>
+</tr>
+</thead>
+<tbody>
+<tr>
+<td><code>mot</code>, <code>brd</code>, <code>c</code></td>
+<td>motor, board, controller; <code>c.mot</code> (optional) is the motor the controller is tuned for, if different from the plant</td>
+</tr>
+<tr>
+<td><code>ref</code>, <code>refp</code>, <code>st</code></td>
+<td>reference function <code>[r, st] = ref(t, refp, st)</code> returning <code>[I; φ; ω_ref; T_L]</code>, its parameters and state</td>
+</tr>
+<tr>
+<td><code>T</code></td>
+<td>simulated time [s]</td>
+</tr>
+<tr>
+<td><code>locked</code></td>
+<td><code>%t</code>: rotor locked (current loop tests)</td>
+</tr>
+<tr>
+<td><code>rec</code></td>
+<td>one row per period: <code>t iA iB w θ iA_ref iB_ref vA vB k I φ</code> (<code>k</code> = power stage scale, 1 = not limited)</td>
+</tr>
+<tr>
+<td><code>ext</code></td>
+<td>one row per period: <code>iA_min iA_max iB_min iB_max vA_mean vB_mean</code> (switching stage: within the period)</td>
+</tr>
+</tbody>
+</table>
+<p>Reference functions:</p>
+<table>
+<thead>
+<tr>
+<th>Function</th>
+<th>Reference</th>
+</tr>
+</thead>
+<tbody>
+<tr>
+<td><code>ref_current_step</code></td>
+<td>constant angle, current step <code>I0 → I1</code> at <code>t_step</code></td>
+</tr>
+<tr>
+<td><code>ref_const_speed</code></td>
+<td>constant current, constant electrical frequency</td>
+</tr>
+<tr>
+<td><code>ref_speed_ramp</code></td>
+<td>constant current, speed ramp to <code>rev_s</code> in <code>t_ramp</code>, optional load <code>TL</code></td>
+</tr>
+<tr>
+<td><code>ref_angle_step</code></td>
+<td>constant current, angle step <code>0 → φ1</code> (rotor natural frequency)</td>
+</tr>
+<tr>
+<td><code>ref_motion</code></td>
+<td>the motion generator: commands <code>[t kind value]</code> (see below)</td>
+</tr>
+</tbody>
+</table>
+<p>Example — current step on a locked rotor, the test T04:</p>
+<div class="highlight"><pre><span></span><code><a id="__codelineno-3-1" name="__codelineno-3-1" href="#__codelineno-3-1"></a><span class="n">mot</span><span class="w"> </span><span class="p">=</span><span class="w"> </span><span class="n">motor_17hs19_2004s1</span><span class="p">();</span><span class="w"> </span><span class="n">brd</span><span class="w"> </span><span class="p">=</span><span class="w"> </span><span class="n">board_bg431b_esc1</span><span class="p">();</span><span class="w"> </span><span class="n">c</span><span class="w"> </span><span class="p">=</span><span class="w"> </span><span class="n">ctrl_default</span><span class="p">();</span>
+<a id="__codelineno-3-2" name="__codelineno-3-2" href="#__codelineno-3-2"></a><span class="n">refp</span><span class="w"> </span><span class="p">=</span><span class="w"> </span><span class="nb">struct</span><span class="p">(</span><span class="s">"I0"</span><span class="p">,</span><span class="w"> </span><span class="mi">0</span><span class="p">,</span><span class="w"> </span><span class="s">"I1"</span><span class="p">,</span><span class="w"> </span><span class="mi">2</span><span class="p">,</span><span class="w"> </span><span class="s">"t_step"</span><span class="p">,</span><span class="w"> </span><span class="mf">1e-3</span><span class="p">,</span><span class="w"> </span><span class="s">"phi"</span><span class="p">,</span><span class="w"> </span><span class="mi">0</span><span class="p">);</span>
+<a id="__codelineno-3-3" name="__codelineno-3-3" href="#__codelineno-3-3"></a><span class="n">rec</span><span class="w"> </span><span class="p">=</span><span class="w"> </span><span class="n">sim_closed_loop</span><span class="p">(</span><span class="n">mot</span><span class="p">,</span><span class="w"> </span><span class="n">brd</span><span class="p">,</span><span class="w"> </span><span class="n">c</span><span class="p">,</span><span class="w"> </span><span class="n">ref_current_step</span><span class="p">,</span><span class="w"> </span><span class="n">refp</span><span class="p">,</span><span class="w"> </span><span class="mf">6e-3</span><span class="p">,</span><span class="w"> </span><span class="no">%t</span><span class="p">);</span>
+<a id="__codelineno-3-4" name="__codelineno-3-4" href="#__codelineno-3-4"></a><span class="n">plot</span><span class="p">(</span><span class="n">rec</span><span class="p">(:,</span><span class="w"> </span><span class="mi">1</span><span class="p">),</span><span class="w"> </span><span class="n">rec</span><span class="p">(:,</span><span class="w"> </span><span class="mi">2</span><span class="p">),</span><span class="w"> </span><span class="n">rec</span><span class="p">(:,</span><span class="w"> </span><span class="mi">1</span><span class="p">),</span><span class="w"> </span><span class="n">rec</span><span class="p">(:,</span><span class="w"> </span><span class="mi">6</span><span class="p">));</span><span class="w">     </span><span class="c1">// iA and its reference</span>
+</code></pre></div>
+<p><img alt="Current step and parameter variants" src="../assets/figures/current-step.svg" /></p>
+<h2 id="motion-generator-twin">Motion generator twin<a class="headerlink" href="#motion-generator-twin" title="Permanent link">&para;</a></h2>
+<p><code>motion_init</code>, <code>motion_slow</code> and <code>motion_step</code> reproduce the integer motion generator of
+Stepper-C bit for bit (<code>model/sim_int.sci</code> provides C-style integer division and square
+root). <code>ref_motion</code> turns it into a reference: it calls the slow loop every <code>ratio</code> fast
+periods and interpolates the angle exactly like the library.</p>
+<table>
+<thead>
+<tr>
+<th>Command <code>[t kind value]</code></th>
+<th>Meaning</th>
+</tr>
+</thead>
+<tbody>
+<tr>
+<td>kind 1 MOVE</td>
+<td>move to <code>value</code> microsteps</td>
+</tr>
+<tr>
+<td>kind 2 RUN</td>
+<td>run at <code>value</code> microsteps/s</td>
+</tr>
+<tr>
+<td>kind 3 STOP</td>
+<td>decelerate to standstill</td>
+</tr>
+<tr>
+<td>kind 4 LOAD</td>
+<td>load torque <code>value</code> N·m from time <code>t</code> (simulation only)</td>
+</tr>
+</tbody>
+</table>
+<div class="highlight"><pre><span></span><code><a id="__codelineno-4-1" name="__codelineno-4-1" href="#__codelineno-4-1"></a><span class="n">mp</span><span class="w"> </span><span class="p">=</span><span class="w"> </span><span class="n">motion_default</span><span class="p">();</span>
+<a id="__codelineno-4-2" name="__codelineno-4-2" href="#__codelineno-4-2"></a><span class="n">st</span><span class="w"> </span><span class="p">=</span><span class="w"> </span><span class="n">motion_init</span><span class="p">(</span><span class="n">mot</span><span class="p">,</span><span class="w"> </span><span class="n">brd</span><span class="p">,</span><span class="w"> </span><span class="n">mp</span><span class="p">,</span><span class="w"> </span><span class="p">[</span><span class="mi">0</span><span class="p">,</span><span class="w"> </span><span class="mi">1</span><span class="p">,</span><span class="w"> </span><span class="mi">6400</span><span class="p">]);</span><span class="w">          </span><span class="c1">// move 2 revolutions at t = 0</span>
+<a id="__codelineno-4-3" name="__codelineno-4-3" href="#__codelineno-4-3"></a><span class="p">[</span><span class="n">rec</span><span class="p">,</span><span class="w"> </span><span class="n">st</span><span class="p">]</span><span class="w"> </span><span class="p">=</span><span class="w"> </span><span class="n">sim_closed_loop</span><span class="p">(</span><span class="n">mot</span><span class="p">,</span><span class="w"> </span><span class="n">brd</span><span class="p">,</span><span class="w"> </span><span class="n">c</span><span class="p">,</span><span class="w"> </span><span class="n">ref_motion</span><span class="p">,</span><span class="w"> </span><span class="p">[],</span><span class="w"> </span><span class="mf">0.6</span><span class="p">,</span><span class="w"> </span><span class="no">%f</span><span class="p">,</span><span class="w"> </span><span class="n">st</span><span class="p">);</span>
+<a id="__codelineno-4-4" name="__codelineno-4-4" href="#__codelineno-4-4"></a><span class="c1">// st.hist: [t pos v vel_q16 mode] per slow period</span>
+</code></pre></div>
+<p><img alt="Move of two revolutions" src="../assets/figures/move.svg" /></p>
+<p>The figure shows the test T05: the rotor follows the commanded speed with a load angle
+of 15° at 50 rev/s² (inertia of the rotor only), the run current drops to the hold
+current 100 ms after the move, and the move ends exactly on 6400 microsteps after 499 ms.</p>
+<h2 id="power-stage-models">Power stage models<a class="headerlink" href="#power-stage-models" title="Permanent link">&para;</a></h2>
+<table>
+<thead>
+<tr>
+<th><code>brd.stage</code></th>
+<th>Model</th>
+<th>Use</th>
+</tr>
+</thead>
+<tbody>
+<tr>
+<td><code>"avg"</code> (default)</td>
+<td>each leg delivers <code>duty · Vbus</code> (<code>bridge_avg</code>)</td>
+<td>fast; all control tests</td>
+</tr>
+<tr>
+<td><code>"switching"</code></td>
+<td><code>bridge_switching.sci</code>: centre-aligned legs, turn-on delayed by the dead time, body diode in the dead time (<code>−Vd</code> or <code>Vbus + Vd</code> by current direction), <code>Rds(on)</code>; RK4 between the switching instants (<code>stepper_period_sw</code>)</td>
+<td>ripple, peak current, dead time distortion; about 5× slower</td>
+</tr>
+</tbody>
+</table>
+<p><img alt="Centre-aligned PWM period with dead time" src="../assets/images/pwm-period.svg" /></p>
+<p>The period starts at the counter peak (all low sides on, the sampling instant); the
+high side of a leg with duty <code>d</code> is commanded on in <code>[Ts/2 (1 − d), Ts/2 (1 + d)]</code>. A
+pulse shorter than the dead time disappears. With all outputs disabled every leg is in
+the dead state (only the diodes conduct).</p>
+<p>With ideal switches the switching model gives the same sampled currents as the averaged
+model within 0.01 mA (test T10). The dead time changes the mean phase voltage by
+<code>−2 sign(i) (Vbus + 2 Vd) td / Ts</code>; the stage values come from ngspice
+(<code>stage_esc1_spice()</code>: effective dead time 133 ns, leg resistance 3.4 mΩ, diode 0.73 V).</p>
+<div class="highlight"><pre><span></span><code><a id="__codelineno-5-1" name="__codelineno-5-1" href="#__codelineno-5-1"></a><span class="n">brd</span><span class="p">.</span><span class="n">stage</span><span class="w"> </span><span class="p">=</span><span class="w"> </span><span class="s">"switching"</span><span class="p">;</span>
+<a id="__codelineno-5-2" name="__codelineno-5-2" href="#__codelineno-5-2"></a><span class="n">sp</span><span class="w"> </span><span class="p">=</span><span class="w"> </span><span class="nb">struct</span><span class="p">(</span><span class="s">"I"</span><span class="p">,</span><span class="w"> </span><span class="mi">2</span><span class="p">,</span><span class="w"> </span><span class="s">"rev_s"</span><span class="p">,</span><span class="w"> </span><span class="mi">4</span><span class="p">,</span><span class="w"> </span><span class="s">"t_ramp"</span><span class="p">,</span><span class="w"> </span><span class="mf">0.05</span><span class="p">,</span><span class="w"> </span><span class="s">"Ns"</span><span class="p">,</span><span class="w"> </span><span class="n">mot</span><span class="p">.</span><span class="n">Ns</span><span class="p">);</span>
+<a id="__codelineno-5-3" name="__codelineno-5-3" href="#__codelineno-5-3"></a><span class="p">[</span><span class="n">rec</span><span class="p">,</span><span class="w"> </span><span class="n">st</span><span class="p">,</span><span class="w"> </span><span class="n">ext</span><span class="p">]</span><span class="w"> </span><span class="p">=</span><span class="w"> </span><span class="n">sim_closed_loop</span><span class="p">(</span><span class="n">mot</span><span class="p">,</span><span class="w"> </span><span class="n">brd</span><span class="p">,</span><span class="w"> </span><span class="n">c</span><span class="p">,</span><span class="w"> </span><span class="n">ref_speed_ramp</span><span class="p">,</span><span class="w"> </span><span class="n">sp</span><span class="p">,</span><span class="w"> </span><span class="mf">0.15</span><span class="p">);</span>
+<a id="__codelineno-5-4" name="__codelineno-5-4" href="#__codelineno-5-4"></a><span class="n">peak</span><span class="w"> </span><span class="p">=</span><span class="w"> </span><span class="nb">max</span><span class="p">(</span><span class="nb">abs</span><span class="p">(</span><span class="n">ext</span><span class="p">(:,</span><span class="w"> </span><span class="mi">1</span><span class="p">:</span><span class="mi">4</span><span class="p">)));</span><span class="w">                   </span><span class="c1">// largest current including the ripple</span>
+</code></pre></div>
+<p><code>demos/demo_switching.sce</code> plots the sampled current with its ripple band, the ripple
+per period and the dead time voltage error.</p>
+<h2 id="python-twins">Python twins<a class="headerlink" href="#python-twins" title="Permanent link">&para;</a></h2>
+<p>Every Scilab algorithm has a Python twin in <code>tools/</code>. The twins are independent
+implementations used to cross-check the Scilab code (tests X01–X04), to prototype tests
+quickly and to generate the reference CSV files.</p>
+<table>
+<thead>
+<tr>
+<th>Twin</th>
+<th>Covers</th>
+<th>Run</th>
+</tr>
+</thead>
+<tbody>
+<tr>
+<td><code>ref_model.py</code></td>
+<td>motor model (scipy Radau), T00–T02, X01 reference</td>
+<td><code>python tools/ref_model.py [--write]</code></td>
+</tr>
+<tr>
+<td><code>ref_ctrl.py</code></td>
+<td>averaged stage, PI loop, B01, T03, T04, X02 reference</td>
+<td><code>python tools/ref_ctrl.py [--write]</code></td>
+</tr>
+<tr>
+<td><code>ref_motion.py</code></td>
+<td>integer motion generator (bit-exact with C), T05–T07, T09, X03 reference</td>
+<td><code>python tools/ref_motion.py [--write]</code></td>
+</tr>
+<tr>
+<td><code>ref_switching.py</code></td>
+<td>switching stage, T10, X04 reference</td>
+<td><code>python tools/ref_switching.py [--write]</code></td>
+</tr>
+<tr>
+<td><code>ref_ext.py</code></td>
+<td>T08, T11, T12</td>
+<td><code>python tools/ref_ext.py</code></td>
+</tr>
+</tbody>
+</table>
+<p><code>--write</code> regenerates the reference files in <code>tests/reference/</code>. Requirements:
+<code>numpy</code>, <code>scipy</code>.</p>
+<h2 id="running-the-tests">Running the tests<a class="headerlink" href="#running-the-tests" title="Permanent link">&para;</a></h2>
+<div class="highlight"><pre><span></span><code><a id="__codelineno-6-1" name="__codelineno-6-1" href="#__codelineno-6-1"></a><span class="nb">exec</span><span class="p">(</span><span class="s">"tests/run_all.sce"</span><span class="p">,</span><span class="w"> </span><span class="o">-</span><span class="mi">1</span><span class="p">);</span>
+</code></pre></div>
+<p>The runner executes every test script with error catching, prints <code>PASS</code>/<code>FAIL</code> lines
+with the measured values and a failure count, and exits with status 1 in batch mode
+(<code>scilab-cli -f tests/run_all.sce</code>) when a test fails. Test variables use the prefix
+<code>rt_</code> so that test scripts cannot overwrite them. The complete list with the pass
+criteria is in the <a href="../tests/">Test Catalogue</a>.</p>
+<h2 id="adapting-the-model-to-another-motor-or-board">Adapting the model to another motor or board<a class="headerlink" href="#adapting-the-model-to-another-motor-or-board" title="Permanent link">&para;</a></h2>
+<ol>
+<li>Copy <code>params/motor_17hs19_2004s1.sci</code> to a new function with the values of your motor
+   (<code>R</code>, <code>L</code>, <code>I_rated</code>, <code>Kt</code>, <code>Ns</code>, <code>J</code>), or change the fields in a script.</li>
+<li>Copy <code>params/board_bg431b_esc1.sci</code> for another board: bus voltage, topology
+   (<code>"full"</code> or <code>"shared"</code>), PWM frequency and period, trip levels, ADC scaling.</li>
+<li>Run T01–T04 first (electrical model and current loop), then the motion tests.</li>
+<li>For the switching stage, set <code>dead_ns</code>, <code>rds_on</code>, <code>vd</code> from your power stage (or
+   adapt the ngspice model and export).</li>
+</ol>
+
+
+
+
+
+
+
+
+
+
+
+
+                
+              </article>
+            </div>
+          
+          
+<script>var target=document.getElementById(location.hash.slice(1));target&&target.name&&(target.checked=target.name.startsWith("__tabbed_"))</script>
+        </div>
+        
+          <button type="button" class="md-top md-icon" data-md-component="top" hidden>
+  
+  <svg xmlns="http://www.w3.org/2000/svg" viewBox="0 0 24 24"><path d="M13 20h-2V8l-5.5 5.5-1.42-1.42L12 4.16l7.92 7.92-1.42 1.42L13 8z"/></svg>
+  Back to top
+</button>
+        
+      </main>
+      
+        <footer class="md-footer">
+  
+    
+      
+      <nav class="md-footer__inner md-grid" aria-label="Footer" >
+        
+          
+          <a href="../api/" class="md-footer__link md-footer__link--prev" aria-label="Previous: API Reference">
+            <div class="md-footer__button md-icon">
+              
+              <svg xmlns="http://www.w3.org/2000/svg" viewBox="0 0 24 24"><path d="M20 11v2H8l5.5 5.5-1.42 1.42L4.16 12l7.92-7.92L13.5 5.5 8 11z"/></svg>
+            </div>
+            <div class="md-footer__title">
+              <span class="md-footer__direction">
+                Previous
+              </span>
+              <div class="md-ellipsis">
+                API Reference
+              </div>
+            </div>
+          </a>
+        
+        
+          
+          <a href="../sil/" class="md-footer__link md-footer__link--next" aria-label="Next: Software in the Loop">
+            <div class="md-footer__title">
+              <span class="md-footer__direction">
+                Next
+              </span>
+              <div class="md-ellipsis">
+                Software in the Loop
+              </div>
+            </div>
+            <div class="md-footer__button md-icon">
+              
+              <svg xmlns="http://www.w3.org/2000/svg" viewBox="0 0 24 24"><path d="M4 11v2h12l-5.5 5.5 1.42 1.42L19.84 12l-7.92-7.92L10.5 5.5 16 11z"/></svg>
+            </div>
+          </a>
+        
+      </nav>
+    
+  
+  <div class="md-footer-meta md-typeset">
+    <div class="md-footer-meta__inner md-grid">
+      <div class="md-copyright">
+  
+    <div class="md-copyright__highlight">
+      Copyright &copy; 2026 Anton Vynohradov · <a href="https://systemfromscratch.com">SystemFromScratch®</a> · Licensed under the <a href="https://www.apache.org/licenses/LICENSE-2.0">Apache License 2.0</a>
+    </div>
+  
+  
+</div>
+      
+        
+<div class="md-social">
+  
+    
+    
+    
+    
+    <a href="https://github.com/AntonVynohradov" target="_blank" rel="noopener" title="Anton Vynohradov on GitHub" class="md-social__link">
+      <svg xmlns="http://www.w3.org/2000/svg" viewBox="0 0 512 512"><!--! Font Awesome Free 7.1.0 by @fontawesome - https://fontawesome.com License - https://fontawesome.com/license/free (Icons: CC BY 4.0, Fonts: SIL OFL 1.1, Code: MIT License) Copyright 2025 Fonticons, Inc.--><path d="M173.9 397.4c0 2-2.3 3.6-5.2 3.6-3.3.3-5.6-1.3-5.6-3.6 0-2 2.3-3.6 5.2-3.6 3-.3 5.6 1.3 5.6 3.6m-31.1-4.5c-.7 2 1.3 4.3 4.3 4.9 2.6 1 5.6 0 6.2-2s-1.3-4.3-4.3-5.2c-2.6-.7-5.5.3-6.2 2.3m44.2-1.7c-2.9.7-4.9 2.6-4.6 4.9.3 2 2.9 3.3 5.9 2.6 2.9-.7 4.9-2.6 4.6-4.6-.3-1.9-3-3.2-5.9-2.9M252.8 8C114.1 8 8 113.3 8 252c0 110.9 69.8 205.8 169.5 239.2 12.8 2.3 17.3-5.6 17.3-12.1 0-6.2-.3-40.4-.3-61.4 0 0-70 15-84.7-29.8 0 0-11.4-29.1-27.8-36.6 0 0-22.9-15.7 1.6-15.4 0 0 24.9 2 38.6 25.8 21.9 38.6 58.6 27.5 72.9 20.9 2.3-16 8.8-27.1 16-33.7-55.9-6.2-112.3-14.3-112.3-110.5 0-27.5 7.6-41.3 23.6-58.9-2.6-6.5-11.1-33.3 2.6-67.9 20.9-6.5 69 27 69 27 20-5.6 41.5-8.5 62.8-8.5s42.8 2.9 62.8 8.5c0 0 48.1-33.6 69-27 13.7 34.7 5.2 61.4 2.6 67.9 16 17.7 25.8 31.5 25.8 58.9 0 96.5-58.9 104.2-114.8 110.5 9.2 7.9 17 22.9 17 46.4 0 33.7-.3 75.4-.3 83.6 0 6.5 4.6 14.4 17.3 12.1C436.2 457.8 504 362.9 504 252 504 113.3 391.5 8 252.8 8M105.2 352.9c-1.3 1-1 3.3.7 5.2 1.6 1.6 3.9 2.3 5.2 1 1.3-1 1-3.3-.7-5.2-1.6-1.6-3.9-2.3-5.2-1m-10.8-8.1c-.7 1.3.3 2.9 2.3 3.9 1.6 1 3.6.7 4.3-.7.7-1.3-.3-2.9-2.3-3.9-2-.6-3.6-.3-4.3.7m32.4 35.6c-1.6 1.3-1 4.3 1.3 6.2 2.3 2.3 5.2 2.6 6.5 1 1.3-1.3.7-4.3-1.3-6.2-2.2-2.3-5.2-2.6-6.5-1m-11.4-14.7c-1.6 1-1.6 3.6 0 5.9s4.3 3.3 5.6 2.3c1.6-1.3 1.6-3.9 0-6.2-1.4-2.3-4-3.3-5.6-2"/></svg>
+    </a>
+  
+    
+    
+    
+    
+    <a href="https://www.linkedin.com/in/vynohradov" target="_blank" rel="noopener" title="Anton Vynohradov on LinkedIn" class="md-social__link">
+      <svg xmlns="http://www.w3.org/2000/svg" viewBox="0 0 448 512"><!--! Font Awesome Free 7.1.0 by @fontawesome - https://fontawesome.com License - https://fontawesome.com/license/free (Icons: CC BY 4.0, Fonts: SIL OFL 1.1, Code: MIT License) Copyright 2025 Fonticons, Inc.--><path d="M416 32H31.9C14.3 32 0 46.5 0 64.3v383.4C0 465.5 14.3 480 31.9 480H416c17.6 0 32-14.5 32-32.3V64.3c0-17.8-14.4-32.3-32-32.3M135.4 416H69V202.2h66.5V416zM102.2 96a38.5 38.5 0 1 1 0 77 38.5 38.5 0 1 1 0-77m282.1 320h-66.4V312c0-24.8-.5-56.7-34.5-56.7-34.6 0-39.9 27-39.9 54.9V416h-66.4V202.2h63.7v29.2h.9c8.9-16.8 30.6-34.5 62.9-34.5 67.2 0 79.7 44.3 79.7 101.9z"/></svg>
+    </a>
+  
+    
+    
+    
+    
+    <a href="https://orcid.org/0009-0005-6965-0911" target="_blank" rel="noopener" title="Anton Vynohradov on ORCID" class="md-social__link">
+      <svg xmlns="http://www.w3.org/2000/svg" viewBox="0 0 512 512"><!--! Font Awesome Free 7.1.0 by @fontawesome - https://fontawesome.com License - https://fontawesome.com/license/free (Icons: CC BY 4.0, Fonts: SIL OFL 1.1, Code: MIT License) Copyright 2025 Fonticons, Inc.--><path d="M294.7 188.2h-45.9V342h47.5c67.6 0 83.1-51.3 83.1-76.9 0-41.6-26.5-76.9-84.7-76.9M256 8a248 248 0 1 0 0 496 248 248 0 1 0 0-496m-80.8 360.8h-29.8V161.3h29.8zM160.3 98.5a19.6 19.6 0 1 1 0 39.2 19.6 19.6 0 1 1 0-39.2M300 369h-81V161.3h80.6c76.7 0 110.4 54.8 110.4 103.9 0 53.3-41.7 103.9-110 103.9z"/></svg>
+    </a>
+  
+    
+    
+    
+    
+    <a href="https://systemfromscratch.com" target="_blank" rel="noopener" title="SystemFromScratch®" class="md-social__link">
+      <svg xmlns="http://www.w3.org/2000/svg" viewBox="0 0 24 24"><path d="M16.36 14c.08-.66.14-1.32.14-2s-.06-1.34-.14-2h3.38c.16.64.26 1.31.26 2s-.1 1.36-.26 2m-5.15 5.56c.6-1.11 1.06-2.31 1.38-3.56h2.95a8.03 8.03 0 0 1-4.33 3.56M14.34 14H9.66c-.1-.66-.16-1.32-.16-2s.06-1.35.16-2h4.68c.09.65.16 1.32.16 2s-.07 1.34-.16 2M12 19.96c-.83-1.2-1.5-2.53-1.91-3.96h3.82c-.41 1.43-1.08 2.76-1.91 3.96M8 8H5.08A7.92 7.92 0 0 1 9.4 4.44C8.8 5.55 8.35 6.75 8 8m-2.92 8H8c.35 1.25.8 2.45 1.4 3.56A8 8 0 0 1 5.08 16m-.82-2C4.1 13.36 4 12.69 4 12s.1-1.36.26-2h3.38c-.08.66-.14 1.32-.14 2s.06 1.34.14 2M12 4.03c.83 1.2 1.5 2.54 1.91 3.97h-3.82c.41-1.43 1.08-2.77 1.91-3.97M18.92 8h-2.95a15.7 15.7 0 0 0-1.38-3.56c1.84.63 3.37 1.9 4.33 3.56M12 2C6.47 2 2 6.5 2 12a10 10 0 0 0 10 10 10 10 0 0 0 10-10A10 10 0 0 0 12 2"/></svg>
+    </a>
+  
+</div>
+      
+    </div>
+  </div>
+</footer>
+      
+    </div>
+    <div class="md-dialog" data-md-component="dialog">
+      <div class="md-dialog__inner md-typeset"></div>
+    </div>
+    
+    
+    
+      
+      
+      <script id="__config" type="application/json">{"annotate": null, "base": "..", "features": ["navigation.tabs", "navigation.sections", "navigation.top", "navigation.footer", "navigation.instant", "navigation.tracking", "search.suggest", "search.highlight", "content.code.copy", "content.code.annotate", "toc.follow"], "search": "../assets/javascripts/workers/search.a7633da7.min.js", "tags": null, "translations": {"clipboard.copied": "Copied to clipboard", "clipboard.copy": "Copy to clipboard", "search.result.more.one": "1 more on this page", "search.result.more.other": "# more on this page", "search.result.none": "No matching documents", "search.result.one": "1 matching document", "search.result.other": "# matching documents", "search.result.placeholder": "Type to start searching", "search.result.term.missing": "Missing", "select.version": "Select version"}, "version": null}</script>
+    
+    
+      <script src="../assets/javascripts/bundle.c21346df.min.js"></script>
+      
+        <script src="../assets/javascripts/mathjax.js"></script>
+      
+        <script src="https://cdn.jsdelivr.net/npm/mathjax@3.2.2/es5/tex-mml-chtml.js"></script>
+      
+    
+  </body>
+</html>

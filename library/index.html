@@ -1,0 +1,2196 @@
+
+<!doctype html>
+<html lang="en" class="no-js">
+  <head>
+    
+      <meta charset="utf-8">
+      <meta name="viewport" content="width=device-width,initial-scale=1">
+      
+        <meta name="description" content="User manual of the Stepper-C system: a hardware-agnostic stepper motor control library in C11, its Scilab/Xcos simulation with software in the loop and the ngspice model of the B-G431B-ESC1 power stage.">
+      
+      
+        <meta name="author" content="Anton Vynohradov">
+      
+      
+        <link rel="canonical" href="https://systemfromscratch-articles.github.io/Stepper-C-Motor-Control-Library/library/">
+      
+      
+        <link rel="prev" href="../control/">
+      
+      
+        <link rel="next" href="../api/">
+      
+      
+        
+      
+      
+      <link rel="icon" href="../assets/images/brand/systemfromscratch-logo.png">
+      <meta name="generator" content="mkdocs-1.6.1, mkdocs-material-9.8.0">
+    
+    
+      
+        <title>Stepper-C Library - Stepper-C System Manual</title>
+      
+    
+    
+      <link rel="stylesheet" href="../assets/stylesheets/main.57a0d79d.min.css">
+      
+        
+        <link rel="stylesheet" href="../assets/stylesheets/palette.fb2fffe2.min.css">
+      
+      
+
+
+    
+    
+      
+    
+    
+      
+        
+        
+        <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
+        <link rel="stylesheet" href="https://fonts.googleapis.com/css?family=Inter:300,300i,400,400i,700,700i%7CJetBrains+Mono:400,400i,700,700i&display=fallback">
+        <style>:root{--md-text-font:"Inter";--md-code-font:"JetBrains Mono"}</style>
+      
+    
+    
+      <link rel="stylesheet" href="../assets/stylesheets/extra.css">
+    
+    <script>__md_scope=new URL("..",location),__md_hash=e=>[...e].reduce(((e,_)=>(e<<5)-e+_.charCodeAt(0)),0),__md_get=(e,_=localStorage,t=__md_scope)=>JSON.parse(_.getItem(t.pathname+"."+e)),__md_set=(e,_,t=localStorage,a=__md_scope)=>{try{t.setItem(a.pathname+"."+e,JSON.stringify(_))}catch(e){}}</script>
+    
+      
+
+    
+    
+  </head>
+  
+  
+    
+    
+      
+    
+    
+    
+    
+    <body dir="ltr" data-md-color-scheme="default" data-md-color-primary="custom" data-md-color-accent="custom">
+  
+    
+    <input class="md-toggle" data-md-toggle="drawer" type="checkbox" id="__drawer" autocomplete="off">
+    <input class="md-toggle" data-md-toggle="search" type="checkbox" id="__search" autocomplete="off">
+    <label class="md-overlay" for="__drawer"></label>
+    <div data-md-component="skip">
+      
+        
+        <a href="#stepper-c-library" class="md-skip">
+          Skip to content
+        </a>
+      
+    </div>
+    <div data-md-component="announce">
+      
+    </div>
+    
+    
+      
+
+<header class="md-header" data-md-component="header">
+  <nav class="md-header__inner md-grid" aria-label="Header">
+    <a href=".." title="Stepper-C System Manual" class="md-header__button md-logo" aria-label="Stepper-C System Manual" data-md-component="logo">
+      
+  <img src="../assets/images/brand/systemfromscratch-logo-on-dark.png" alt="logo">
+
+    </a>
+    <label class="md-header__button md-icon" for="__drawer">
+      
+      <svg xmlns="http://www.w3.org/2000/svg" viewBox="0 0 24 24"><path d="M3 6h18v2H3zm0 5h18v2H3zm0 5h18v2H3z"/></svg>
+    </label>
+    <div class="md-header__title" data-md-component="header-title">
+      <div class="md-header__ellipsis">
+        <div class="md-header__topic">
+          <span class="md-ellipsis">
+            Stepper-C System Manual
+          </span>
+        </div>
+        <div class="md-header__topic" data-md-component="header-topic">
+          <span class="md-ellipsis">
+            
+              Stepper-C Library
+            
+          </span>
+        </div>
+      </div>
+    </div>
+    
+      
+        <form class="md-header__option" data-md-component="palette">
+  
+    
+    
+    
+    <input class="md-option" data-md-color-media="(prefers-color-scheme: light)" data-md-color-scheme="default" data-md-color-primary="custom" data-md-color-accent="custom"  aria-label="Switch to dark mode"  type="radio" name="__palette" id="__palette_0">
+    
+      <label class="md-header__button md-icon" title="Switch to dark mode" for="__palette_1" hidden>
+        <svg xmlns="http://www.w3.org/2000/svg" viewBox="0 0 24 24"><path d="m17.75 4.09-2.53 1.94.91 3.06-2.63-1.81-2.63 1.81.91-3.06-2.53-1.94L12.44 4l1.06-3 1.06 3zm3.5 6.91-1.64 1.25.59 1.98-1.7-1.17-1.7 1.17.59-1.98L15.75 11l2.06-.05L18.5 9l.69 1.95zm-2.28 4.95c.83-.08 1.72 1.1 1.19 1.85-.32.45-.66.87-1.08 1.27C15.17 23 8.84 23 4.94 19.07c-3.91-3.9-3.91-10.24 0-14.14.4-.4.82-.76 1.27-1.08.75-.53 1.93.36 1.85 1.19-.27 2.86.69 5.83 2.89 8.02a9.96 9.96 0 0 0 8.02 2.89m-1.64 2.02a12.08 12.08 0 0 1-7.8-3.47c-2.17-2.19-3.33-5-3.49-7.82-2.81 3.14-2.7 7.96.31 10.98 3.02 3.01 7.84 3.12 10.98.31"/></svg>
+      </label>
+    
+  
+    
+    
+    
+    <input class="md-option" data-md-color-media="(prefers-color-scheme: dark)" data-md-color-scheme="slate" data-md-color-primary="custom" data-md-color-accent="custom"  aria-label="Switch to light mode"  type="radio" name="__palette" id="__palette_1">
+    
+      <label class="md-header__button md-icon" title="Switch to light mode" for="__palette_0" hidden>
+        <svg xmlns="http://www.w3.org/2000/svg" viewBox="0 0 24 24"><path d="M12 7a5 5 0 0 1 5 5 5 5 0 0 1-5 5 5 5 0 0 1-5-5 5 5 0 0 1 5-5m0 2a3 3 0 0 0-3 3 3 3 0 0 0 3 3 3 3 0 0 0 3-3 3 3 0 0 0-3-3m0-7 2.39 3.42C13.65 5.15 12.84 5 12 5s-1.65.15-2.39.42zM3.34 7l4.16-.35A7.2 7.2 0 0 0 5.94 8.5c-.44.74-.69 1.5-.83 2.29zm.02 10 1.76-3.77a7.131 7.131 0 0 0 2.38 4.14zM20.65 7l-1.77 3.79a7.02 7.02 0 0 0-2.38-4.15zm-.01 10-4.14.36c.59-.51 1.12-1.14 1.54-1.86.42-.73.69-1.5.83-2.29zM12 22l-2.41-3.44c.74.27 1.55.44 2.41.44.82 0 1.63-.17 2.37-.44z"/></svg>
+      </label>
+    
+  
+</form>
+      
+    
+    
+      <script>var palette=__md_get("__palette");if(palette&&palette.color){if("(prefers-color-scheme)"===palette.color.media){var media=matchMedia("(prefers-color-scheme: light)"),input=document.querySelector(media.matches?"[data-md-color-media='(prefers-color-scheme: light)']":"[data-md-color-media='(prefers-color-scheme: dark)']");palette.color.media=input.getAttribute("data-md-color-media"),palette.color.scheme=input.getAttribute("data-md-color-scheme"),palette.color.primary=input.getAttribute("data-md-color-primary"),palette.color.accent=input.getAttribute("data-md-color-accent")}for(var[key,value]of Object.entries(palette.color))document.body.setAttribute("data-md-color-"+key,value)}</script>
+    
+    
+      <a href="../downloads/Stepper-C_System_Manual.pdf" class="md-header__button md-icon" title="Download PDF user manual" aria-label="Download PDF user manual" download>
+        <svg xmlns="http://www.w3.org/2000/svg" viewBox="0 0 24 24"><path d="M19 3H5c-1.1 0-2 .9-2 2v14c0 1.1.9 2 2 2h14c1.1 0 2-.9 2-2V5c0-1.1-.9-2-2-2m-9.5 8.5c0 .8-.7 1.5-1.5 1.5H7v2H5.5V9H8c.8 0 1.5.7 1.5 1.5zm5 2c0 .8-.7 1.5-1.5 1.5h-2.5V9H13c.8 0 1.5.7 1.5 1.5zm4-3H17v1h1.5V13H17v2h-1.5V9h3zm-6.5 0h1v3h-1zm-5 0h1v1H7z"/></svg>
+      </a>
+    
+    
+    
+      
+      
+        <label class="md-header__button md-icon" for="__search">
+          
+          <svg xmlns="http://www.w3.org/2000/svg" viewBox="0 0 24 24"><path d="M9.5 3A6.5 6.5 0 0 1 16 9.5c0 1.61-.59 3.09-1.56 4.23l.27.27h.79l5 5-1.5 1.5-5-5v-.79l-.27-.27A6.52 6.52 0 0 1 9.5 16 6.5 6.5 0 0 1 3 9.5 6.5 6.5 0 0 1 9.5 3m0 2C7 5 5 7 5 9.5S7 14 9.5 14 14 12 14 9.5 12 5 9.5 5"/></svg>
+        </label>
+        <div class="md-search" data-md-component="search" role="dialog">
+  <label class="md-search__overlay" for="__search"></label>
+  <div class="md-search__inner" role="search">
+    <form class="md-search__form" name="search">
+      <input type="text" class="md-search__input" name="query" aria-label="Search" placeholder="Search" autocapitalize="off" autocorrect="off" autocomplete="off" spellcheck="false" data-md-component="search-query" required>
+      <label class="md-search__icon md-icon" for="__search">
+        
+        <svg xmlns="http://www.w3.org/2000/svg" viewBox="0 0 24 24"><path d="M9.5 3A6.5 6.5 0 0 1 16 9.5c0 1.61-.59 3.09-1.56 4.23l.27.27h.79l5 5-1.5 1.5-5-5v-.79l-.27-.27A6.52 6.52 0 0 1 9.5 16 6.5 6.5 0 0 1 3 9.5 6.5 6.5 0 0 1 9.5 3m0 2C7 5 5 7 5 9.5S7 14 9.5 14 14 12 14 9.5 12 5 9.5 5"/></svg>
+        
+        <svg xmlns="http://www.w3.org/2000/svg" viewBox="0 0 24 24"><path d="M20 11v2H8l5.5 5.5-1.42 1.42L4.16 12l7.92-7.92L13.5 5.5 8 11z"/></svg>
+      </label>
+      <nav class="md-search__options" aria-label="Search">
+        
+        <button type="reset" class="md-search__icon md-icon" title="Clear" aria-label="Clear" tabindex="-1">
+          
+          <svg xmlns="http://www.w3.org/2000/svg" viewBox="0 0 24 24"><path d="M19 6.41 17.59 5 12 10.59 6.41 5 5 6.41 10.59 12 5 17.59 6.41 19 12 13.41 17.59 19 19 17.59 13.41 12z"/></svg>
+        </button>
+      </nav>
+      
+        <div class="md-search__suggest" data-md-component="search-suggest"></div>
+      
+    </form>
+    <div class="md-search__output">
+      <div class="md-search__scrollwrap" tabindex="0" data-md-scrollfix>
+        <div class="md-search-result" data-md-component="search-result">
+          <div class="md-search-result__meta">
+            Initializing search
+          </div>
+          <ol class="md-search-result__list" role="presentation"></ol>
+        </div>
+      </div>
+    </div>
+  </div>
+</div>
+      
+    
+    
+      <div class="md-header__source">
+        <a href="https://github.com/AntonVynohradov/Stepper-C" title="Go to repository" class="md-source" data-md-component="source">
+  <div class="md-source__icon md-icon">
+    
+    <svg xmlns="http://www.w3.org/2000/svg" viewBox="0 0 512 512"><!--! Font Awesome Free 7.1.0 by @fontawesome - https://fontawesome.com License - https://fontawesome.com/license/free (Icons: CC BY 4.0, Fonts: SIL OFL 1.1, Code: MIT License) Copyright 2025 Fonticons, Inc.--><path d="M173.9 397.4c0 2-2.3 3.6-5.2 3.6-3.3.3-5.6-1.3-5.6-3.6 0-2 2.3-3.6 5.2-3.6 3-.3 5.6 1.3 5.6 3.6m-31.1-4.5c-.7 2 1.3 4.3 4.3 4.9 2.6 1 5.6 0 6.2-2s-1.3-4.3-4.3-5.2c-2.6-.7-5.5.3-6.2 2.3m44.2-1.7c-2.9.7-4.9 2.6-4.6 4.9.3 2 2.9 3.3 5.9 2.6 2.9-.7 4.9-2.6 4.6-4.6-.3-1.9-3-3.2-5.9-2.9M252.8 8C114.1 8 8 113.3 8 252c0 110.9 69.8 205.8 169.5 239.2 12.8 2.3 17.3-5.6 17.3-12.1 0-6.2-.3-40.4-.3-61.4 0 0-70 15-84.7-29.8 0 0-11.4-29.1-27.8-36.6 0 0-22.9-15.7 1.6-15.4 0 0 24.9 2 38.6 25.8 21.9 38.6 58.6 27.5 72.9 20.9 2.3-16 8.8-27.1 16-33.7-55.9-6.2-112.3-14.3-112.3-110.5 0-27.5 7.6-41.3 23.6-58.9-2.6-6.5-11.1-33.3 2.6-67.9 20.9-6.5 69 27 69 27 20-5.6 41.5-8.5 62.8-8.5s42.8 2.9 62.8 8.5c0 0 48.1-33.6 69-27 13.7 34.7 5.2 61.4 2.6 67.9 16 17.7 25.8 31.5 25.8 58.9 0 96.5-58.9 104.2-114.8 110.5 9.2 7.9 17 22.9 17 46.4 0 33.7-.3 75.4-.3 83.6 0 6.5 4.6 14.4 17.3 12.1C436.2 457.8 504 362.9 504 252 504 113.3 391.5 8 252.8 8M105.2 352.9c-1.3 1-1 3.3.7 5.2 1.6 1.6 3.9 2.3 5.2 1 1.3-1 1-3.3-.7-5.2-1.6-1.6-3.9-2.3-5.2-1m-10.8-8.1c-.7 1.3.3 2.9 2.3 3.9 1.6 1 3.6.7 4.3-.7.7-1.3-.3-2.9-2.3-3.9-2-.6-3.6-.3-4.3.7m32.4 35.6c-1.6 1.3-1 4.3 1.3 6.2 2.3 2.3 5.2 2.6 6.5 1 1.3-1.3.7-4.3-1.3-6.2-2.2-2.3-5.2-2.6-6.5-1m-11.4-14.7c-1.6 1-1.6 3.6 0 5.9s4.3 3.3 5.6 2.3c1.6-1.3 1.6-3.9 0-6.2-1.4-2.3-4-3.3-5.6-2"/></svg>
+  </div>
+  <div class="md-source__repository">
+    Motor Control Library
+  </div>
+</a>
+      </div>
+    
+  </nav>
+  
+</header>
+    
+    <div class="md-container" data-md-component="container">
+      
+      
+        
+          
+            
+<nav class="md-tabs" aria-label="Tabs" data-md-component="tabs">
+  <div class="md-grid">
+    <ul class="md-tabs__list">
+      
+        
+  
+  
+  
+  
+    <li class="md-tabs__item">
+      <a href=".." class="md-tabs__link">
+        
+  
+  
+    
+  
+  Home
+
+      </a>
+    </li>
+  
+
+      
+        
+  
+  
+  
+  
+    
+    
+      <li class="md-tabs__item">
+        <a href="../overview/" class="md-tabs__link">
+          
+  
+  
+  Guide
+
+        </a>
+      </li>
+    
+  
+
+      
+        
+  
+  
+  
+  
+    
+    
+      <li class="md-tabs__item">
+        <a href="../motor-model/" class="md-tabs__link">
+          
+  
+  
+  Theory
+
+        </a>
+      </li>
+    
+  
+
+      
+        
+  
+  
+  
+    
+  
+  
+    
+    
+      <li class="md-tabs__item md-tabs__item--active">
+        <a href="./" class="md-tabs__link">
+          
+  
+  
+  Modules
+
+        </a>
+      </li>
+    
+  
+
+      
+        
+  
+  
+  
+  
+    
+    
+      <li class="md-tabs__item">
+        <a href="../tests/" class="md-tabs__link">
+          
+  
+  
+  Verification
+
+        </a>
+      </li>
+    
+  
+
+      
+        
+  
+  
+  
+  
+    
+    
+      <li class="md-tabs__item">
+        <a href="../parameters/" class="md-tabs__link">
+          
+  
+  
+  Reference
+
+        </a>
+      </li>
+    
+  
+
+      
+        
+  
+  
+  
+  
+    
+    
+      <li class="md-tabs__item">
+        <a href="../about/" class="md-tabs__link">
+          
+  
+  
+  About
+
+        </a>
+      </li>
+    
+  
+
+      
+    </ul>
+  </div>
+</nav>
+          
+        
+      
+      <main class="md-main" data-md-component="main">
+        <div class="md-main__inner md-grid">
+          
+            
+              
+              <div class="md-sidebar md-sidebar--primary" data-md-component="sidebar" data-md-type="navigation" >
+                <div class="md-sidebar__scrollwrap">
+                  <div class="md-sidebar__inner">
+                    
+
+
+  
+
+
+<nav class="md-nav md-nav--primary md-nav--lifted" aria-label="Navigation" data-md-level="0">
+  <label class="md-nav__title" for="__drawer">
+    <a href=".." title="Stepper-C System Manual" class="md-nav__button md-logo" aria-label="Stepper-C System Manual" data-md-component="logo">
+      
+  <img src="../assets/images/brand/systemfromscratch-logo-on-dark.png" alt="logo">
+
+    </a>
+    Stepper-C System Manual
+  </label>
+  
+    <div class="md-nav__source">
+      <a href="https://github.com/AntonVynohradov/Stepper-C" title="Go to repository" class="md-source" data-md-component="source">
+  <div class="md-source__icon md-icon">
+    
+    <svg xmlns="http://www.w3.org/2000/svg" viewBox="0 0 512 512"><!--! Font Awesome Free 7.1.0 by @fontawesome - https://fontawesome.com License - https://fontawesome.com/license/free (Icons: CC BY 4.0, Fonts: SIL OFL 1.1, Code: MIT License) Copyright 2025 Fonticons, Inc.--><path d="M173.9 397.4c0 2-2.3 3.6-5.2 3.6-3.3.3-5.6-1.3-5.6-3.6 0-2 2.3-3.6 5.2-3.6 3-.3 5.6 1.3 5.6 3.6m-31.1-4.5c-.7 2 1.3 4.3 4.3 4.9 2.6 1 5.6 0 6.2-2s-1.3-4.3-4.3-5.2c-2.6-.7-5.5.3-6.2 2.3m44.2-1.7c-2.9.7-4.9 2.6-4.6 4.9.3 2 2.9 3.3 5.9 2.6 2.9-.7 4.9-2.6 4.6-4.6-.3-1.9-3-3.2-5.9-2.9M252.8 8C114.1 8 8 113.3 8 252c0 110.9 69.8 205.8 169.5 239.2 12.8 2.3 17.3-5.6 17.3-12.1 0-6.2-.3-40.4-.3-61.4 0 0-70 15-84.7-29.8 0 0-11.4-29.1-27.8-36.6 0 0-22.9-15.7 1.6-15.4 0 0 24.9 2 38.6 25.8 21.9 38.6 58.6 27.5 72.9 20.9 2.3-16 8.8-27.1 16-33.7-55.9-6.2-112.3-14.3-112.3-110.5 0-27.5 7.6-41.3 23.6-58.9-2.6-6.5-11.1-33.3 2.6-67.9 20.9-6.5 69 27 69 27 20-5.6 41.5-8.5 62.8-8.5s42.8 2.9 62.8 8.5c0 0 48.1-33.6 69-27 13.7 34.7 5.2 61.4 2.6 67.9 16 17.7 25.8 31.5 25.8 58.9 0 96.5-58.9 104.2-114.8 110.5 9.2 7.9 17 22.9 17 46.4 0 33.7-.3 75.4-.3 83.6 0 6.5 4.6 14.4 17.3 12.1C436.2 457.8 504 362.9 504 252 504 113.3 391.5 8 252.8 8M105.2 352.9c-1.3 1-1 3.3.7 5.2 1.6 1.6 3.9 2.3 5.2 1 1.3-1 1-3.3-.7-5.2-1.6-1.6-3.9-2.3-5.2-1m-10.8-8.1c-.7 1.3.3 2.9 2.3 3.9 1.6 1 3.6.7 4.3-.7.7-1.3-.3-2.9-2.3-3.9-2-.6-3.6-.3-4.3.7m32.4 35.6c-1.6 1.3-1 4.3 1.3 6.2 2.3 2.3 5.2 2.6 6.5 1 1.3-1.3.7-4.3-1.3-6.2-2.2-2.3-5.2-2.6-6.5-1m-11.4-14.7c-1.6 1-1.6 3.6 0 5.9s4.3 3.3 5.6 2.3c1.6-1.3 1.6-3.9 0-6.2-1.4-2.3-4-3.3-5.6-2"/></svg>
+  </div>
+  <div class="md-source__repository">
+    Motor Control Library
+  </div>
+</a>
+    </div>
+  
+  <ul class="md-nav__list" data-md-scrollfix>
+    
+      
+      
+  
+  
+  
+  
+    <li class="md-nav__item">
+      <a href=".." class="md-nav__link">
+        
+  
+  
+  <span class="md-ellipsis">
+    
+  
+    Home
+  
+
+    
+  </span>
+  
+  
+
+      </a>
+    </li>
+  
+
+    
+      
+      
+  
+  
+  
+  
+    
+    
+    
+    
+      
+      
+        
+      
+    
+    
+    <li class="md-nav__item md-nav__item--nested">
+      
+        
+        
+        <input class="md-nav__toggle md-toggle " type="checkbox" id="__nav_2" >
+        
+          
+          <label class="md-nav__link" for="__nav_2" id="__nav_2_label" tabindex="0">
+            
+  
+  
+  <span class="md-ellipsis">
+    
+  
+    Guide
+  
+
+    
+  </span>
+  
+  
+
+            <span class="md-nav__icon md-icon"></span>
+          </label>
+        
+        <nav class="md-nav" data-md-level="1" aria-labelledby="__nav_2_label" aria-expanded="false">
+          <label class="md-nav__title" for="__nav_2">
+            <span class="md-nav__icon md-icon"></span>
+            
+  
+    Guide
+  
+
+          </label>
+          <ul class="md-nav__list" data-md-scrollfix>
+            
+              
+                
+  
+  
+  
+  
+    <li class="md-nav__item">
+      <a href="../overview/" class="md-nav__link">
+        
+  
+  
+  <span class="md-ellipsis">
+    
+  
+    Introduction
+  
+
+    
+  </span>
+  
+  
+
+      </a>
+    </li>
+  
+
+              
+            
+              
+                
+  
+  
+  
+  
+    <li class="md-nav__item">
+      <a href="../system/" class="md-nav__link">
+        
+  
+  
+  <span class="md-ellipsis">
+    
+  
+    System Architecture
+  
+
+    
+  </span>
+  
+  
+
+      </a>
+    </li>
+  
+
+              
+            
+              
+                
+  
+  
+  
+  
+    <li class="md-nav__item">
+      <a href="../getting-started/" class="md-nav__link">
+        
+  
+  
+  <span class="md-ellipsis">
+    
+  
+    Getting Started
+  
+
+    
+  </span>
+  
+  
+
+      </a>
+    </li>
+  
+
+              
+            
+          </ul>
+        </nav>
+      
+    </li>
+  
+
+    
+      
+      
+  
+  
+  
+  
+    
+    
+    
+    
+      
+      
+        
+      
+    
+    
+    <li class="md-nav__item md-nav__item--nested">
+      
+        
+        
+        <input class="md-nav__toggle md-toggle " type="checkbox" id="__nav_3" >
+        
+          
+          <label class="md-nav__link" for="__nav_3" id="__nav_3_label" tabindex="0">
+            
+  
+  
+  <span class="md-ellipsis">
+    
+  
+    Theory
+  
+
+    
+  </span>
+  
+  
+
+            <span class="md-nav__icon md-icon"></span>
+          </label>
+        
+        <nav class="md-nav" data-md-level="1" aria-labelledby="__nav_3_label" aria-expanded="false">
+          <label class="md-nav__title" for="__nav_3">
+            <span class="md-nav__icon md-icon"></span>
+            
+  
+    Theory
+  
+
+          </label>
+          <ul class="md-nav__list" data-md-scrollfix>
+            
+              
+                
+  
+  
+  
+  
+    <li class="md-nav__item">
+      <a href="../motor-model/" class="md-nav__link">
+        
+  
+  
+  <span class="md-ellipsis">
+    
+  
+    Motor Model
+  
+
+    
+  </span>
+  
+  
+
+      </a>
+    </li>
+  
+
+              
+            
+              
+                
+  
+  
+  
+  
+    <li class="md-nav__item">
+      <a href="../control/" class="md-nav__link">
+        
+  
+  
+  <span class="md-ellipsis">
+    
+  
+    Control Algorithms
+  
+
+    
+  </span>
+  
+  
+
+      </a>
+    </li>
+  
+
+              
+            
+          </ul>
+        </nav>
+      
+    </li>
+  
+
+    
+      
+      
+  
+  
+    
+  
+  
+  
+    
+    
+    
+    
+      
+        
+        
+      
+      
+        
+      
+    
+    
+    <li class="md-nav__item md-nav__item--active md-nav__item--section md-nav__item--nested">
+      
+        
+        
+        <input class="md-nav__toggle md-toggle " type="checkbox" id="__nav_4" checked>
+        
+          
+          <label class="md-nav__link" for="__nav_4" id="__nav_4_label" tabindex="">
+            
+  
+  
+  <span class="md-ellipsis">
+    
+  
+    Modules
+  
+
+    
+  </span>
+  
+  
+
+            <span class="md-nav__icon md-icon"></span>
+          </label>
+        
+        <nav class="md-nav" data-md-level="1" aria-labelledby="__nav_4_label" aria-expanded="true">
+          <label class="md-nav__title" for="__nav_4">
+            <span class="md-nav__icon md-icon"></span>
+            
+  
+    Modules
+  
+
+          </label>
+          <ul class="md-nav__list" data-md-scrollfix>
+            
+              
+                
+  
+  
+    
+  
+  
+  
+    <li class="md-nav__item md-nav__item--active">
+      
+      <input class="md-nav__toggle md-toggle" type="checkbox" id="__toc">
+      
+      
+        
+      
+      
+        <label class="md-nav__link md-nav__link--active" for="__toc">
+          
+  
+  
+  <span class="md-ellipsis">
+    
+  
+    Stepper-C Library
+  
+
+    
+  </span>
+  
+  
+
+          <span class="md-nav__icon md-icon"></span>
+        </label>
+      
+      <a href="./" class="md-nav__link md-nav__link--active">
+        
+  
+  
+  <span class="md-ellipsis">
+    
+  
+    Stepper-C Library
+  
+
+    
+  </span>
+  
+  
+
+      </a>
+      
+        
+
+<nav class="md-nav md-nav--secondary" aria-label="Table of contents">
+  
+  
+  
+    
+  
+  
+    <label class="md-nav__title" for="__toc">
+      <span class="md-nav__icon md-icon"></span>
+      Table of contents
+    </label>
+    <ul class="md-nav__list" data-md-component="toc" data-md-scrollfix>
+      
+        <li class="md-nav__item">
+  <a href="#repository-layout" class="md-nav__link">
+    <span class="md-ellipsis">
+      
+        Repository layout
+      
+    </span>
+  </a>
+  
+</li>
+      
+        <li class="md-nav__item">
+  <a href="#adding-the-library-to-a-project" class="md-nav__link">
+    <span class="md-ellipsis">
+      
+        Adding the library to a project
+      
+    </span>
+  </a>
+  
+</li>
+      
+        <li class="md-nav__item">
+  <a href="#build-time-configuration" class="md-nav__link">
+    <span class="md-ellipsis">
+      
+        Build-time configuration
+      
+    </span>
+  </a>
+  
+</li>
+      
+        <li class="md-nav__item">
+  <a href="#configuring-a-driver" class="md-nav__link">
+    <span class="md-ellipsis">
+      
+        Configuring a driver
+      
+    </span>
+  </a>
+  
+</li>
+      
+        <li class="md-nav__item">
+  <a href="#connecting-the-loops-to-the-hardware" class="md-nav__link">
+    <span class="md-ellipsis">
+      
+        Connecting the loops to the hardware
+      
+    </span>
+  </a>
+  
+</li>
+      
+        <li class="md-nav__item">
+  <a href="#commanding-motion" class="md-nav__link">
+    <span class="md-ellipsis">
+      
+        Commanding motion
+      
+    </span>
+  </a>
+  
+</li>
+      
+        <li class="md-nav__item">
+  <a href="#memory-timing-and-reentrancy" class="md-nav__link">
+    <span class="md-ellipsis">
+      
+        Memory, timing and reentrancy
+      
+    </span>
+  </a>
+  
+</li>
+      
+        <li class="md-nav__item">
+  <a href="#quality" class="md-nav__link">
+    <span class="md-ellipsis">
+      
+        Quality
+      
+    </span>
+  </a>
+  
+</li>
+      
+        <li class="md-nav__item">
+  <a href="#porting-checklist" class="md-nav__link">
+    <span class="md-ellipsis">
+      
+        Porting checklist
+      
+    </span>
+  </a>
+  
+</li>
+      
+    </ul>
+  
+</nav>
+      
+    </li>
+  
+
+              
+            
+              
+                
+  
+  
+  
+  
+    <li class="md-nav__item">
+      <a href="../api/" class="md-nav__link">
+        
+  
+  
+  <span class="md-ellipsis">
+    
+  
+    API Reference
+  
+
+    
+  </span>
+  
+  
+
+      </a>
+    </li>
+  
+
+              
+            
+              
+                
+  
+  
+  
+  
+    <li class="md-nav__item">
+      <a href="../simulation/" class="md-nav__link">
+        
+  
+  
+  <span class="md-ellipsis">
+    
+  
+    Simulation
+  
+
+    
+  </span>
+  
+  
+
+      </a>
+    </li>
+  
+
+              
+            
+              
+                
+  
+  
+  
+  
+    <li class="md-nav__item">
+      <a href="../sil/" class="md-nav__link">
+        
+  
+  
+  <span class="md-ellipsis">
+    
+  
+    Software in the Loop
+  
+
+    
+  </span>
+  
+  
+
+      </a>
+    </li>
+  
+
+              
+            
+              
+                
+  
+  
+  
+  
+    <li class="md-nav__item">
+      <a href="../power-stage/" class="md-nav__link">
+        
+  
+  
+  <span class="md-ellipsis">
+    
+  
+    Power Stage Model
+  
+
+    
+  </span>
+  
+  
+
+      </a>
+    </li>
+  
+
+              
+            
+          </ul>
+        </nav>
+      
+    </li>
+  
+
+    
+      
+      
+  
+  
+  
+  
+    
+    
+    
+    
+      
+      
+        
+      
+    
+    
+    <li class="md-nav__item md-nav__item--nested">
+      
+        
+        
+        <input class="md-nav__toggle md-toggle " type="checkbox" id="__nav_5" >
+        
+          
+          <label class="md-nav__link" for="__nav_5" id="__nav_5_label" tabindex="0">
+            
+  
+  
+  <span class="md-ellipsis">
+    
+  
+    Verification
+  
+
+    
+  </span>
+  
+  
+
+            <span class="md-nav__icon md-icon"></span>
+          </label>
+        
+        <nav class="md-nav" data-md-level="1" aria-labelledby="__nav_5_label" aria-expanded="false">
+          <label class="md-nav__title" for="__nav_5">
+            <span class="md-nav__icon md-icon"></span>
+            
+  
+    Verification
+  
+
+          </label>
+          <ul class="md-nav__list" data-md-scrollfix>
+            
+              
+                
+  
+  
+  
+  
+    <li class="md-nav__item">
+      <a href="../tests/" class="md-nav__link">
+        
+  
+  
+  <span class="md-ellipsis">
+    
+  
+    Test Catalogue
+  
+
+    
+  </span>
+  
+  
+
+      </a>
+    </li>
+  
+
+              
+            
+              
+                
+  
+  
+  
+  
+    <li class="md-nav__item">
+      <a href="../results/" class="md-nav__link">
+        
+  
+  
+  <span class="md-ellipsis">
+    
+  
+    Results and Design Guidance
+  
+
+    
+  </span>
+  
+  
+
+      </a>
+    </li>
+  
+
+              
+            
+              
+                
+  
+  
+  
+  
+    <li class="md-nav__item">
+      <a href="../hardware/" class="md-nav__link">
+        
+  
+  
+  <span class="md-ellipsis">
+    
+  
+    Hardware Bring-up
+  
+
+    
+  </span>
+  
+  
+
+      </a>
+    </li>
+  
+
+              
+            
+          </ul>
+        </nav>
+      
+    </li>
+  
+
+    
+      
+      
+  
+  
+  
+  
+    
+    
+    
+    
+      
+      
+        
+      
+    
+    
+    <li class="md-nav__item md-nav__item--nested">
+      
+        
+        
+        <input class="md-nav__toggle md-toggle " type="checkbox" id="__nav_6" >
+        
+          
+          <label class="md-nav__link" for="__nav_6" id="__nav_6_label" tabindex="0">
+            
+  
+  
+  <span class="md-ellipsis">
+    
+  
+    Reference
+  
+
+    
+  </span>
+  
+  
+
+            <span class="md-nav__icon md-icon"></span>
+          </label>
+        
+        <nav class="md-nav" data-md-level="1" aria-labelledby="__nav_6_label" aria-expanded="false">
+          <label class="md-nav__title" for="__nav_6">
+            <span class="md-nav__icon md-icon"></span>
+            
+  
+    Reference
+  
+
+          </label>
+          <ul class="md-nav__list" data-md-scrollfix>
+            
+              
+                
+  
+  
+  
+  
+    <li class="md-nav__item">
+      <a href="../parameters/" class="md-nav__link">
+        
+  
+  
+  <span class="md-ellipsis">
+    
+  
+    Parameter Reference
+  
+
+    
+  </span>
+  
+  
+
+      </a>
+    </li>
+  
+
+              
+            
+              
+                
+  
+  
+  
+  
+    <li class="md-nav__item">
+      <a href="../glossary/" class="md-nav__link">
+        
+  
+  
+  <span class="md-ellipsis">
+    
+  
+    Glossary
+  
+
+    
+  </span>
+  
+  
+
+      </a>
+    </li>
+  
+
+              
+            
+              
+                
+  
+  
+  
+  
+    <li class="md-nav__item">
+      <a href="../changelog/" class="md-nav__link">
+        
+  
+  
+  <span class="md-ellipsis">
+    
+  
+    Changelog
+  
+
+    
+  </span>
+  
+  
+
+      </a>
+    </li>
+  
+
+              
+            
+          </ul>
+        </nav>
+      
+    </li>
+  
+
+    
+      
+      
+  
+  
+  
+  
+    
+    
+    
+    
+      
+      
+        
+      
+    
+    
+    <li class="md-nav__item md-nav__item--nested">
+      
+        
+        
+        <input class="md-nav__toggle md-toggle " type="checkbox" id="__nav_7" >
+        
+          
+          <label class="md-nav__link" for="__nav_7" id="__nav_7_label" tabindex="0">
+            
+  
+  
+  <span class="md-ellipsis">
+    
+  
+    About
+  
+
+    
+  </span>
+  
+  
+
+            <span class="md-nav__icon md-icon"></span>
+          </label>
+        
+        <nav class="md-nav" data-md-level="1" aria-labelledby="__nav_7_label" aria-expanded="false">
+          <label class="md-nav__title" for="__nav_7">
+            <span class="md-nav__icon md-icon"></span>
+            
+  
+    About
+  
+
+          </label>
+          <ul class="md-nav__list" data-md-scrollfix>
+            
+              
+                
+  
+  
+  
+  
+    <li class="md-nav__item">
+      <a href="../about/" class="md-nav__link">
+        
+  
+  
+  <span class="md-ellipsis">
+    
+  
+    Author & Company
+  
+
+    
+  </span>
+  
+  
+
+      </a>
+    </li>
+  
+
+              
+            
+              
+                
+  
+  
+  
+  
+    <li class="md-nav__item">
+      <a href="../LICENSE/" class="md-nav__link">
+        
+  
+  
+  <span class="md-ellipsis">
+    
+  
+    License
+  
+
+    
+  </span>
+  
+  
+
+      </a>
+    </li>
+  
+
+              
+            
+          </ul>
+        </nav>
+      
+    </li>
+  
+
+    
+  </ul>
+</nav>
+                  </div>
+                </div>
+              </div>
+            
+            
+              
+              <div class="md-sidebar md-sidebar--secondary" data-md-component="sidebar" data-md-type="toc" >
+                <div class="md-sidebar__scrollwrap">
+                  <div class="md-sidebar__inner">
+                    
+
+<nav class="md-nav md-nav--secondary" aria-label="Table of contents">
+  
+  
+  
+    
+  
+  
+    <label class="md-nav__title" for="__toc">
+      <span class="md-nav__icon md-icon"></span>
+      Table of contents
+    </label>
+    <ul class="md-nav__list" data-md-component="toc" data-md-scrollfix>
+      
+        <li class="md-nav__item">
+  <a href="#repository-layout" class="md-nav__link">
+    <span class="md-ellipsis">
+      
+        Repository layout
+      
+    </span>
+  </a>
+  
+</li>
+      
+        <li class="md-nav__item">
+  <a href="#adding-the-library-to-a-project" class="md-nav__link">
+    <span class="md-ellipsis">
+      
+        Adding the library to a project
+      
+    </span>
+  </a>
+  
+</li>
+      
+        <li class="md-nav__item">
+  <a href="#build-time-configuration" class="md-nav__link">
+    <span class="md-ellipsis">
+      
+        Build-time configuration
+      
+    </span>
+  </a>
+  
+</li>
+      
+        <li class="md-nav__item">
+  <a href="#configuring-a-driver" class="md-nav__link">
+    <span class="md-ellipsis">
+      
+        Configuring a driver
+      
+    </span>
+  </a>
+  
+</li>
+      
+        <li class="md-nav__item">
+  <a href="#connecting-the-loops-to-the-hardware" class="md-nav__link">
+    <span class="md-ellipsis">
+      
+        Connecting the loops to the hardware
+      
+    </span>
+  </a>
+  
+</li>
+      
+        <li class="md-nav__item">
+  <a href="#commanding-motion" class="md-nav__link">
+    <span class="md-ellipsis">
+      
+        Commanding motion
+      
+    </span>
+  </a>
+  
+</li>
+      
+        <li class="md-nav__item">
+  <a href="#memory-timing-and-reentrancy" class="md-nav__link">
+    <span class="md-ellipsis">
+      
+        Memory, timing and reentrancy
+      
+    </span>
+  </a>
+  
+</li>
+      
+        <li class="md-nav__item">
+  <a href="#quality" class="md-nav__link">
+    <span class="md-ellipsis">
+      
+        Quality
+      
+    </span>
+  </a>
+  
+</li>
+      
+        <li class="md-nav__item">
+  <a href="#porting-checklist" class="md-nav__link">
+    <span class="md-ellipsis">
+      
+        Porting checklist
+      
+    </span>
+  </a>
+  
+</li>
+      
+    </ul>
+  
+</nav>
+                  </div>
+                </div>
+              </div>
+            
+          
+          
+            <div class="md-content" data-md-component="content">
+              
+              <article class="md-content__inner md-typeset">
+                
+                  
+
+
+
+<h1 id="stepper-c-library">Stepper-C Library<a class="headerlink" href="#stepper-c-library" title="Permanent link">&para;</a></h1>
+<p>Stepper-C (<a href="https://github.com/AntonVynohradov/Stepper-C">github.com/AntonVynohradov/Stepper-C</a>, local folder <code>sfs-stepper-ctrl</code>) is the control library of the system: C11, no heap, no
+RTOS, no global state, two numeric backends and two power stage topologies. This chapter
+explains how to add it to a firmware project, configure it for a motor and a board, call
+its loops from the interrupts and check that it works. The functions are listed in the
+<a href="../api/">API Reference</a>; the algorithms are explained in
+<a href="../control/">Control Algorithms</a>.</p>
+<h2 id="repository-layout">Repository layout<a class="headerlink" href="#repository-layout" title="Permanent link">&para;</a></h2>
+<table>
+<thead>
+<tr>
+<th>Path</th>
+<th>Content</th>
+</tr>
+</thead>
+<tbody>
+<tr>
+<td><code>sstep.h</code></td>
+<td>umbrella header: include only this</td>
+</tr>
+<tr>
+<td><code>inc/sstep_config.h</code></td>
+<td>build-time configuration macros</td>
+</tr>
+<tr>
+<td><code>inc/sstep_defs.h</code></td>
+<td>status codes, topologies, fault flags, states</td>
+</tr>
+<tr>
+<td><code>inc/sstep_math.h</code></td>
+<td>numeric backend: types, saturating inline operations</td>
+</tr>
+<tr>
+<td><code>inc/sstep_ctrl.h</code></td>
+<td>the API: configuration, callbacks, loops, commands</td>
+</tr>
+<tr>
+<td><code>src/sstep_ctrl.c</code></td>
+<td>initialisation, loops, commands</td>
+</tr>
+<tr>
+<td><code>src/sstep_bridge.c</code></td>
+<td>voltage limit and leg mapping</td>
+</tr>
+<tr>
+<td><code>src/sstep_motion.c</code></td>
+<td>motion generator</td>
+</tr>
+<tr>
+<td><code>src/sstep_math.c</code>, <code>src/sstep_sin_table.c</code></td>
+<td>sine/cosine, gain conversions (table generated by <code>tools/sstep_gen_sin_table.py</code>)</td>
+</tr>
+<tr>
+<td><code>sstep.cmake</code>, <code>CMakeLists.txt</code>, <code>CMakePresets.json</code></td>
+<td>build</td>
+</tr>
+<tr>
+<td><code>tests/unit/</code></td>
+<td>GoogleTest suites with a motor model (<code>sstep_test_plant.hpp</code>)</td>
+</tr>
+<tr>
+<td><code>tests/compile/sstep_api_check.c</code></td>
+<td>compile check of the API with the reference configuration</td>
+</tr>
+</tbody>
+</table>
+<h2 id="adding-the-library-to-a-project">Adding the library to a project<a class="headerlink" href="#adding-the-library-to-a-project" title="Permanent link">&para;</a></h2>
+<p><strong>With CMake</strong> (the library is a subdirectory or a submodule):</p>
+<div class="highlight"><pre><span></span><code><a id="__codelineno-0-1" name="__codelineno-0-1" href="#__codelineno-0-1"></a><span class="nb">set</span><span class="p">(</span><span class="s">SSTEP_MATH_BACKEND</span><span class="w"> </span><span class="s2">"FLOAT"</span><span class="w"> </span><span class="s">CACHE</span><span class="w"> </span><span class="s">STRING</span><span class="w"> </span><span class="s2">""</span><span class="w"> </span><span class="s">FORCE</span><span class="p">)</span><span class="w">   </span><span class="c"># STM32G4 has an FPU</span>
+<a id="__codelineno-0-2" name="__codelineno-0-2" href="#__codelineno-0-2"></a><span class="nb">add_subdirectory</span><span class="p">(</span><span class="s">ext/sfs-stepper-ctrl</span><span class="p">)</span>
+<a id="__codelineno-0-3" name="__codelineno-0-3" href="#__codelineno-0-3"></a><span class="nb">target_link_libraries</span><span class="p">(</span><span class="s">firmware</span><span class="w"> </span><span class="s">PRIVATE</span><span class="w"> </span><span class="s">sstep</span><span class="p">)</span>
+</code></pre></div>
+<table>
+<thead>
+<tr>
+<th>CMake variable</th>
+<th>Values</th>
+<th>Effect</th>
+</tr>
+</thead>
+<tbody>
+<tr>
+<td><code>SSTEP_MATH_BACKEND</code></td>
+<td><code>FIXED</code> (default), <code>FLOAT</code></td>
+<td>defines <code>SSTEP_CFG_MATH_BACKEND</code></td>
+</tr>
+<tr>
+<td><code>SSTEP_CONFIG_DIR</code></td>
+<td>folder</td>
+<td>adds the folder to the include path and defines <code>SSTEP_USER_CONFIG</code>, so <code>sstep_user_config.h</code> is used</td>
+</tr>
+<tr>
+<td><code>SSTEP_UNIT_TESTS</code>, <code>SSTEP_INTEGRATION_TESTS</code>, <code>SSTEP_EXAMPLES</code></td>
+<td>ON/OFF</td>
+<td>test and example targets</td>
+</tr>
+</tbody>
+</table>
+<p><strong>Without CMake</strong>: compile the five files of <code>src/</code>, add the repository root and <code>inc/</code>
+to the include path, and define <code>SSTEP_CFG_MATH_BACKEND=SSTEP_MATH_BACKEND_FLOAT</code> (or
+leave it for fixed point). The library needs only <code>&lt;stdint.h&gt;</code>, <code>&lt;stdbool.h&gt;</code> and
+<code>&lt;stddef.h&gt;</code>.</p>
+<h2 id="build-time-configuration">Build-time configuration<a class="headerlink" href="#build-time-configuration" title="Permanent link">&para;</a></h2>
+<table>
+<thead>
+<tr>
+<th>Macro</th>
+<th>Default</th>
+<th>Range</th>
+<th>Effect</th>
+</tr>
+</thead>
+<tbody>
+<tr>
+<td><code>SSTEP_CFG_MATH_BACKEND</code></td>
+<td><code>SSTEP_MATH_BACKEND_FIXED</code></td>
+<td><code>…_FIXED</code>, <code>…_FLOAT</code></td>
+<td>Q15/Q31 integer arithmetic or single-precision float</td>
+</tr>
+<tr>
+<td><code>SSTEP_CFG_TOPOLOGY_FULL_BRIDGE</code></td>
+<td>1</td>
+<td>0, 1</td>
+<td>compile support for two H-bridges</td>
+</tr>
+<tr>
+<td><code>SSTEP_CFG_TOPOLOGY_SHARED_LEG</code></td>
+<td>1</td>
+<td>0, 1</td>
+<td>compile support for three legs with a shared leg</td>
+</tr>
+<tr>
+<td><code>SSTEP_CFG_MICROSTEPS_MAX</code></td>
+<td>256</td>
+<td>power of two 1 … 256</td>
+<td>largest accepted <code>microsteps</code></td>
+</tr>
+<tr>
+<td><code>SSTEP_CFG_SINE_TABLE_BITS</code></td>
+<td>8</td>
+<td>6 … 10</td>
+<td>quarter-wave table size 2^bits + 1 (flash)</td>
+</tr>
+<tr>
+<td><code>SSTEP_CFG_ARG_CHECKS</code></td>
+<td>1</td>
+<td>0, 1</td>
+<td>0 removes the pointer checks from <code>sstep_fast_loop()</code> only</td>
+</tr>
+</tbody>
+</table>
+<p>Every macro is range-checked with <code>#error</code>. Set them on the compiler command line or in
+<code>sstep_user_config.h</code>:</p>
+<div class="highlight"><pre><span></span><code><a id="__codelineno-1-1" name="__codelineno-1-1" href="#__codelineno-1-1"></a><span class="cm">/* sstep_user_config.h: Stepper-C for an STM32G431 driving one ESC1 */</span>
+<a id="__codelineno-1-2" name="__codelineno-1-2" href="#__codelineno-1-2"></a><span class="cp">#define SSTEP_CFG_MATH_BACKEND SSTEP_MATH_BACKEND_FLOAT</span>
+<a id="__codelineno-1-3" name="__codelineno-1-3" href="#__codelineno-1-3"></a><span class="cp">#define SSTEP_CFG_TOPOLOGY_FULL_BRIDGE 0     </span><span class="cm">/* only the shared leg is needed */</span>
+<a id="__codelineno-1-4" name="__codelineno-1-4" href="#__codelineno-1-4"></a><span class="cp">#define SSTEP_CFG_MICROSTEPS_MAX 64U</span>
+</code></pre></div>
+<p>Which backend? Use <code>FIXED</code> on cores without a hardware FPU (Cortex-M0/M0+/M3, RISC-V
+RV32IMC); use <code>FLOAT</code> where single-precision float is in hardware (Cortex-M4F/M7/M33F,
+STM32G4). Both give the same control behaviour within the resolution of Q15 (the closed
+loop tests pass with the same limits in both).</p>
+<h2 id="configuring-a-driver">Configuring a driver<a class="headerlink" href="#configuring-a-driver" title="Permanent link">&para;</a></h2>
+<p>The run-time configuration is one structure in integer engineering units, copied by
+<code>sstep_init()</code>. This is the reference configuration of the 17HS19-2004S1 on the
+B-G431B-ESC1 — the same values as in the simulation:</p>
+<div class="highlight"><pre><span></span><code><a id="__codelineno-2-1" name="__codelineno-2-1" href="#__codelineno-2-1"></a><span class="cp">#include</span><span class="w"> </span><span class="cpf">"sstep.h"</span>
+<a id="__codelineno-2-2" name="__codelineno-2-2" href="#__codelineno-2-2"></a>
+<a id="__codelineno-2-3" name="__codelineno-2-3" href="#__codelineno-2-3"></a><span class="k">extern</span><span class="w"> </span><span class="kt">int</span><span class="w"> </span><span class="nf">board_pwm_write</span><span class="p">(</span><span class="kt">void</span><span class="o">*</span><span class="w"> </span><span class="n">ctx</span><span class="p">,</span><span class="w"> </span><span class="k">const</span><span class="w"> </span><span class="kt">uint16_t</span><span class="w"> </span><span class="n">compare</span><span class="p">[</span><span class="n">SSTEP_LEGS_MAX</span><span class="p">]);</span>
+<a id="__codelineno-2-4" name="__codelineno-2-4" href="#__codelineno-2-4"></a><span class="k">extern</span><span class="w"> </span><span class="kt">int</span><span class="w"> </span><span class="nf">board_output_enable</span><span class="p">(</span><span class="kt">void</span><span class="o">*</span><span class="w"> </span><span class="n">ctx</span><span class="p">,</span><span class="w"> </span><span class="kt">bool</span><span class="w"> </span><span class="n">enable</span><span class="p">);</span>
+<a id="__codelineno-2-5" name="__codelineno-2-5" href="#__codelineno-2-5"></a>
+<a id="__codelineno-2-6" name="__codelineno-2-6" href="#__codelineno-2-6"></a><span class="k">const</span><span class="w"> </span><span class="k">struct</span><span class="w"> </span><span class="nc">sstep_config</span><span class="w"> </span><span class="n">motor_cfg</span><span class="w"> </span><span class="o">=</span><span class="w"> </span><span class="p">{</span>
+<a id="__codelineno-2-7" name="__codelineno-2-7" href="#__codelineno-2-7"></a><span class="w">    </span><span class="p">.</span><span class="n">motor</span><span class="w"> </span><span class="o">=</span><span class="w"> </span><span class="p">{</span>
+<a id="__codelineno-2-8" name="__codelineno-2-8" href="#__codelineno-2-8"></a><span class="w">        </span><span class="p">.</span><span class="n">r_mohm</span><span class="w"> </span><span class="o">=</span><span class="w"> </span><span class="mi">1600U</span><span class="p">,</span><span class="w">             </span><span class="cm">/* 1.60 Ohm */</span>
+<a id="__codelineno-2-9" name="__codelineno-2-9" href="#__codelineno-2-9"></a><span class="w">        </span><span class="p">.</span><span class="n">l_uh</span><span class="w"> </span><span class="o">=</span><span class="w"> </span><span class="mi">3000U</span><span class="p">,</span><span class="w">               </span><span class="cm">/* 3.0 mH */</span>
+<a id="__codelineno-2-10" name="__codelineno-2-10" href="#__codelineno-2-10"></a><span class="w">        </span><span class="p">.</span><span class="n">i_rated_ma</span><span class="w"> </span><span class="o">=</span><span class="w"> </span><span class="mi">2000U</span><span class="p">,</span>
+<a id="__codelineno-2-11" name="__codelineno-2-11" href="#__codelineno-2-11"></a><span class="w">        </span><span class="p">.</span><span class="n">ke_uv_s_per_rad</span><span class="w"> </span><span class="o">=</span><span class="w"> </span><span class="mi">208600U</span><span class="p">,</span><span class="w">  </span><span class="cm">/* Kt = 0.2086 V*s/rad: back-EMF feed-forward */</span>
+<a id="__codelineno-2-12" name="__codelineno-2-12" href="#__codelineno-2-12"></a><span class="w">        </span><span class="p">.</span><span class="n">full_steps_per_rev</span><span class="w"> </span><span class="o">=</span><span class="w"> </span><span class="mi">200U</span><span class="p">,</span>
+<a id="__codelineno-2-13" name="__codelineno-2-13" href="#__codelineno-2-13"></a><span class="w">    </span><span class="p">},</span>
+<a id="__codelineno-2-14" name="__codelineno-2-14" href="#__codelineno-2-14"></a><span class="w">    </span><span class="p">.</span><span class="n">stage</span><span class="w"> </span><span class="o">=</span><span class="w"> </span><span class="p">{</span>
+<a id="__codelineno-2-15" name="__codelineno-2-15" href="#__codelineno-2-15"></a><span class="w">        </span><span class="p">.</span><span class="n">topology</span><span class="w"> </span><span class="o">=</span><span class="w"> </span><span class="n">SSTEP_TOPOLOGY_SHARED_LEG</span><span class="p">,</span>
+<a id="__codelineno-2-16" name="__codelineno-2-16" href="#__codelineno-2-16"></a><span class="w">        </span><span class="p">.</span><span class="n">vbus_nominal_mv</span><span class="w"> </span><span class="o">=</span><span class="w"> </span><span class="mi">24000U</span><span class="p">,</span>
+<a id="__codelineno-2-17" name="__codelineno-2-17" href="#__codelineno-2-17"></a><span class="w">        </span><span class="p">.</span><span class="n">vbus_min_mv</span><span class="w"> </span><span class="o">=</span><span class="w"> </span><span class="mi">10000U</span><span class="p">,</span>
+<a id="__codelineno-2-18" name="__codelineno-2-18" href="#__codelineno-2-18"></a><span class="w">        </span><span class="p">.</span><span class="n">vbus_max_mv</span><span class="w"> </span><span class="o">=</span><span class="w"> </span><span class="mi">30000U</span><span class="p">,</span>
+<a id="__codelineno-2-19" name="__codelineno-2-19" href="#__codelineno-2-19"></a><span class="w">        </span><span class="p">.</span><span class="n">i_full_scale_ma</span><span class="w"> </span><span class="o">=</span><span class="w"> </span><span class="mi">4000U</span><span class="p">,</span><span class="w">    </span><span class="cm">/* ADC full scale (placeholder: from the schematic) */</span>
+<a id="__codelineno-2-20" name="__codelineno-2-20" href="#__codelineno-2-20"></a><span class="w">        </span><span class="p">.</span><span class="n">i_trip_ma</span><span class="w"> </span><span class="o">=</span><span class="w"> </span><span class="mi">3500U</span><span class="p">,</span>
+<a id="__codelineno-2-21" name="__codelineno-2-21" href="#__codelineno-2-21"></a><span class="w">        </span><span class="p">.</span><span class="n">pwm_period_ticks</span><span class="w"> </span><span class="o">=</span><span class="w"> </span><span class="mi">4250U</span><span class="p">,</span><span class="w">   </span><span class="cm">/* 170 MHz, centre-aligned, 20 kHz */</span>
+<a id="__codelineno-2-22" name="__codelineno-2-22" href="#__codelineno-2-22"></a><span class="w">        </span><span class="p">.</span><span class="n">pwm_freq_hz</span><span class="w"> </span><span class="o">=</span><span class="w"> </span><span class="mi">20000U</span><span class="p">,</span>
+<a id="__codelineno-2-23" name="__codelineno-2-23" href="#__codelineno-2-23"></a><span class="w">        </span><span class="p">.</span><span class="n">dead_time_ns</span><span class="w"> </span><span class="o">=</span><span class="w"> </span><span class="mi">133U</span><span class="p">,</span><span class="w">        </span><span class="cm">/* effective dead time from ngspice */</span>
+<a id="__codelineno-2-24" name="__codelineno-2-24" href="#__codelineno-2-24"></a><span class="w">        </span><span class="p">.</span><span class="n">adc_i_zero</span><span class="w"> </span><span class="o">=</span><span class="w"> </span><span class="mi">2048U</span><span class="p">,</span>
+<a id="__codelineno-2-25" name="__codelineno-2-25" href="#__codelineno-2-25"></a><span class="w">        </span><span class="p">.</span><span class="n">adc_i_span</span><span class="w"> </span><span class="o">=</span><span class="w"> </span><span class="mi">2047</span><span class="p">,</span>
+<a id="__codelineno-2-26" name="__codelineno-2-26" href="#__codelineno-2-26"></a><span class="w">        </span><span class="p">.</span><span class="n">adc_vbus_mv_full</span><span class="w"> </span><span class="o">=</span><span class="w"> </span><span class="mi">34320U</span><span class="p">,</span>
+<a id="__codelineno-2-27" name="__codelineno-2-27" href="#__codelineno-2-27"></a><span class="w">        </span><span class="p">.</span><span class="n">adc_full</span><span class="w"> </span><span class="o">=</span><span class="w"> </span><span class="mi">4095U</span><span class="p">,</span>
+<a id="__codelineno-2-28" name="__codelineno-2-28" href="#__codelineno-2-28"></a><span class="w">    </span><span class="p">},</span>
+<a id="__codelineno-2-29" name="__codelineno-2-29" href="#__codelineno-2-29"></a><span class="w">    </span><span class="p">.</span><span class="n">ctrl</span><span class="w"> </span><span class="o">=</span><span class="w"> </span><span class="p">{</span>
+<a id="__codelineno-2-30" name="__codelineno-2-30" href="#__codelineno-2-30"></a><span class="w">        </span><span class="p">.</span><span class="n">drive_mode</span><span class="w"> </span><span class="o">=</span><span class="w"> </span><span class="n">SSTEP_DRIVE_CURRENT</span><span class="p">,</span>
+<a id="__codelineno-2-31" name="__codelineno-2-31" href="#__codelineno-2-31"></a><span class="w">        </span><span class="p">.</span><span class="n">fast_loop_hz</span><span class="w"> </span><span class="o">=</span><span class="w"> </span><span class="mi">20000U</span><span class="p">,</span>
+<a id="__codelineno-2-32" name="__codelineno-2-32" href="#__codelineno-2-32"></a><span class="w">        </span><span class="p">.</span><span class="n">slow_loop_hz</span><span class="w"> </span><span class="o">=</span><span class="w"> </span><span class="mi">1000U</span><span class="p">,</span>
+<a id="__codelineno-2-33" name="__codelineno-2-33" href="#__codelineno-2-33"></a><span class="w">        </span><span class="p">.</span><span class="n">microsteps</span><span class="w"> </span><span class="o">=</span><span class="w"> </span><span class="mi">16U</span><span class="p">,</span>
+<a id="__codelineno-2-34" name="__codelineno-2-34" href="#__codelineno-2-34"></a><span class="w">        </span><span class="p">.</span><span class="n">current_bw_hz</span><span class="w"> </span><span class="o">=</span><span class="w"> </span><span class="mi">1000U</span><span class="p">,</span>
+<a id="__codelineno-2-35" name="__codelineno-2-35" href="#__codelineno-2-35"></a><span class="w">        </span><span class="p">.</span><span class="n">i_run_ma</span><span class="w"> </span><span class="o">=</span><span class="w"> </span><span class="mi">2000U</span><span class="p">,</span>
+<a id="__codelineno-2-36" name="__codelineno-2-36" href="#__codelineno-2-36"></a><span class="w">        </span><span class="p">.</span><span class="n">i_hold_ma</span><span class="w"> </span><span class="o">=</span><span class="w"> </span><span class="mi">1000U</span><span class="p">,</span>
+<a id="__codelineno-2-37" name="__codelineno-2-37" href="#__codelineno-2-37"></a><span class="w">        </span><span class="p">.</span><span class="n">hold_delay_ms</span><span class="w"> </span><span class="o">=</span><span class="w"> </span><span class="mi">100U</span><span class="p">,</span>
+<a id="__codelineno-2-38" name="__codelineno-2-38" href="#__codelineno-2-38"></a><span class="w">        </span><span class="p">.</span><span class="n">v_max</span><span class="w"> </span><span class="o">=</span><span class="w"> </span><span class="mi">16000U</span><span class="p">,</span><span class="w">             </span><span class="cm">/* 5 rev/s */</span>
+<a id="__codelineno-2-39" name="__codelineno-2-39" href="#__codelineno-2-39"></a><span class="w">        </span><span class="p">.</span><span class="n">accel</span><span class="w"> </span><span class="o">=</span><span class="w"> </span><span class="mi">160000U</span><span class="p">,</span><span class="w">            </span><span class="cm">/* 50 rev/s^2 */</span>
+<a id="__codelineno-2-40" name="__codelineno-2-40" href="#__codelineno-2-40"></a><span class="w">        </span><span class="p">.</span><span class="n">decel</span><span class="w"> </span><span class="o">=</span><span class="w"> </span><span class="mi">0U</span><span class="p">,</span><span class="w">                 </span><span class="cm">/* same as accel */</span>
+<a id="__codelineno-2-41" name="__codelineno-2-41" href="#__codelineno-2-41"></a><span class="w">    </span><span class="p">},</span>
+<a id="__codelineno-2-42" name="__codelineno-2-42" href="#__codelineno-2-42"></a><span class="w">    </span><span class="p">.</span><span class="n">hal</span><span class="w"> </span><span class="o">=</span><span class="w"> </span><span class="p">{</span>
+<a id="__codelineno-2-43" name="__codelineno-2-43" href="#__codelineno-2-43"></a><span class="w">        </span><span class="p">.</span><span class="n">context</span><span class="w"> </span><span class="o">=</span><span class="w"> </span><span class="nb">NULL</span><span class="p">,</span>
+<a id="__codelineno-2-44" name="__codelineno-2-44" href="#__codelineno-2-44"></a><span class="w">        </span><span class="p">.</span><span class="n">pwm_write</span><span class="w"> </span><span class="o">=</span><span class="w"> </span><span class="n">board_pwm_write</span><span class="p">,</span>
+<a id="__codelineno-2-45" name="__codelineno-2-45" href="#__codelineno-2-45"></a><span class="w">        </span><span class="p">.</span><span class="n">output_enable</span><span class="w"> </span><span class="o">=</span><span class="w"> </span><span class="n">board_output_enable</span><span class="p">,</span>
+<a id="__codelineno-2-46" name="__codelineno-2-46" href="#__codelineno-2-46"></a><span class="w">        </span><span class="p">.</span><span class="n">on_fault</span><span class="w"> </span><span class="o">=</span><span class="w"> </span><span class="nb">NULL</span><span class="p">,</span>
+<a id="__codelineno-2-47" name="__codelineno-2-47" href="#__codelineno-2-47"></a><span class="w">        </span><span class="p">.</span><span class="n">on_event</span><span class="w"> </span><span class="o">=</span><span class="w"> </span><span class="nb">NULL</span><span class="p">,</span>
+<a id="__codelineno-2-48" name="__codelineno-2-48" href="#__codelineno-2-48"></a><span class="w">    </span><span class="p">},</span>
+<a id="__codelineno-2-49" name="__codelineno-2-49" href="#__codelineno-2-49"></a><span class="p">};</span>
+</code></pre></div>
+<p>How to get each value:</p>
+<table>
+<thead>
+<tr>
+<th>Field</th>
+<th>How to obtain it</th>
+</tr>
+</thead>
+<tbody>
+<tr>
+<td><code>r_mohm</code>, <code>l_uh</code></td>
+<td>datasheet, better measured (R with 4-wire, L at 1 kHz)</td>
+</tr>
+<tr>
+<td><code>ke_uv_s_per_rad</code></td>
+<td>back-EMF amplitude / speed of the spun motor (<a href="../motor-model/#parameters-of-the-17hs19-2004s1">Motor Model</a>); 0 disables the feed-forward</td>
+</tr>
+<tr>
+<td><code>vbus_*</code></td>
+<td>supply; <code>vbus_min_mv</code> &lt; nominal &lt; <code>vbus_max_mv</code> or 0 to disable a trip</td>
+</tr>
+<tr>
+<td><code>i_full_scale_ma</code>, <code>adc_i_zero</code>, <code>adc_i_span</code></td>
+<td>from the shunt, the amplifier gain and offset: <code>span = I_full · R_shunt · G / V_ref · adc_full</code>; negative <code>adc_i_span</code> for an inverting amplifier; measure the zero with the outputs off</td>
+</tr>
+<tr>
+<td><code>adc_vbus_mv_full</code>, <code>adc_full</code></td>
+<td>bus voltage divider: the bus voltage that gives the largest ADC reading</td>
+</tr>
+<tr>
+<td><code>pwm_period_ticks</code></td>
+<td>timer auto-reload of the centre-aligned PWM (compare for 100 %)</td>
+</tr>
+<tr>
+<td><code>dead_time_ns</code></td>
+<td>effective dead time (<a href="../power-stage/">Power Stage Model</a>); stored for a future compensation</td>
+</tr>
+<tr>
+<td><code>current_bw_hz</code></td>
+<td>1 kHz is a good start at 20 kHz; at most <code>fast_loop_hz / 4</code></td>
+</tr>
+<tr>
+<td><code>v_max</code>, <code>accel</code></td>
+<td>microsteps per second (and per second²); with M = 16 one revolution is 3200 microsteps</td>
+</tr>
+</tbody>
+</table>
+<div class="admonition warning">
+<p class="admonition-title">Current measurement resolution</p>
+<p>The simulation assumes a 4 A full scale (1.95 mA per ADC count). The current sense
+amplifiers of motor control boards are often designed for tens of amperes; compute
+the counts per ampere from the schematic before choosing the run current — a
+resolution coarser than about 1 % of the run current makes the current loop noisy.</p>
+</div>
+<p><code>sstep_init()</code> checks every field and returns <code>SSTEP_ERR_PARAM</code> for a value out of range
+or a missing required callback, <code>SSTEP_ERR_CONFIG</code> for inconsistent values (for example
+<code>i_run_ma</code> above <code>i_trip_ma</code> or <code>i_rated_ma</code>, <code>fast_loop_hz</code> not a multiple of
+<code>slow_loop_hz</code>, <code>current_bw_hz</code> above <code>fast_loop_hz / 4</code>, a bus voltage trip on the wrong
+side of the nominal value) and <code>SSTEP_ERR_UNSUPPORTED</code> for a topology that is not
+compiled in.</p>
+<h2 id="connecting-the-loops-to-the-hardware">Connecting the loops to the hardware<a class="headerlink" href="#connecting-the-loops-to-the-hardware" title="Permanent link">&para;</a></h2>
+<p>The library expects:</p>
+<ol>
+<li>A <strong>centre-aligned PWM</strong> with one compare channel per leg. Compare 0 means the low
+   side is on for the whole period, <code>pwm_period_ticks</code> the high side. Entries above the
+   leg count of the topology are 0.</li>
+<li><strong>Current sampling at the counter peak</strong>, the middle of the period where all low-side
+   switches conduct: with low-side shunts the phase current flows through the shunt only
+   then, and the sample equals the period average of the ripple.</li>
+<li><strong><code>sstep_fast_loop()</code> once per PWM period</strong>, right after the ADC conversion, with the
+   raw counts of phase A, phase B and the bus voltage. The computed compare values are
+   written by <code>pwm_write()</code> and take effect at the next timer update — the one-period
+   delay the controller is designed for.</li>
+<li><strong><code>sstep_slow_loop()</code> at <code>slow_loop_hz</code></strong>, from a timer task or the main loop, never
+   concurrently with the commands (they run in the same context).</li>
+</ol>
+<div class="highlight"><pre><span></span><code><a id="__codelineno-3-1" name="__codelineno-3-1" href="#__codelineno-3-1"></a><span class="cp">#include</span><span class="w"> </span><span class="cpf">"sstep.h"</span>
+<a id="__codelineno-3-2" name="__codelineno-3-2" href="#__codelineno-3-2"></a>
+<a id="__codelineno-3-3" name="__codelineno-3-3" href="#__codelineno-3-3"></a><span class="cm">/* Board layer (your HAL): timer and ADC are configured elsewhere */</span>
+<a id="__codelineno-3-4" name="__codelineno-3-4" href="#__codelineno-3-4"></a><span class="k">extern</span><span class="w"> </span><span class="kt">void</span><span class="w"> </span><span class="nf">timer_set_compare</span><span class="p">(</span><span class="kt">uint32_t</span><span class="w"> </span><span class="n">channel</span><span class="p">,</span><span class="w"> </span><span class="kt">uint16_t</span><span class="w"> </span><span class="n">value</span><span class="p">);</span>
+<a id="__codelineno-3-5" name="__codelineno-3-5" href="#__codelineno-3-5"></a><span class="k">extern</span><span class="w"> </span><span class="kt">void</span><span class="w"> </span><span class="nf">gate_driver_enable</span><span class="p">(</span><span class="kt">bool</span><span class="w"> </span><span class="n">enable</span><span class="p">);</span>
+<a id="__codelineno-3-6" name="__codelineno-3-6" href="#__codelineno-3-6"></a><span class="k">extern</span><span class="w"> </span><span class="kt">uint16_t</span><span class="w"> </span><span class="nf">adc_read_injected</span><span class="p">(</span><span class="kt">uint32_t</span><span class="w"> </span><span class="n">rank</span><span class="p">);</span>
+<a id="__codelineno-3-7" name="__codelineno-3-7" href="#__codelineno-3-7"></a>
+<a id="__codelineno-3-8" name="__codelineno-3-8" href="#__codelineno-3-8"></a><span class="k">static</span><span class="w"> </span><span class="k">struct</span><span class="w"> </span><span class="nc">sstep</span><span class="w"> </span><span class="n">drv</span><span class="p">;</span>
+<a id="__codelineno-3-9" name="__codelineno-3-9" href="#__codelineno-3-9"></a>
+<a id="__codelineno-3-10" name="__codelineno-3-10" href="#__codelineno-3-10"></a><span class="k">static</span><span class="w"> </span><span class="kt">int</span><span class="w"> </span><span class="nf">pwm_write</span><span class="p">(</span><span class="kt">void</span><span class="o">*</span><span class="w"> </span><span class="n">ctx</span><span class="p">,</span><span class="w"> </span><span class="k">const</span><span class="w"> </span><span class="kt">uint16_t</span><span class="w"> </span><span class="n">compare</span><span class="p">[</span><span class="n">SSTEP_LEGS_MAX</span><span class="p">])</span>
+<a id="__codelineno-3-11" name="__codelineno-3-11" href="#__codelineno-3-11"></a><span class="p">{</span>
+<a id="__codelineno-3-12" name="__codelineno-3-12" href="#__codelineno-3-12"></a><span class="w">    </span><span class="p">(</span><span class="kt">void</span><span class="p">)</span><span class="n">ctx</span><span class="p">;</span>
+<a id="__codelineno-3-13" name="__codelineno-3-13" href="#__codelineno-3-13"></a><span class="w">    </span><span class="n">timer_set_compare</span><span class="p">(</span><span class="mi">1U</span><span class="p">,</span><span class="w"> </span><span class="n">compare</span><span class="p">[</span><span class="mi">0</span><span class="p">]);</span><span class="w">   </span><span class="cm">/* leg U: phase A+ */</span>
+<a id="__codelineno-3-14" name="__codelineno-3-14" href="#__codelineno-3-14"></a><span class="w">    </span><span class="n">timer_set_compare</span><span class="p">(</span><span class="mi">2U</span><span class="p">,</span><span class="w"> </span><span class="n">compare</span><span class="p">[</span><span class="mi">1</span><span class="p">]);</span><span class="w">   </span><span class="cm">/* leg V: phase B+ */</span>
+<a id="__codelineno-3-15" name="__codelineno-3-15" href="#__codelineno-3-15"></a><span class="w">    </span><span class="n">timer_set_compare</span><span class="p">(</span><span class="mi">3U</span><span class="p">,</span><span class="w"> </span><span class="n">compare</span><span class="p">[</span><span class="mi">2</span><span class="p">]);</span><span class="w">   </span><span class="cm">/* leg W: common   */</span>
+<a id="__codelineno-3-16" name="__codelineno-3-16" href="#__codelineno-3-16"></a><span class="w">    </span><span class="k">return</span><span class="w"> </span><span class="mi">0</span><span class="p">;</span>
+<a id="__codelineno-3-17" name="__codelineno-3-17" href="#__codelineno-3-17"></a><span class="p">}</span>
+<a id="__codelineno-3-18" name="__codelineno-3-18" href="#__codelineno-3-18"></a>
+<a id="__codelineno-3-19" name="__codelineno-3-19" href="#__codelineno-3-19"></a><span class="k">static</span><span class="w"> </span><span class="kt">int</span><span class="w"> </span><span class="nf">output_enable</span><span class="p">(</span><span class="kt">void</span><span class="o">*</span><span class="w"> </span><span class="n">ctx</span><span class="p">,</span><span class="w"> </span><span class="kt">bool</span><span class="w"> </span><span class="n">enable</span><span class="p">)</span>
+<a id="__codelineno-3-20" name="__codelineno-3-20" href="#__codelineno-3-20"></a><span class="p">{</span>
+<a id="__codelineno-3-21" name="__codelineno-3-21" href="#__codelineno-3-21"></a><span class="w">    </span><span class="p">(</span><span class="kt">void</span><span class="p">)</span><span class="n">ctx</span><span class="p">;</span>
+<a id="__codelineno-3-22" name="__codelineno-3-22" href="#__codelineno-3-22"></a><span class="w">    </span><span class="n">gate_driver_enable</span><span class="p">(</span><span class="n">enable</span><span class="p">);</span><span class="w">          </span><span class="cm">/* also: timer main output enable */</span>
+<a id="__codelineno-3-23" name="__codelineno-3-23" href="#__codelineno-3-23"></a><span class="w">    </span><span class="k">return</span><span class="w"> </span><span class="mi">0</span><span class="p">;</span>
+<a id="__codelineno-3-24" name="__codelineno-3-24" href="#__codelineno-3-24"></a><span class="p">}</span>
+<a id="__codelineno-3-25" name="__codelineno-3-25" href="#__codelineno-3-25"></a>
+<a id="__codelineno-3-26" name="__codelineno-3-26" href="#__codelineno-3-26"></a><span class="cm">/* ADC end-of-conversion interrupt, triggered at the counter peak (20 kHz) */</span>
+<a id="__codelineno-3-27" name="__codelineno-3-27" href="#__codelineno-3-27"></a><span class="kt">void</span><span class="w"> </span><span class="nf">adc_injected_isr</span><span class="p">(</span><span class="kt">void</span><span class="p">)</span>
+<a id="__codelineno-3-28" name="__codelineno-3-28" href="#__codelineno-3-28"></a><span class="p">{</span>
+<a id="__codelineno-3-29" name="__codelineno-3-29" href="#__codelineno-3-29"></a><span class="w">    </span><span class="k">const</span><span class="w"> </span><span class="k">struct</span><span class="w"> </span><span class="nc">sstep_sample</span><span class="w"> </span><span class="n">s</span><span class="w"> </span><span class="o">=</span><span class="w"> </span><span class="p">{</span>
+<a id="__codelineno-3-30" name="__codelineno-3-30" href="#__codelineno-3-30"></a><span class="w">        </span><span class="p">.</span><span class="n">i_a</span><span class="w"> </span><span class="o">=</span><span class="w"> </span><span class="n">adc_read_injected</span><span class="p">(</span><span class="mi">1U</span><span class="p">),</span>
+<a id="__codelineno-3-31" name="__codelineno-3-31" href="#__codelineno-3-31"></a><span class="w">        </span><span class="p">.</span><span class="n">i_b</span><span class="w"> </span><span class="o">=</span><span class="w"> </span><span class="n">adc_read_injected</span><span class="p">(</span><span class="mi">2U</span><span class="p">),</span>
+<a id="__codelineno-3-32" name="__codelineno-3-32" href="#__codelineno-3-32"></a><span class="w">        </span><span class="p">.</span><span class="n">vbus</span><span class="w"> </span><span class="o">=</span><span class="w"> </span><span class="n">adc_read_injected</span><span class="p">(</span><span class="mi">3U</span><span class="p">),</span>
+<a id="__codelineno-3-33" name="__codelineno-3-33" href="#__codelineno-3-33"></a><span class="w">    </span><span class="p">};</span>
+<a id="__codelineno-3-34" name="__codelineno-3-34" href="#__codelineno-3-34"></a><span class="w">    </span><span class="p">(</span><span class="kt">void</span><span class="p">)</span><span class="n">sstep_fast_loop</span><span class="p">(</span><span class="o">&amp;</span><span class="n">drv</span><span class="p">,</span><span class="w"> </span><span class="o">&amp;</span><span class="n">s</span><span class="p">);</span>
+<a id="__codelineno-3-35" name="__codelineno-3-35" href="#__codelineno-3-35"></a><span class="p">}</span>
+<a id="__codelineno-3-36" name="__codelineno-3-36" href="#__codelineno-3-36"></a>
+<a id="__codelineno-3-37" name="__codelineno-3-37" href="#__codelineno-3-37"></a><span class="cm">/* 1 kHz timer task */</span>
+<a id="__codelineno-3-38" name="__codelineno-3-38" href="#__codelineno-3-38"></a><span class="kt">void</span><span class="w"> </span><span class="nf">control_task_1khz</span><span class="p">(</span><span class="kt">void</span><span class="p">)</span>
+<a id="__codelineno-3-39" name="__codelineno-3-39" href="#__codelineno-3-39"></a><span class="p">{</span>
+<a id="__codelineno-3-40" name="__codelineno-3-40" href="#__codelineno-3-40"></a><span class="w">    </span><span class="p">(</span><span class="kt">void</span><span class="p">)</span><span class="n">sstep_slow_loop</span><span class="p">(</span><span class="o">&amp;</span><span class="n">drv</span><span class="p">);</span>
+<a id="__codelineno-3-41" name="__codelineno-3-41" href="#__codelineno-3-41"></a><span class="p">}</span>
+<a id="__codelineno-3-42" name="__codelineno-3-42" href="#__codelineno-3-42"></a>
+<a id="__codelineno-3-43" name="__codelineno-3-43" href="#__codelineno-3-43"></a><span class="kt">int</span><span class="w"> </span><span class="nf">motor_start</span><span class="p">(</span><span class="k">struct</span><span class="w"> </span><span class="nc">sstep_config</span><span class="o">*</span><span class="w"> </span><span class="n">cfg</span><span class="p">)</span>
+<a id="__codelineno-3-44" name="__codelineno-3-44" href="#__codelineno-3-44"></a><span class="p">{</span>
+<a id="__codelineno-3-45" name="__codelineno-3-45" href="#__codelineno-3-45"></a><span class="w">    </span><span class="n">cfg</span><span class="o">-&gt;</span><span class="n">hal</span><span class="p">.</span><span class="n">pwm_write</span><span class="w"> </span><span class="o">=</span><span class="w"> </span><span class="n">pwm_write</span><span class="p">;</span>
+<a id="__codelineno-3-46" name="__codelineno-3-46" href="#__codelineno-3-46"></a><span class="w">    </span><span class="n">cfg</span><span class="o">-&gt;</span><span class="n">hal</span><span class="p">.</span><span class="n">output_enable</span><span class="w"> </span><span class="o">=</span><span class="w"> </span><span class="n">output_enable</span><span class="p">;</span>
+<a id="__codelineno-3-47" name="__codelineno-3-47" href="#__codelineno-3-47"></a><span class="w">    </span><span class="kt">int</span><span class="w"> </span><span class="n">r</span><span class="w"> </span><span class="o">=</span><span class="w"> </span><span class="n">sstep_init</span><span class="p">(</span><span class="o">&amp;</span><span class="n">drv</span><span class="p">,</span><span class="w"> </span><span class="n">cfg</span><span class="p">);</span>
+<a id="__codelineno-3-48" name="__codelineno-3-48" href="#__codelineno-3-48"></a><span class="w">    </span><span class="k">if</span><span class="w"> </span><span class="p">(</span><span class="n">r</span><span class="w"> </span><span class="o">==</span><span class="w"> </span><span class="n">SSTEP_OK</span><span class="p">)</span>
+<a id="__codelineno-3-49" name="__codelineno-3-49" href="#__codelineno-3-49"></a><span class="w">    </span><span class="p">{</span>
+<a id="__codelineno-3-50" name="__codelineno-3-50" href="#__codelineno-3-50"></a><span class="w">        </span><span class="n">r</span><span class="w"> </span><span class="o">=</span><span class="w"> </span><span class="n">sstep_enable</span><span class="p">(</span><span class="o">&amp;</span><span class="n">drv</span><span class="p">);</span>
+<a id="__codelineno-3-51" name="__codelineno-3-51" href="#__codelineno-3-51"></a><span class="w">    </span><span class="p">}</span>
+<a id="__codelineno-3-52" name="__codelineno-3-52" href="#__codelineno-3-52"></a><span class="w">    </span><span class="k">return</span><span class="w"> </span><span class="n">r</span><span class="p">;</span>
+<a id="__codelineno-3-53" name="__codelineno-3-53" href="#__codelineno-3-53"></a><span class="p">}</span>
+</code></pre></div>
+<p>On the ESC1 the three legs are driven by the advanced timer TIM1 (one complementary
+channel per leg); phase A of the motor is connected between U and W, phase B between V
+and W. The exact channel assignment, the dead time register and the ADC trigger are
+documented with the port (P3).</p>
+<h2 id="commanding-motion">Commanding motion<a class="headerlink" href="#commanding-motion" title="Permanent link">&para;</a></h2>
+<div class="highlight"><pre><span></span><code><a id="__codelineno-4-1" name="__codelineno-4-1" href="#__codelineno-4-1"></a><span class="cp">#include</span><span class="w"> </span><span class="cpf">"sstep.h"</span>
+<a id="__codelineno-4-2" name="__codelineno-4-2" href="#__codelineno-4-2"></a>
+<a id="__codelineno-4-3" name="__codelineno-4-3" href="#__codelineno-4-3"></a><span class="k">static</span><span class="w"> </span><span class="kt">void</span><span class="w"> </span><span class="nf">on_event</span><span class="p">(</span><span class="kt">void</span><span class="o">*</span><span class="w"> </span><span class="n">ctx</span><span class="p">,</span><span class="w"> </span><span class="k">enum</span><span class="w"> </span><span class="n">sstep_event</span><span class="w"> </span><span class="n">ev</span><span class="p">)</span>
+<a id="__codelineno-4-4" name="__codelineno-4-4" href="#__codelineno-4-4"></a><span class="p">{</span>
+<a id="__codelineno-4-5" name="__codelineno-4-5" href="#__codelineno-4-5"></a><span class="w">    </span><span class="p">(</span><span class="kt">void</span><span class="p">)</span><span class="n">ctx</span><span class="p">;</span>
+<a id="__codelineno-4-6" name="__codelineno-4-6" href="#__codelineno-4-6"></a><span class="w">    </span><span class="k">if</span><span class="w"> </span><span class="p">(</span><span class="n">ev</span><span class="w"> </span><span class="o">==</span><span class="w"> </span><span class="n">SSTEP_EVENT_MOVE_DONE</span><span class="p">)</span>
+<a id="__codelineno-4-7" name="__codelineno-4-7" href="#__codelineno-4-7"></a><span class="w">    </span><span class="p">{</span>
+<a id="__codelineno-4-8" name="__codelineno-4-8" href="#__codelineno-4-8"></a><span class="w">        </span><span class="cm">/* target reached: start the next move, signal the host... */</span>
+<a id="__codelineno-4-9" name="__codelineno-4-9" href="#__codelineno-4-9"></a><span class="w">    </span><span class="p">}</span>
+<a id="__codelineno-4-10" name="__codelineno-4-10" href="#__codelineno-4-10"></a><span class="p">}</span>
+<a id="__codelineno-4-11" name="__codelineno-4-11" href="#__codelineno-4-11"></a>
+<a id="__codelineno-4-12" name="__codelineno-4-12" href="#__codelineno-4-12"></a><span class="kt">void</span><span class="w"> </span><span class="nf">demo</span><span class="p">(</span><span class="k">struct</span><span class="w"> </span><span class="nc">sstep</span><span class="o">*</span><span class="w"> </span><span class="n">m</span><span class="p">)</span>
+<a id="__codelineno-4-13" name="__codelineno-4-13" href="#__codelineno-4-13"></a><span class="p">{</span>
+<a id="__codelineno-4-14" name="__codelineno-4-14" href="#__codelineno-4-14"></a><span class="w">    </span><span class="k">struct</span><span class="w"> </span><span class="nc">sstep_status</span><span class="w"> </span><span class="n">st</span><span class="p">;</span>
+<a id="__codelineno-4-15" name="__codelineno-4-15" href="#__codelineno-4-15"></a>
+<a id="__codelineno-4-16" name="__codelineno-4-16" href="#__codelineno-4-16"></a><span class="w">    </span><span class="p">(</span><span class="kt">void</span><span class="p">)</span><span class="n">sstep_set_position</span><span class="p">(</span><span class="n">m</span><span class="p">,</span><span class="w"> </span><span class="mi">0</span><span class="p">);</span><span class="w">              </span><span class="cm">/* homing: here is zero */</span>
+<a id="__codelineno-4-17" name="__codelineno-4-17" href="#__codelineno-4-17"></a><span class="w">    </span><span class="p">(</span><span class="kt">void</span><span class="p">)</span><span class="n">sstep_move_to</span><span class="p">(</span><span class="n">m</span><span class="p">,</span><span class="w"> </span><span class="mi">6400</span><span class="p">);</span><span class="w">                </span><span class="cm">/* two revolutions forward (M = 16) */</span>
+<a id="__codelineno-4-18" name="__codelineno-4-18" href="#__codelineno-4-18"></a><span class="w">    </span><span class="p">(</span><span class="kt">void</span><span class="p">)</span><span class="n">sstep_set_motion_limits</span><span class="p">(</span><span class="n">m</span><span class="p">,</span><span class="w"> </span><span class="mi">32000U</span><span class="p">,</span><span class="w"> </span><span class="mi">160000U</span><span class="p">,</span><span class="w"> </span><span class="mi">0U</span><span class="p">);</span><span class="w">  </span><span class="cm">/* from the next slow period */</span>
+<a id="__codelineno-4-19" name="__codelineno-4-19" href="#__codelineno-4-19"></a><span class="w">    </span><span class="p">(</span><span class="kt">void</span><span class="p">)</span><span class="n">sstep_run</span><span class="p">(</span><span class="n">m</span><span class="p">,</span><span class="w"> </span><span class="mi">-12800</span><span class="p">);</span><span class="w">                  </span><span class="cm">/* turn backwards at 4 rev/s, smoothly */</span>
+<a id="__codelineno-4-20" name="__codelineno-4-20" href="#__codelineno-4-20"></a><span class="w">    </span><span class="p">(</span><span class="kt">void</span><span class="p">)</span><span class="n">sstep_stop</span><span class="p">(</span><span class="n">m</span><span class="p">);</span><span class="w">                         </span><span class="cm">/* decelerate and hold */</span>
+<a id="__codelineno-4-21" name="__codelineno-4-21" href="#__codelineno-4-21"></a><span class="w">    </span><span class="p">(</span><span class="kt">void</span><span class="p">)</span><span class="n">sstep_get_status</span><span class="p">(</span><span class="n">m</span><span class="p">,</span><span class="w"> </span><span class="o">&amp;</span><span class="n">st</span><span class="p">);</span><span class="w">              </span><span class="cm">/* state, position, currents, Vbus */</span>
+<a id="__codelineno-4-22" name="__codelineno-4-22" href="#__codelineno-4-22"></a><span class="w">    </span><span class="p">(</span><span class="kt">void</span><span class="p">)</span><span class="n">on_event</span><span class="p">;</span>
+<a id="__codelineno-4-23" name="__codelineno-4-23" href="#__codelineno-4-23"></a><span class="p">}</span>
+</code></pre></div>
+<p>Commands are accepted in HOLDING and MOVING; they return <code>SSTEP_ERR_STATE</code> when the
+driver is disabled or faulted. A new command replaces the running one without a velocity
+step. <code>sstep_set_position()</code> is only allowed at standstill and keeps the rotor where it
+is (only the numbering changes).</p>
+<h2 id="memory-timing-and-reentrancy">Memory, timing and reentrancy<a class="headerlink" href="#memory-timing-and-reentrancy" title="Permanent link">&para;</a></h2>
+<table>
+<thead>
+<tr>
+<th>Item</th>
+<th>Value</th>
+</tr>
+</thead>
+<tbody>
+<tr>
+<td>RAM</td>
+<td>one <code>struct sstep</code> per motor (configuration copy, gains, two setpoint buffers, controller and motion state); allocate it statically</td>
+</tr>
+<tr>
+<td>Flash</td>
+<td>8.2 kB Cortex-M4F fixed point, 9.0 kB float, 8.5 kB Cortex-M0+ (clang <code>-Os</code>, both topologies, table included)</td>
+</tr>
+<tr>
+<td>Fast loop work</td>
+<td>fixed: one sine/cosine, two PI, one leg mapping, at most one division; no loops over data except the bounded power-of-two pre-scale</td>
+</tr>
+<tr>
+<td>Fast loop time on the MCU</td>
+<td>not measured yet (P3)</td>
+</tr>
+<tr>
+<td>Reentrancy</td>
+<td>instances are independent; one instance must not be used from two contexts except the documented split (fast loop in the interrupt, everything else in one task)</td>
+</tr>
+<tr>
+<td>Fault callback</td>
+<td>may be called from the interrupt</td>
+</tr>
+</tbody>
+</table>
+<h2 id="quality">Quality<a class="headerlink" href="#quality" title="Permanent link">&para;</a></h2>
+<table>
+<thead>
+<tr>
+<th>Check</th>
+<th>Result</th>
+</tr>
+</thead>
+<tbody>
+<tr>
+<td>Unit tests (GoogleTest)</td>
+<td>76 tests fixed point, 75 float: math (29), bridge (5), motion (10), API (24), closed loop with a motor model (8)</td>
+</tr>
+<tr>
+<td>Coverage</td>
+<td>100 % lines and branches of <code>src/</code> in both backends (gcov)</td>
+</tr>
+<tr>
+<td>Sanitizers</td>
+<td>clean under AddressSanitizer and UndefinedBehaviorSanitizer</td>
+</tr>
+<tr>
+<td>Against the prototype</td>
+<td>current step overshoot 1.11 % (prototype 1.12 %), settling 0.40 ms; 8 rev/s current 1.862 A / 1.557 A (prototype identical); load angle at 0.25 N·m 37.21° (prototype 37.21°)</td>
+</tr>
+<tr>
+<td>Motion generator</td>
+<td>bit-exact with the Scilab/Python twin over 3 052 885 periods</td>
+</tr>
+<tr>
+<td>MISRA C:2012</td>
+<td>followed in the code (no dynamic memory, single exit, no recursion, explicit casts, every <code>if</code> with <code>else</code>); the Cppcheck MISRA target <code>misra-analyze</code> is configured — a full report is pending</td>
+</tr>
+</tbody>
+</table>
+<h2 id="porting-checklist">Porting checklist<a class="headerlink" href="#porting-checklist" title="Permanent link">&para;</a></h2>
+<ol>
+<li>Measure R, L and the back-EMF constant of the motor; enter them.</li>
+<li>Compute the ADC scaling of the currents and of the bus voltage from the schematic;
+   measure the current zero with the outputs disabled.</li>
+<li>Configure a centre-aligned PWM at <code>pwm_freq_hz</code> with the timer dead time; trigger the
+   current ADC at the counter peak.</li>
+<li>Call <code>sstep_fast_loop()</code> from the ADC interrupt, <code>sstep_slow_loop()</code> at 1 kHz.</li>
+<li>Start with a current-limited supply, <code>i_run_ma</code> at half the rated current and a low
+   <code>v_max</code>; check the phase currents with a current probe.</li>
+<li>Run the same configuration in the <a href="../sil/">SIL diagram</a> and compare.</li>
+</ol>
+
+
+
+
+
+
+
+
+
+
+
+
+                
+              </article>
+            </div>
+          
+          
+<script>var target=document.getElementById(location.hash.slice(1));target&&target.name&&(target.checked=target.name.startsWith("__tabbed_"))</script>
+        </div>
+        
+          <button type="button" class="md-top md-icon" data-md-component="top" hidden>
+  
+  <svg xmlns="http://www.w3.org/2000/svg" viewBox="0 0 24 24"><path d="M13 20h-2V8l-5.5 5.5-1.42-1.42L12 4.16l7.92 7.92-1.42 1.42L13 8z"/></svg>
+  Back to top
+</button>
+        
+      </main>
+      
+        <footer class="md-footer">
+  
+    
+      
+      <nav class="md-footer__inner md-grid" aria-label="Footer" >
+        
+          
+          <a href="../control/" class="md-footer__link md-footer__link--prev" aria-label="Previous: Control Algorithms">
+            <div class="md-footer__button md-icon">
+              
+              <svg xmlns="http://www.w3.org/2000/svg" viewBox="0 0 24 24"><path d="M20 11v2H8l5.5 5.5-1.42 1.42L4.16 12l7.92-7.92L13.5 5.5 8 11z"/></svg>
+            </div>
+            <div class="md-footer__title">
+              <span class="md-footer__direction">
+                Previous
+              </span>
+              <div class="md-ellipsis">
+                Control Algorithms
+              </div>
+            </div>
+          </a>
+        
+        
+          
+          <a href="../api/" class="md-footer__link md-footer__link--next" aria-label="Next: API Reference">
+            <div class="md-footer__title">
+              <span class="md-footer__direction">
+                Next
+              </span>
+              <div class="md-ellipsis">
+                API Reference
+              </div>
+            </div>
+            <div class="md-footer__button md-icon">
+              
+              <svg xmlns="http://www.w3.org/2000/svg" viewBox="0 0 24 24"><path d="M4 11v2h12l-5.5 5.5 1.42 1.42L19.84 12l-7.92-7.92L10.5 5.5 16 11z"/></svg>
+            </div>
+          </a>
+        
+      </nav>
+    
+  
+  <div class="md-footer-meta md-typeset">
+    <div class="md-footer-meta__inner md-grid">
+      <div class="md-copyright">
+  
+    <div class="md-copyright__highlight">
+      Copyright &copy; 2026 Anton Vynohradov · <a href="https://systemfromscratch.com">SystemFromScratch®</a> · Licensed under the <a href="https://www.apache.org/licenses/LICENSE-2.0">Apache License 2.0</a>
+    </div>
+  
+  
+</div>
+      
+        
+<div class="md-social">
+  
+    
+    
+    
+    
+    <a href="https://github.com/AntonVynohradov" target="_blank" rel="noopener" title="Anton Vynohradov on GitHub" class="md-social__link">
+      <svg xmlns="http://www.w3.org/2000/svg" viewBox="0 0 512 512"><!--! Font Awesome Free 7.1.0 by @fontawesome - https://fontawesome.com License - https://fontawesome.com/license/free (Icons: CC BY 4.0, Fonts: SIL OFL 1.1, Code: MIT License) Copyright 2025 Fonticons, Inc.--><path d="M173.9 397.4c0 2-2.3 3.6-5.2 3.6-3.3.3-5.6-1.3-5.6-3.6 0-2 2.3-3.6 5.2-3.6 3-.3 5.6 1.3 5.6 3.6m-31.1-4.5c-.7 2 1.3 4.3 4.3 4.9 2.6 1 5.6 0 6.2-2s-1.3-4.3-4.3-5.2c-2.6-.7-5.5.3-6.2 2.3m44.2-1.7c-2.9.7-4.9 2.6-4.6 4.9.3 2 2.9 3.3 5.9 2.6 2.9-.7 4.9-2.6 4.6-4.6-.3-1.9-3-3.2-5.9-2.9M252.8 8C114.1 8 8 113.3 8 252c0 110.9 69.8 205.8 169.5 239.2 12.8 2.3 17.3-5.6 17.3-12.1 0-6.2-.3-40.4-.3-61.4 0 0-70 15-84.7-29.8 0 0-11.4-29.1-27.8-36.6 0 0-22.9-15.7 1.6-15.4 0 0 24.9 2 38.6 25.8 21.9 38.6 58.6 27.5 72.9 20.9 2.3-16 8.8-27.1 16-33.7-55.9-6.2-112.3-14.3-112.3-110.5 0-27.5 7.6-41.3 23.6-58.9-2.6-6.5-11.1-33.3 2.6-67.9 20.9-6.5 69 27 69 27 20-5.6 41.5-8.5 62.8-8.5s42.8 2.9 62.8 8.5c0 0 48.1-33.6 69-27 13.7 34.7 5.2 61.4 2.6 67.9 16 17.7 25.8 31.5 25.8 58.9 0 96.5-58.9 104.2-114.8 110.5 9.2 7.9 17 22.9 17 46.4 0 33.7-.3 75.4-.3 83.6 0 6.5 4.6 14.4 17.3 12.1C436.2 457.8 504 362.9 504 252 504 113.3 391.5 8 252.8 8M105.2 352.9c-1.3 1-1 3.3.7 5.2 1.6 1.6 3.9 2.3 5.2 1 1.3-1 1-3.3-.7-5.2-1.6-1.6-3.9-2.3-5.2-1m-10.8-8.1c-.7 1.3.3 2.9 2.3 3.9 1.6 1 3.6.7 4.3-.7.7-1.3-.3-2.9-2.3-3.9-2-.6-3.6-.3-4.3.7m32.4 35.6c-1.6 1.3-1 4.3 1.3 6.2 2.3 2.3 5.2 2.6 6.5 1 1.3-1.3.7-4.3-1.3-6.2-2.2-2.3-5.2-2.6-6.5-1m-11.4-14.7c-1.6 1-1.6 3.6 0 5.9s4.3 3.3 5.6 2.3c1.6-1.3 1.6-3.9 0-6.2-1.4-2.3-4-3.3-5.6-2"/></svg>
+    </a>
+  
+    
+    
+    
+    
+    <a href="https://www.linkedin.com/in/vynohradov" target="_blank" rel="noopener" title="Anton Vynohradov on LinkedIn" class="md-social__link">
+      <svg xmlns="http://www.w3.org/2000/svg" viewBox="0 0 448 512"><!--! Font Awesome Free 7.1.0 by @fontawesome - https://fontawesome.com License - https://fontawesome.com/license/free (Icons: CC BY 4.0, Fonts: SIL OFL 1.1, Code: MIT License) Copyright 2025 Fonticons, Inc.--><path d="M416 32H31.9C14.3 32 0 46.5 0 64.3v383.4C0 465.5 14.3 480 31.9 480H416c17.6 0 32-14.5 32-32.3V64.3c0-17.8-14.4-32.3-32-32.3M135.4 416H69V202.2h66.5V416zM102.2 96a38.5 38.5 0 1 1 0 77 38.5 38.5 0 1 1 0-77m282.1 320h-66.4V312c0-24.8-.5-56.7-34.5-56.7-34.6 0-39.9 27-39.9 54.9V416h-66.4V202.2h63.7v29.2h.9c8.9-16.8 30.6-34.5 62.9-34.5 67.2 0 79.7 44.3 79.7 101.9z"/></svg>
+    </a>
+  
+    
+    
+    
+    
+    <a href="https://orcid.org/0009-0005-6965-0911" target="_blank" rel="noopener" title="Anton Vynohradov on ORCID" class="md-social__link">
+      <svg xmlns="http://www.w3.org/2000/svg" viewBox="0 0 512 512"><!--! Font Awesome Free 7.1.0 by @fontawesome - https://fontawesome.com License - https://fontawesome.com/license/free (Icons: CC BY 4.0, Fonts: SIL OFL 1.1, Code: MIT License) Copyright 2025 Fonticons, Inc.--><path d="M294.7 188.2h-45.9V342h47.5c67.6 0 83.1-51.3 83.1-76.9 0-41.6-26.5-76.9-84.7-76.9M256 8a248 248 0 1 0 0 496 248 248 0 1 0 0-496m-80.8 360.8h-29.8V161.3h29.8zM160.3 98.5a19.6 19.6 0 1 1 0 39.2 19.6 19.6 0 1 1 0-39.2M300 369h-81V161.3h80.6c76.7 0 110.4 54.8 110.4 103.9 0 53.3-41.7 103.9-110 103.9z"/></svg>
+    </a>
+  
+    
+    
+    
+    
+    <a href="https://systemfromscratch.com" target="_blank" rel="noopener" title="SystemFromScratch®" class="md-social__link">
+      <svg xmlns="http://www.w3.org/2000/svg" viewBox="0 0 24 24"><path d="M16.36 14c.08-.66.14-1.32.14-2s-.06-1.34-.14-2h3.38c.16.64.26 1.31.26 2s-.1 1.36-.26 2m-5.15 5.56c.6-1.11 1.06-2.31 1.38-3.56h2.95a8.03 8.03 0 0 1-4.33 3.56M14.34 14H9.66c-.1-.66-.16-1.32-.16-2s.06-1.35.16-2h4.68c.09.65.16 1.32.16 2s-.07 1.34-.16 2M12 19.96c-.83-1.2-1.5-2.53-1.91-3.96h3.82c-.41 1.43-1.08 2.76-1.91 3.96M8 8H5.08A7.92 7.92 0 0 1 9.4 4.44C8.8 5.55 8.35 6.75 8 8m-2.92 8H8c.35 1.25.8 2.45 1.4 3.56A8 8 0 0 1 5.08 16m-.82-2C4.1 13.36 4 12.69 4 12s.1-1.36.26-2h3.38c-.08.66-.14 1.32-.14 2s.06 1.34.14 2M12 4.03c.83 1.2 1.5 2.54 1.91 3.97h-3.82c.41-1.43 1.08-2.77 1.91-3.97M18.92 8h-2.95a15.7 15.7 0 0 0-1.38-3.56c1.84.63 3.37 1.9 4.33 3.56M12 2C6.47 2 2 6.5 2 12a10 10 0 0 0 10 10 10 10 0 0 0 10-10A10 10 0 0 0 12 2"/></svg>
+    </a>
+  
+</div>
+      
+    </div>
+  </div>
+</footer>
+      
+    </div>
+    <div class="md-dialog" data-md-component="dialog">
+      <div class="md-dialog__inner md-typeset"></div>
+    </div>
+    
+    
+    
+      
+      
+      <script id="__config" type="application/json">{"annotate": null, "base": "..", "features": ["navigation.tabs", "navigation.sections", "navigation.top", "navigation.footer", "navigation.instant", "navigation.tracking", "search.suggest", "search.highlight", "content.code.copy", "content.code.annotate", "toc.follow"], "search": "../assets/javascripts/workers/search.a7633da7.min.js", "tags": null, "translations": {"clipboard.copied": "Copied to clipboard", "clipboard.copy": "Copy to clipboard", "search.result.more.one": "1 more on this page", "search.result.more.other": "# more on this page", "search.result.none": "No matching documents", "search.result.one": "1 matching document", "search.result.other": "# matching documents", "search.result.placeholder": "Type to start searching", "search.result.term.missing": "Missing", "select.version": "Select version"}, "version": null}</script>
+    
+    
+      <script src="../assets/javascripts/bundle.c21346df.min.js"></script>
+      
+        <script src="../assets/javascripts/mathjax.js"></script>
+      
+        <script src="https://cdn.jsdelivr.net/npm/mathjax@3.2.2/es5/tex-mml-chtml.js"></script>
+      
+    
+  </body>
+</html>

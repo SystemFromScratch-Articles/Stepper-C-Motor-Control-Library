@@ -1,0 +1,2858 @@
+
+<!doctype html>
+<html lang="en" class="no-js">
+  <head>
+    
+      <meta charset="utf-8">
+      <meta name="viewport" content="width=device-width,initial-scale=1">
+      
+        <meta name="description" content="User manual of the Stepper-C system: a hardware-agnostic stepper motor control library in C11, its Scilab/Xcos simulation with software in the loop and the ngspice model of the B-G431B-ESC1 power stage.">
+      
+      
+        <meta name="author" content="Anton Vynohradov">
+      
+      
+        <link rel="canonical" href="https://systemfromscratch-articles.github.io/Stepper-C-Motor-Control-Library/api/">
+      
+      
+        <link rel="prev" href="../library/">
+      
+      
+        <link rel="next" href="../simulation/">
+      
+      
+        
+      
+      
+      <link rel="icon" href="../assets/images/brand/systemfromscratch-logo.png">
+      <meta name="generator" content="mkdocs-1.6.1, mkdocs-material-9.8.0">
+    
+    
+      
+        <title>API Reference - Stepper-C System Manual</title>
+      
+    
+    
+      <link rel="stylesheet" href="../assets/stylesheets/main.57a0d79d.min.css">
+      
+        
+        <link rel="stylesheet" href="../assets/stylesheets/palette.fb2fffe2.min.css">
+      
+      
+
+
+    
+    
+      
+    
+    
+      
+        
+        
+        <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
+        <link rel="stylesheet" href="https://fonts.googleapis.com/css?family=Inter:300,300i,400,400i,700,700i%7CJetBrains+Mono:400,400i,700,700i&display=fallback">
+        <style>:root{--md-text-font:"Inter";--md-code-font:"JetBrains Mono"}</style>
+      
+    
+    
+      <link rel="stylesheet" href="../assets/stylesheets/extra.css">
+    
+    <script>__md_scope=new URL("..",location),__md_hash=e=>[...e].reduce(((e,_)=>(e<<5)-e+_.charCodeAt(0)),0),__md_get=(e,_=localStorage,t=__md_scope)=>JSON.parse(_.getItem(t.pathname+"."+e)),__md_set=(e,_,t=localStorage,a=__md_scope)=>{try{t.setItem(a.pathname+"."+e,JSON.stringify(_))}catch(e){}}</script>
+    
+      
+
+    
+    
+  </head>
+  
+  
+    
+    
+      
+    
+    
+    
+    
+    <body dir="ltr" data-md-color-scheme="default" data-md-color-primary="custom" data-md-color-accent="custom">
+  
+    
+    <input class="md-toggle" data-md-toggle="drawer" type="checkbox" id="__drawer" autocomplete="off">
+    <input class="md-toggle" data-md-toggle="search" type="checkbox" id="__search" autocomplete="off">
+    <label class="md-overlay" for="__drawer"></label>
+    <div data-md-component="skip">
+      
+        
+        <a href="#api-reference" class="md-skip">
+          Skip to content
+        </a>
+      
+    </div>
+    <div data-md-component="announce">
+      
+    </div>
+    
+    
+      
+
+<header class="md-header" data-md-component="header">
+  <nav class="md-header__inner md-grid" aria-label="Header">
+    <a href=".." title="Stepper-C System Manual" class="md-header__button md-logo" aria-label="Stepper-C System Manual" data-md-component="logo">
+      
+  <img src="../assets/images/brand/systemfromscratch-logo-on-dark.png" alt="logo">
+
+    </a>
+    <label class="md-header__button md-icon" for="__drawer">
+      
+      <svg xmlns="http://www.w3.org/2000/svg" viewBox="0 0 24 24"><path d="M3 6h18v2H3zm0 5h18v2H3zm0 5h18v2H3z"/></svg>
+    </label>
+    <div class="md-header__title" data-md-component="header-title">
+      <div class="md-header__ellipsis">
+        <div class="md-header__topic">
+          <span class="md-ellipsis">
+            Stepper-C System Manual
+          </span>
+        </div>
+        <div class="md-header__topic" data-md-component="header-topic">
+          <span class="md-ellipsis">
+            
+              API Reference
+            
+          </span>
+        </div>
+      </div>
+    </div>
+    
+      
+        <form class="md-header__option" data-md-component="palette">
+  
+    
+    
+    
+    <input class="md-option" data-md-color-media="(prefers-color-scheme: light)" data-md-color-scheme="default" data-md-color-primary="custom" data-md-color-accent="custom"  aria-label="Switch to dark mode"  type="radio" name="__palette" id="__palette_0">
+    
+      <label class="md-header__button md-icon" title="Switch to dark mode" for="__palette_1" hidden>
+        <svg xmlns="http://www.w3.org/2000/svg" viewBox="0 0 24 24"><path d="m17.75 4.09-2.53 1.94.91 3.06-2.63-1.81-2.63 1.81.91-3.06-2.53-1.94L12.44 4l1.06-3 1.06 3zm3.5 6.91-1.64 1.25.59 1.98-1.7-1.17-1.7 1.17.59-1.98L15.75 11l2.06-.05L18.5 9l.69 1.95zm-2.28 4.95c.83-.08 1.72 1.1 1.19 1.85-.32.45-.66.87-1.08 1.27C15.17 23 8.84 23 4.94 19.07c-3.91-3.9-3.91-10.24 0-14.14.4-.4.82-.76 1.27-1.08.75-.53 1.93.36 1.85 1.19-.27 2.86.69 5.83 2.89 8.02a9.96 9.96 0 0 0 8.02 2.89m-1.64 2.02a12.08 12.08 0 0 1-7.8-3.47c-2.17-2.19-3.33-5-3.49-7.82-2.81 3.14-2.7 7.96.31 10.98 3.02 3.01 7.84 3.12 10.98.31"/></svg>
+      </label>
+    
+  
+    
+    
+    
+    <input class="md-option" data-md-color-media="(prefers-color-scheme: dark)" data-md-color-scheme="slate" data-md-color-primary="custom" data-md-color-accent="custom"  aria-label="Switch to light mode"  type="radio" name="__palette" id="__palette_1">
+    
+      <label class="md-header__button md-icon" title="Switch to light mode" for="__palette_0" hidden>
+        <svg xmlns="http://www.w3.org/2000/svg" viewBox="0 0 24 24"><path d="M12 7a5 5 0 0 1 5 5 5 5 0 0 1-5 5 5 5 0 0 1-5-5 5 5 0 0 1 5-5m0 2a3 3 0 0 0-3 3 3 3 0 0 0 3 3 3 3 0 0 0 3-3 3 3 0 0 0-3-3m0-7 2.39 3.42C13.65 5.15 12.84 5 12 5s-1.65.15-2.39.42zM3.34 7l4.16-.35A7.2 7.2 0 0 0 5.94 8.5c-.44.74-.69 1.5-.83 2.29zm.02 10 1.76-3.77a7.131 7.131 0 0 0 2.38 4.14zM20.65 7l-1.77 3.79a7.02 7.02 0 0 0-2.38-4.15zm-.01 10-4.14.36c.59-.51 1.12-1.14 1.54-1.86.42-.73.69-1.5.83-2.29zM12 22l-2.41-3.44c.74.27 1.55.44 2.41.44.82 0 1.63-.17 2.37-.44z"/></svg>
+      </label>
+    
+  
+</form>
+      
+    
+    
+      <script>var palette=__md_get("__palette");if(palette&&palette.color){if("(prefers-color-scheme)"===palette.color.media){var media=matchMedia("(prefers-color-scheme: light)"),input=document.querySelector(media.matches?"[data-md-color-media='(prefers-color-scheme: light)']":"[data-md-color-media='(prefers-color-scheme: dark)']");palette.color.media=input.getAttribute("data-md-color-media"),palette.color.scheme=input.getAttribute("data-md-color-scheme"),palette.color.primary=input.getAttribute("data-md-color-primary"),palette.color.accent=input.getAttribute("data-md-color-accent")}for(var[key,value]of Object.entries(palette.color))document.body.setAttribute("data-md-color-"+key,value)}</script>
+    
+    
+      <a href="../downloads/Stepper-C_System_Manual.pdf" class="md-header__button md-icon" title="Download PDF user manual" aria-label="Download PDF user manual" download>
+        <svg xmlns="http://www.w3.org/2000/svg" viewBox="0 0 24 24"><path d="M19 3H5c-1.1 0-2 .9-2 2v14c0 1.1.9 2 2 2h14c1.1 0 2-.9 2-2V5c0-1.1-.9-2-2-2m-9.5 8.5c0 .8-.7 1.5-1.5 1.5H7v2H5.5V9H8c.8 0 1.5.7 1.5 1.5zm5 2c0 .8-.7 1.5-1.5 1.5h-2.5V9H13c.8 0 1.5.7 1.5 1.5zm4-3H17v1h1.5V13H17v2h-1.5V9h3zm-6.5 0h1v3h-1zm-5 0h1v1H7z"/></svg>
+      </a>
+    
+    
+    
+      
+      
+        <label class="md-header__button md-icon" for="__search">
+          
+          <svg xmlns="http://www.w3.org/2000/svg" viewBox="0 0 24 24"><path d="M9.5 3A6.5 6.5 0 0 1 16 9.5c0 1.61-.59 3.09-1.56 4.23l.27.27h.79l5 5-1.5 1.5-5-5v-.79l-.27-.27A6.52 6.52 0 0 1 9.5 16 6.5 6.5 0 0 1 3 9.5 6.5 6.5 0 0 1 9.5 3m0 2C7 5 5 7 5 9.5S7 14 9.5 14 14 12 14 9.5 12 5 9.5 5"/></svg>
+        </label>
+        <div class="md-search" data-md-component="search" role="dialog">
+  <label class="md-search__overlay" for="__search"></label>
+  <div class="md-search__inner" role="search">
+    <form class="md-search__form" name="search">
+      <input type="text" class="md-search__input" name="query" aria-label="Search" placeholder="Search" autocapitalize="off" autocorrect="off" autocomplete="off" spellcheck="false" data-md-component="search-query" required>
+      <label class="md-search__icon md-icon" for="__search">
+        
+        <svg xmlns="http://www.w3.org/2000/svg" viewBox="0 0 24 24"><path d="M9.5 3A6.5 6.5 0 0 1 16 9.5c0 1.61-.59 3.09-1.56 4.23l.27.27h.79l5 5-1.5 1.5-5-5v-.79l-.27-.27A6.52 6.52 0 0 1 9.5 16 6.5 6.5 0 0 1 3 9.5 6.5 6.5 0 0 1 9.5 3m0 2C7 5 5 7 5 9.5S7 14 9.5 14 14 12 14 9.5 12 5 9.5 5"/></svg>
+        
+        <svg xmlns="http://www.w3.org/2000/svg" viewBox="0 0 24 24"><path d="M20 11v2H8l5.5 5.5-1.42 1.42L4.16 12l7.92-7.92L13.5 5.5 8 11z"/></svg>
+      </label>
+      <nav class="md-search__options" aria-label="Search">
+        
+        <button type="reset" class="md-search__icon md-icon" title="Clear" aria-label="Clear" tabindex="-1">
+          
+          <svg xmlns="http://www.w3.org/2000/svg" viewBox="0 0 24 24"><path d="M19 6.41 17.59 5 12 10.59 6.41 5 5 6.41 10.59 12 5 17.59 6.41 19 12 13.41 17.59 19 19 17.59 13.41 12z"/></svg>
+        </button>
+      </nav>
+      
+        <div class="md-search__suggest" data-md-component="search-suggest"></div>
+      
+    </form>
+    <div class="md-search__output">
+      <div class="md-search__scrollwrap" tabindex="0" data-md-scrollfix>
+        <div class="md-search-result" data-md-component="search-result">
+          <div class="md-search-result__meta">
+            Initializing search
+          </div>
+          <ol class="md-search-result__list" role="presentation"></ol>
+        </div>
+      </div>
+    </div>
+  </div>
+</div>
+      
+    
+    
+      <div class="md-header__source">
+        <a href="https://github.com/AntonVynohradov/Stepper-C" title="Go to repository" class="md-source" data-md-component="source">
+  <div class="md-source__icon md-icon">
+    
+    <svg xmlns="http://www.w3.org/2000/svg" viewBox="0 0 512 512"><!--! Font Awesome Free 7.1.0 by @fontawesome - https://fontawesome.com License - https://fontawesome.com/license/free (Icons: CC BY 4.0, Fonts: SIL OFL 1.1, Code: MIT License) Copyright 2025 Fonticons, Inc.--><path d="M173.9 397.4c0 2-2.3 3.6-5.2 3.6-3.3.3-5.6-1.3-5.6-3.6 0-2 2.3-3.6 5.2-3.6 3-.3 5.6 1.3 5.6 3.6m-31.1-4.5c-.7 2 1.3 4.3 4.3 4.9 2.6 1 5.6 0 6.2-2s-1.3-4.3-4.3-5.2c-2.6-.7-5.5.3-6.2 2.3m44.2-1.7c-2.9.7-4.9 2.6-4.6 4.9.3 2 2.9 3.3 5.9 2.6 2.9-.7 4.9-2.6 4.6-4.6-.3-1.9-3-3.2-5.9-2.9M252.8 8C114.1 8 8 113.3 8 252c0 110.9 69.8 205.8 169.5 239.2 12.8 2.3 17.3-5.6 17.3-12.1 0-6.2-.3-40.4-.3-61.4 0 0-70 15-84.7-29.8 0 0-11.4-29.1-27.8-36.6 0 0-22.9-15.7 1.6-15.4 0 0 24.9 2 38.6 25.8 21.9 38.6 58.6 27.5 72.9 20.9 2.3-16 8.8-27.1 16-33.7-55.9-6.2-112.3-14.3-112.3-110.5 0-27.5 7.6-41.3 23.6-58.9-2.6-6.5-11.1-33.3 2.6-67.9 20.9-6.5 69 27 69 27 20-5.6 41.5-8.5 62.8-8.5s42.8 2.9 62.8 8.5c0 0 48.1-33.6 69-27 13.7 34.7 5.2 61.4 2.6 67.9 16 17.7 25.8 31.5 25.8 58.9 0 96.5-58.9 104.2-114.8 110.5 9.2 7.9 17 22.9 17 46.4 0 33.7-.3 75.4-.3 83.6 0 6.5 4.6 14.4 17.3 12.1C436.2 457.8 504 362.9 504 252 504 113.3 391.5 8 252.8 8M105.2 352.9c-1.3 1-1 3.3.7 5.2 1.6 1.6 3.9 2.3 5.2 1 1.3-1 1-3.3-.7-5.2-1.6-1.6-3.9-2.3-5.2-1m-10.8-8.1c-.7 1.3.3 2.9 2.3 3.9 1.6 1 3.6.7 4.3-.7.7-1.3-.3-2.9-2.3-3.9-2-.6-3.6-.3-4.3.7m32.4 35.6c-1.6 1.3-1 4.3 1.3 6.2 2.3 2.3 5.2 2.6 6.5 1 1.3-1.3.7-4.3-1.3-6.2-2.2-2.3-5.2-2.6-6.5-1m-11.4-14.7c-1.6 1-1.6 3.6 0 5.9s4.3 3.3 5.6 2.3c1.6-1.3 1.6-3.9 0-6.2-1.4-2.3-4-3.3-5.6-2"/></svg>
+  </div>
+  <div class="md-source__repository">
+    Motor Control Library
+  </div>
+</a>
+      </div>
+    
+  </nav>
+  
+</header>
+    
+    <div class="md-container" data-md-component="container">
+      
+      
+        
+          
+            
+<nav class="md-tabs" aria-label="Tabs" data-md-component="tabs">
+  <div class="md-grid">
+    <ul class="md-tabs__list">
+      
+        
+  
+  
+  
+  
+    <li class="md-tabs__item">
+      <a href=".." class="md-tabs__link">
+        
+  
+  
+    
+  
+  Home
+
+      </a>
+    </li>
+  
+
+      
+        
+  
+  
+  
+  
+    
+    
+      <li class="md-tabs__item">
+        <a href="../overview/" class="md-tabs__link">
+          
+  
+  
+  Guide
+
+        </a>
+      </li>
+    
+  
+
+      
+        
+  
+  
+  
+  
+    
+    
+      <li class="md-tabs__item">
+        <a href="../motor-model/" class="md-tabs__link">
+          
+  
+  
+  Theory
+
+        </a>
+      </li>
+    
+  
+
+      
+        
+  
+  
+  
+    
+  
+  
+    
+    
+      <li class="md-tabs__item md-tabs__item--active">
+        <a href="../library/" class="md-tabs__link">
+          
+  
+  
+  Modules
+
+        </a>
+      </li>
+    
+  
+
+      
+        
+  
+  
+  
+  
+    
+    
+      <li class="md-tabs__item">
+        <a href="../tests/" class="md-tabs__link">
+          
+  
+  
+  Verification
+
+        </a>
+      </li>
+    
+  
+
+      
+        
+  
+  
+  
+  
+    
+    
+      <li class="md-tabs__item">
+        <a href="../parameters/" class="md-tabs__link">
+          
+  
+  
+  Reference
+
+        </a>
+      </li>
+    
+  
+
+      
+        
+  
+  
+  
+  
+    
+    
+      <li class="md-tabs__item">
+        <a href="../about/" class="md-tabs__link">
+          
+  
+  
+  About
+
+        </a>
+      </li>
+    
+  
+
+      
+    </ul>
+  </div>
+</nav>
+          
+        
+      
+      <main class="md-main" data-md-component="main">
+        <div class="md-main__inner md-grid">
+          
+            
+              
+              <div class="md-sidebar md-sidebar--primary" data-md-component="sidebar" data-md-type="navigation" >
+                <div class="md-sidebar__scrollwrap">
+                  <div class="md-sidebar__inner">
+                    
+
+
+  
+
+
+<nav class="md-nav md-nav--primary md-nav--lifted" aria-label="Navigation" data-md-level="0">
+  <label class="md-nav__title" for="__drawer">
+    <a href=".." title="Stepper-C System Manual" class="md-nav__button md-logo" aria-label="Stepper-C System Manual" data-md-component="logo">
+      
+  <img src="../assets/images/brand/systemfromscratch-logo-on-dark.png" alt="logo">
+
+    </a>
+    Stepper-C System Manual
+  </label>
+  
+    <div class="md-nav__source">
+      <a href="https://github.com/AntonVynohradov/Stepper-C" title="Go to repository" class="md-source" data-md-component="source">
+  <div class="md-source__icon md-icon">
+    
+    <svg xmlns="http://www.w3.org/2000/svg" viewBox="0 0 512 512"><!--! Font Awesome Free 7.1.0 by @fontawesome - https://fontawesome.com License - https://fontawesome.com/license/free (Icons: CC BY 4.0, Fonts: SIL OFL 1.1, Code: MIT License) Copyright 2025 Fonticons, Inc.--><path d="M173.9 397.4c0 2-2.3 3.6-5.2 3.6-3.3.3-5.6-1.3-5.6-3.6 0-2 2.3-3.6 5.2-3.6 3-.3 5.6 1.3 5.6 3.6m-31.1-4.5c-.7 2 1.3 4.3 4.3 4.9 2.6 1 5.6 0 6.2-2s-1.3-4.3-4.3-5.2c-2.6-.7-5.5.3-6.2 2.3m44.2-1.7c-2.9.7-4.9 2.6-4.6 4.9.3 2 2.9 3.3 5.9 2.6 2.9-.7 4.9-2.6 4.6-4.6-.3-1.9-3-3.2-5.9-2.9M252.8 8C114.1 8 8 113.3 8 252c0 110.9 69.8 205.8 169.5 239.2 12.8 2.3 17.3-5.6 17.3-12.1 0-6.2-.3-40.4-.3-61.4 0 0-70 15-84.7-29.8 0 0-11.4-29.1-27.8-36.6 0 0-22.9-15.7 1.6-15.4 0 0 24.9 2 38.6 25.8 21.9 38.6 58.6 27.5 72.9 20.9 2.3-16 8.8-27.1 16-33.7-55.9-6.2-112.3-14.3-112.3-110.5 0-27.5 7.6-41.3 23.6-58.9-2.6-6.5-11.1-33.3 2.6-67.9 20.9-6.5 69 27 69 27 20-5.6 41.5-8.5 62.8-8.5s42.8 2.9 62.8 8.5c0 0 48.1-33.6 69-27 13.7 34.7 5.2 61.4 2.6 67.9 16 17.7 25.8 31.5 25.8 58.9 0 96.5-58.9 104.2-114.8 110.5 9.2 7.9 17 22.9 17 46.4 0 33.7-.3 75.4-.3 83.6 0 6.5 4.6 14.4 17.3 12.1C436.2 457.8 504 362.9 504 252 504 113.3 391.5 8 252.8 8M105.2 352.9c-1.3 1-1 3.3.7 5.2 1.6 1.6 3.9 2.3 5.2 1 1.3-1 1-3.3-.7-5.2-1.6-1.6-3.9-2.3-5.2-1m-10.8-8.1c-.7 1.3.3 2.9 2.3 3.9 1.6 1 3.6.7 4.3-.7.7-1.3-.3-2.9-2.3-3.9-2-.6-3.6-.3-4.3.7m32.4 35.6c-1.6 1.3-1 4.3 1.3 6.2 2.3 2.3 5.2 2.6 6.5 1 1.3-1.3.7-4.3-1.3-6.2-2.2-2.3-5.2-2.6-6.5-1m-11.4-14.7c-1.6 1-1.6 3.6 0 5.9s4.3 3.3 5.6 2.3c1.6-1.3 1.6-3.9 0-6.2-1.4-2.3-4-3.3-5.6-2"/></svg>
+  </div>
+  <div class="md-source__repository">
+    Motor Control Library
+  </div>
+</a>
+    </div>
+  
+  <ul class="md-nav__list" data-md-scrollfix>
+    
+      
+      
+  
+  
+  
+  
+    <li class="md-nav__item">
+      <a href=".." class="md-nav__link">
+        
+  
+  
+  <span class="md-ellipsis">
+    
+  
+    Home
+  
+
+    
+  </span>
+  
+  
+
+      </a>
+    </li>
+  
+
+    
+      
+      
+  
+  
+  
+  
+    
+    
+    
+    
+      
+      
+        
+      
+    
+    
+    <li class="md-nav__item md-nav__item--nested">
+      
+        
+        
+        <input class="md-nav__toggle md-toggle " type="checkbox" id="__nav_2" >
+        
+          
+          <label class="md-nav__link" for="__nav_2" id="__nav_2_label" tabindex="0">
+            
+  
+  
+  <span class="md-ellipsis">
+    
+  
+    Guide
+  
+
+    
+  </span>
+  
+  
+
+            <span class="md-nav__icon md-icon"></span>
+          </label>
+        
+        <nav class="md-nav" data-md-level="1" aria-labelledby="__nav_2_label" aria-expanded="false">
+          <label class="md-nav__title" for="__nav_2">
+            <span class="md-nav__icon md-icon"></span>
+            
+  
+    Guide
+  
+
+          </label>
+          <ul class="md-nav__list" data-md-scrollfix>
+            
+              
+                
+  
+  
+  
+  
+    <li class="md-nav__item">
+      <a href="../overview/" class="md-nav__link">
+        
+  
+  
+  <span class="md-ellipsis">
+    
+  
+    Introduction
+  
+
+    
+  </span>
+  
+  
+
+      </a>
+    </li>
+  
+
+              
+            
+              
+                
+  
+  
+  
+  
+    <li class="md-nav__item">
+      <a href="../system/" class="md-nav__link">
+        
+  
+  
+  <span class="md-ellipsis">
+    
+  
+    System Architecture
+  
+
+    
+  </span>
+  
+  
+
+      </a>
+    </li>
+  
+
+              
+            
+              
+                
+  
+  
+  
+  
+    <li class="md-nav__item">
+      <a href="../getting-started/" class="md-nav__link">
+        
+  
+  
+  <span class="md-ellipsis">
+    
+  
+    Getting Started
+  
+
+    
+  </span>
+  
+  
+
+      </a>
+    </li>
+  
+
+              
+            
+          </ul>
+        </nav>
+      
+    </li>
+  
+
+    
+      
+      
+  
+  
+  
+  
+    
+    
+    
+    
+      
+      
+        
+      
+    
+    
+    <li class="md-nav__item md-nav__item--nested">
+      
+        
+        
+        <input class="md-nav__toggle md-toggle " type="checkbox" id="__nav_3" >
+        
+          
+          <label class="md-nav__link" for="__nav_3" id="__nav_3_label" tabindex="0">
+            
+  
+  
+  <span class="md-ellipsis">
+    
+  
+    Theory
+  
+
+    
+  </span>
+  
+  
+
+            <span class="md-nav__icon md-icon"></span>
+          </label>
+        
+        <nav class="md-nav" data-md-level="1" aria-labelledby="__nav_3_label" aria-expanded="false">
+          <label class="md-nav__title" for="__nav_3">
+            <span class="md-nav__icon md-icon"></span>
+            
+  
+    Theory
+  
+
+          </label>
+          <ul class="md-nav__list" data-md-scrollfix>
+            
+              
+                
+  
+  
+  
+  
+    <li class="md-nav__item">
+      <a href="../motor-model/" class="md-nav__link">
+        
+  
+  
+  <span class="md-ellipsis">
+    
+  
+    Motor Model
+  
+
+    
+  </span>
+  
+  
+
+      </a>
+    </li>
+  
+
+              
+            
+              
+                
+  
+  
+  
+  
+    <li class="md-nav__item">
+      <a href="../control/" class="md-nav__link">
+        
+  
+  
+  <span class="md-ellipsis">
+    
+  
+    Control Algorithms
+  
+
+    
+  </span>
+  
+  
+
+      </a>
+    </li>
+  
+
+              
+            
+          </ul>
+        </nav>
+      
+    </li>
+  
+
+    
+      
+      
+  
+  
+    
+  
+  
+  
+    
+    
+    
+    
+      
+        
+        
+      
+      
+        
+      
+    
+    
+    <li class="md-nav__item md-nav__item--active md-nav__item--section md-nav__item--nested">
+      
+        
+        
+        <input class="md-nav__toggle md-toggle " type="checkbox" id="__nav_4" checked>
+        
+          
+          <label class="md-nav__link" for="__nav_4" id="__nav_4_label" tabindex="">
+            
+  
+  
+  <span class="md-ellipsis">
+    
+  
+    Modules
+  
+
+    
+  </span>
+  
+  
+
+            <span class="md-nav__icon md-icon"></span>
+          </label>
+        
+        <nav class="md-nav" data-md-level="1" aria-labelledby="__nav_4_label" aria-expanded="true">
+          <label class="md-nav__title" for="__nav_4">
+            <span class="md-nav__icon md-icon"></span>
+            
+  
+    Modules
+  
+
+          </label>
+          <ul class="md-nav__list" data-md-scrollfix>
+            
+              
+                
+  
+  
+  
+  
+    <li class="md-nav__item">
+      <a href="../library/" class="md-nav__link">
+        
+  
+  
+  <span class="md-ellipsis">
+    
+  
+    Stepper-C Library
+  
+
+    
+  </span>
+  
+  
+
+      </a>
+    </li>
+  
+
+              
+            
+              
+                
+  
+  
+    
+  
+  
+  
+    <li class="md-nav__item md-nav__item--active">
+      
+      <input class="md-nav__toggle md-toggle" type="checkbox" id="__toc">
+      
+      
+        
+      
+      
+        <label class="md-nav__link md-nav__link--active" for="__toc">
+          
+  
+  
+  <span class="md-ellipsis">
+    
+  
+    API Reference
+  
+
+    
+  </span>
+  
+  
+
+          <span class="md-nav__icon md-icon"></span>
+        </label>
+      
+      <a href="./" class="md-nav__link md-nav__link--active">
+        
+  
+  
+  <span class="md-ellipsis">
+    
+  
+    API Reference
+  
+
+    
+  </span>
+  
+  
+
+      </a>
+      
+        
+
+<nav class="md-nav md-nav--secondary" aria-label="Table of contents">
+  
+  
+  
+    
+  
+  
+    <label class="md-nav__title" for="__toc">
+      <span class="md-nav__icon md-icon"></span>
+      Table of contents
+    </label>
+    <ul class="md-nav__list" data-md-component="toc" data-md-scrollfix>
+      
+        <li class="md-nav__item">
+  <a href="#headers" class="md-nav__link">
+    <span class="md-ellipsis">
+      
+        Headers
+      
+    </span>
+  </a>
+  
+</li>
+      
+        <li class="md-nav__item">
+  <a href="#status-codes" class="md-nav__link">
+    <span class="md-ellipsis">
+      
+        Status codes
+      
+    </span>
+  </a>
+  
+</li>
+      
+        <li class="md-nav__item">
+  <a href="#enumerations-and-flags" class="md-nav__link">
+    <span class="md-ellipsis">
+      
+        Enumerations and flags
+      
+    </span>
+  </a>
+  
+</li>
+      
+        <li class="md-nav__item">
+  <a href="#callbacks" class="md-nav__link">
+    <span class="md-ellipsis">
+      
+        Callbacks
+      
+    </span>
+  </a>
+  
+</li>
+      
+        <li class="md-nav__item">
+  <a href="#configuration-structures" class="md-nav__link">
+    <span class="md-ellipsis">
+      
+        Configuration structures
+      
+    </span>
+  </a>
+  
+    <nav class="md-nav" aria-label="Configuration structures">
+      <ul class="md-nav__list">
+        
+          <li class="md-nav__item">
+  <a href="#struct-sstep_motor_cfg" class="md-nav__link">
+    <span class="md-ellipsis">
+      
+        struct sstep_motor_cfg
+      
+    </span>
+  </a>
+  
+</li>
+        
+          <li class="md-nav__item">
+  <a href="#struct-sstep_stage_cfg" class="md-nav__link">
+    <span class="md-ellipsis">
+      
+        struct sstep_stage_cfg
+      
+    </span>
+  </a>
+  
+</li>
+        
+          <li class="md-nav__item">
+  <a href="#struct-sstep_ctrl_cfg" class="md-nav__link">
+    <span class="md-ellipsis">
+      
+        struct sstep_ctrl_cfg
+      
+    </span>
+  </a>
+  
+</li>
+        
+          <li class="md-nav__item">
+  <a href="#struct-sstep_config-struct-sstep_callbacks" class="md-nav__link">
+    <span class="md-ellipsis">
+      
+        struct sstep_config, struct sstep_callbacks
+      
+    </span>
+  </a>
+  
+</li>
+        
+          <li class="md-nav__item">
+  <a href="#struct-sstep_sample" class="md-nav__link">
+    <span class="md-ellipsis">
+      
+        struct sstep_sample
+      
+    </span>
+  </a>
+  
+</li>
+        
+          <li class="md-nav__item">
+  <a href="#struct-sstep_status" class="md-nav__link">
+    <span class="md-ellipsis">
+      
+        struct sstep_status
+      
+    </span>
+  </a>
+  
+</li>
+        
+          <li class="md-nav__item">
+  <a href="#struct-sstep-private" class="md-nav__link">
+    <span class="md-ellipsis">
+      
+        struct sstep (private)
+      
+    </span>
+  </a>
+  
+</li>
+        
+      </ul>
+    </nav>
+  
+</li>
+      
+        <li class="md-nav__item">
+  <a href="#functions" class="md-nav__link">
+    <span class="md-ellipsis">
+      
+        Functions
+      
+    </span>
+  </a>
+  
+    <nav class="md-nav" aria-label="Functions">
+      <ul class="md-nav__list">
+        
+          <li class="md-nav__item">
+  <a href="#sstep_init" class="md-nav__link">
+    <span class="md-ellipsis">
+      
+        sstep_init()
+      
+    </span>
+  </a>
+  
+</li>
+        
+          <li class="md-nav__item">
+  <a href="#sstep_enable" class="md-nav__link">
+    <span class="md-ellipsis">
+      
+        sstep_enable()
+      
+    </span>
+  </a>
+  
+</li>
+        
+          <li class="md-nav__item">
+  <a href="#sstep_disable" class="md-nav__link">
+    <span class="md-ellipsis">
+      
+        sstep_disable()
+      
+    </span>
+  </a>
+  
+</li>
+        
+          <li class="md-nav__item">
+  <a href="#sstep_fast_loop" class="md-nav__link">
+    <span class="md-ellipsis">
+      
+        sstep_fast_loop()
+      
+    </span>
+  </a>
+  
+</li>
+        
+          <li class="md-nav__item">
+  <a href="#sstep_slow_loop" class="md-nav__link">
+    <span class="md-ellipsis">
+      
+        sstep_slow_loop()
+      
+    </span>
+  </a>
+  
+</li>
+        
+          <li class="md-nav__item">
+  <a href="#sstep_move_to-sstep_move_by" class="md-nav__link">
+    <span class="md-ellipsis">
+      
+        sstep_move_to(), sstep_move_by()
+      
+    </span>
+  </a>
+  
+</li>
+        
+          <li class="md-nav__item">
+  <a href="#sstep_run" class="md-nav__link">
+    <span class="md-ellipsis">
+      
+        sstep_run()
+      
+    </span>
+  </a>
+  
+</li>
+        
+          <li class="md-nav__item">
+  <a href="#sstep_stop" class="md-nav__link">
+    <span class="md-ellipsis">
+      
+        sstep_stop()
+      
+    </span>
+  </a>
+  
+</li>
+        
+          <li class="md-nav__item">
+  <a href="#sstep_set_position" class="md-nav__link">
+    <span class="md-ellipsis">
+      
+        sstep_set_position()
+      
+    </span>
+  </a>
+  
+</li>
+        
+          <li class="md-nav__item">
+  <a href="#sstep_set_current" class="md-nav__link">
+    <span class="md-ellipsis">
+      
+        sstep_set_current()
+      
+    </span>
+  </a>
+  
+</li>
+        
+          <li class="md-nav__item">
+  <a href="#sstep_set_motion_limits" class="md-nav__link">
+    <span class="md-ellipsis">
+      
+        sstep_set_motion_limits()
+      
+    </span>
+  </a>
+  
+</li>
+        
+          <li class="md-nav__item">
+  <a href="#sstep_report_fault" class="md-nav__link">
+    <span class="md-ellipsis">
+      
+        sstep_report_fault()
+      
+    </span>
+  </a>
+  
+</li>
+        
+          <li class="md-nav__item">
+  <a href="#sstep_clear_faults" class="md-nav__link">
+    <span class="md-ellipsis">
+      
+        sstep_clear_faults()
+      
+    </span>
+  </a>
+  
+</li>
+        
+          <li class="md-nav__item">
+  <a href="#sstep_get_status" class="md-nav__link">
+    <span class="md-ellipsis">
+      
+        sstep_get_status()
+      
+    </span>
+  </a>
+  
+</li>
+        
+      </ul>
+    </nav>
+  
+</li>
+      
+        <li class="md-nav__item">
+  <a href="#calling-contexts" class="md-nav__link">
+    <span class="md-ellipsis">
+      
+        Calling contexts
+      
+    </span>
+  </a>
+  
+</li>
+      
+    </ul>
+  
+</nav>
+      
+    </li>
+  
+
+              
+            
+              
+                
+  
+  
+  
+  
+    <li class="md-nav__item">
+      <a href="../simulation/" class="md-nav__link">
+        
+  
+  
+  <span class="md-ellipsis">
+    
+  
+    Simulation
+  
+
+    
+  </span>
+  
+  
+
+      </a>
+    </li>
+  
+
+              
+            
+              
+                
+  
+  
+  
+  
+    <li class="md-nav__item">
+      <a href="../sil/" class="md-nav__link">
+        
+  
+  
+  <span class="md-ellipsis">
+    
+  
+    Software in the Loop
+  
+
+    
+  </span>
+  
+  
+
+      </a>
+    </li>
+  
+
+              
+            
+              
+                
+  
+  
+  
+  
+    <li class="md-nav__item">
+      <a href="../power-stage/" class="md-nav__link">
+        
+  
+  
+  <span class="md-ellipsis">
+    
+  
+    Power Stage Model
+  
+
+    
+  </span>
+  
+  
+
+      </a>
+    </li>
+  
+
+              
+            
+          </ul>
+        </nav>
+      
+    </li>
+  
+
+    
+      
+      
+  
+  
+  
+  
+    
+    
+    
+    
+      
+      
+        
+      
+    
+    
+    <li class="md-nav__item md-nav__item--nested">
+      
+        
+        
+        <input class="md-nav__toggle md-toggle " type="checkbox" id="__nav_5" >
+        
+          
+          <label class="md-nav__link" for="__nav_5" id="__nav_5_label" tabindex="0">
+            
+  
+  
+  <span class="md-ellipsis">
+    
+  
+    Verification
+  
+
+    
+  </span>
+  
+  
+
+            <span class="md-nav__icon md-icon"></span>
+          </label>
+        
+        <nav class="md-nav" data-md-level="1" aria-labelledby="__nav_5_label" aria-expanded="false">
+          <label class="md-nav__title" for="__nav_5">
+            <span class="md-nav__icon md-icon"></span>
+            
+  
+    Verification
+  
+
+          </label>
+          <ul class="md-nav__list" data-md-scrollfix>
+            
+              
+                
+  
+  
+  
+  
+    <li class="md-nav__item">
+      <a href="../tests/" class="md-nav__link">
+        
+  
+  
+  <span class="md-ellipsis">
+    
+  
+    Test Catalogue
+  
+
+    
+  </span>
+  
+  
+
+      </a>
+    </li>
+  
+
+              
+            
+              
+                
+  
+  
+  
+  
+    <li class="md-nav__item">
+      <a href="../results/" class="md-nav__link">
+        
+  
+  
+  <span class="md-ellipsis">
+    
+  
+    Results and Design Guidance
+  
+
+    
+  </span>
+  
+  
+
+      </a>
+    </li>
+  
+
+              
+            
+              
+                
+  
+  
+  
+  
+    <li class="md-nav__item">
+      <a href="../hardware/" class="md-nav__link">
+        
+  
+  
+  <span class="md-ellipsis">
+    
+  
+    Hardware Bring-up
+  
+
+    
+  </span>
+  
+  
+
+      </a>
+    </li>
+  
+
+              
+            
+          </ul>
+        </nav>
+      
+    </li>
+  
+
+    
+      
+      
+  
+  
+  
+  
+    
+    
+    
+    
+      
+      
+        
+      
+    
+    
+    <li class="md-nav__item md-nav__item--nested">
+      
+        
+        
+        <input class="md-nav__toggle md-toggle " type="checkbox" id="__nav_6" >
+        
+          
+          <label class="md-nav__link" for="__nav_6" id="__nav_6_label" tabindex="0">
+            
+  
+  
+  <span class="md-ellipsis">
+    
+  
+    Reference
+  
+
+    
+  </span>
+  
+  
+
+            <span class="md-nav__icon md-icon"></span>
+          </label>
+        
+        <nav class="md-nav" data-md-level="1" aria-labelledby="__nav_6_label" aria-expanded="false">
+          <label class="md-nav__title" for="__nav_6">
+            <span class="md-nav__icon md-icon"></span>
+            
+  
+    Reference
+  
+
+          </label>
+          <ul class="md-nav__list" data-md-scrollfix>
+            
+              
+                
+  
+  
+  
+  
+    <li class="md-nav__item">
+      <a href="../parameters/" class="md-nav__link">
+        
+  
+  
+  <span class="md-ellipsis">
+    
+  
+    Parameter Reference
+  
+
+    
+  </span>
+  
+  
+
+      </a>
+    </li>
+  
+
+              
+            
+              
+                
+  
+  
+  
+  
+    <li class="md-nav__item">
+      <a href="../glossary/" class="md-nav__link">
+        
+  
+  
+  <span class="md-ellipsis">
+    
+  
+    Glossary
+  
+
+    
+  </span>
+  
+  
+
+      </a>
+    </li>
+  
+
+              
+            
+              
+                
+  
+  
+  
+  
+    <li class="md-nav__item">
+      <a href="../changelog/" class="md-nav__link">
+        
+  
+  
+  <span class="md-ellipsis">
+    
+  
+    Changelog
+  
+
+    
+  </span>
+  
+  
+
+      </a>
+    </li>
+  
+
+              
+            
+          </ul>
+        </nav>
+      
+    </li>
+  
+
+    
+      
+      
+  
+  
+  
+  
+    
+    
+    
+    
+      
+      
+        
+      
+    
+    
+    <li class="md-nav__item md-nav__item--nested">
+      
+        
+        
+        <input class="md-nav__toggle md-toggle " type="checkbox" id="__nav_7" >
+        
+          
+          <label class="md-nav__link" for="__nav_7" id="__nav_7_label" tabindex="0">
+            
+  
+  
+  <span class="md-ellipsis">
+    
+  
+    About
+  
+
+    
+  </span>
+  
+  
+
+            <span class="md-nav__icon md-icon"></span>
+          </label>
+        
+        <nav class="md-nav" data-md-level="1" aria-labelledby="__nav_7_label" aria-expanded="false">
+          <label class="md-nav__title" for="__nav_7">
+            <span class="md-nav__icon md-icon"></span>
+            
+  
+    About
+  
+
+          </label>
+          <ul class="md-nav__list" data-md-scrollfix>
+            
+              
+                
+  
+  
+  
+  
+    <li class="md-nav__item">
+      <a href="../about/" class="md-nav__link">
+        
+  
+  
+  <span class="md-ellipsis">
+    
+  
+    Author & Company
+  
+
+    
+  </span>
+  
+  
+
+      </a>
+    </li>
+  
+
+              
+            
+              
+                
+  
+  
+  
+  
+    <li class="md-nav__item">
+      <a href="../LICENSE/" class="md-nav__link">
+        
+  
+  
+  <span class="md-ellipsis">
+    
+  
+    License
+  
+
+    
+  </span>
+  
+  
+
+      </a>
+    </li>
+  
+
+              
+            
+          </ul>
+        </nav>
+      
+    </li>
+  
+
+    
+  </ul>
+</nav>
+                  </div>
+                </div>
+              </div>
+            
+            
+              
+              <div class="md-sidebar md-sidebar--secondary" data-md-component="sidebar" data-md-type="toc" >
+                <div class="md-sidebar__scrollwrap">
+                  <div class="md-sidebar__inner">
+                    
+
+<nav class="md-nav md-nav--secondary" aria-label="Table of contents">
+  
+  
+  
+    
+  
+  
+    <label class="md-nav__title" for="__toc">
+      <span class="md-nav__icon md-icon"></span>
+      Table of contents
+    </label>
+    <ul class="md-nav__list" data-md-component="toc" data-md-scrollfix>
+      
+        <li class="md-nav__item">
+  <a href="#headers" class="md-nav__link">
+    <span class="md-ellipsis">
+      
+        Headers
+      
+    </span>
+  </a>
+  
+</li>
+      
+        <li class="md-nav__item">
+  <a href="#status-codes" class="md-nav__link">
+    <span class="md-ellipsis">
+      
+        Status codes
+      
+    </span>
+  </a>
+  
+</li>
+      
+        <li class="md-nav__item">
+  <a href="#enumerations-and-flags" class="md-nav__link">
+    <span class="md-ellipsis">
+      
+        Enumerations and flags
+      
+    </span>
+  </a>
+  
+</li>
+      
+        <li class="md-nav__item">
+  <a href="#callbacks" class="md-nav__link">
+    <span class="md-ellipsis">
+      
+        Callbacks
+      
+    </span>
+  </a>
+  
+</li>
+      
+        <li class="md-nav__item">
+  <a href="#configuration-structures" class="md-nav__link">
+    <span class="md-ellipsis">
+      
+        Configuration structures
+      
+    </span>
+  </a>
+  
+    <nav class="md-nav" aria-label="Configuration structures">
+      <ul class="md-nav__list">
+        
+          <li class="md-nav__item">
+  <a href="#struct-sstep_motor_cfg" class="md-nav__link">
+    <span class="md-ellipsis">
+      
+        struct sstep_motor_cfg
+      
+    </span>
+  </a>
+  
+</li>
+        
+          <li class="md-nav__item">
+  <a href="#struct-sstep_stage_cfg" class="md-nav__link">
+    <span class="md-ellipsis">
+      
+        struct sstep_stage_cfg
+      
+    </span>
+  </a>
+  
+</li>
+        
+          <li class="md-nav__item">
+  <a href="#struct-sstep_ctrl_cfg" class="md-nav__link">
+    <span class="md-ellipsis">
+      
+        struct sstep_ctrl_cfg
+      
+    </span>
+  </a>
+  
+</li>
+        
+          <li class="md-nav__item">
+  <a href="#struct-sstep_config-struct-sstep_callbacks" class="md-nav__link">
+    <span class="md-ellipsis">
+      
+        struct sstep_config, struct sstep_callbacks
+      
+    </span>
+  </a>
+  
+</li>
+        
+          <li class="md-nav__item">
+  <a href="#struct-sstep_sample" class="md-nav__link">
+    <span class="md-ellipsis">
+      
+        struct sstep_sample
+      
+    </span>
+  </a>
+  
+</li>
+        
+          <li class="md-nav__item">
+  <a href="#struct-sstep_status" class="md-nav__link">
+    <span class="md-ellipsis">
+      
+        struct sstep_status
+      
+    </span>
+  </a>
+  
+</li>
+        
+          <li class="md-nav__item">
+  <a href="#struct-sstep-private" class="md-nav__link">
+    <span class="md-ellipsis">
+      
+        struct sstep (private)
+      
+    </span>
+  </a>
+  
+</li>
+        
+      </ul>
+    </nav>
+  
+</li>
+      
+        <li class="md-nav__item">
+  <a href="#functions" class="md-nav__link">
+    <span class="md-ellipsis">
+      
+        Functions
+      
+    </span>
+  </a>
+  
+    <nav class="md-nav" aria-label="Functions">
+      <ul class="md-nav__list">
+        
+          <li class="md-nav__item">
+  <a href="#sstep_init" class="md-nav__link">
+    <span class="md-ellipsis">
+      
+        sstep_init()
+      
+    </span>
+  </a>
+  
+</li>
+        
+          <li class="md-nav__item">
+  <a href="#sstep_enable" class="md-nav__link">
+    <span class="md-ellipsis">
+      
+        sstep_enable()
+      
+    </span>
+  </a>
+  
+</li>
+        
+          <li class="md-nav__item">
+  <a href="#sstep_disable" class="md-nav__link">
+    <span class="md-ellipsis">
+      
+        sstep_disable()
+      
+    </span>
+  </a>
+  
+</li>
+        
+          <li class="md-nav__item">
+  <a href="#sstep_fast_loop" class="md-nav__link">
+    <span class="md-ellipsis">
+      
+        sstep_fast_loop()
+      
+    </span>
+  </a>
+  
+</li>
+        
+          <li class="md-nav__item">
+  <a href="#sstep_slow_loop" class="md-nav__link">
+    <span class="md-ellipsis">
+      
+        sstep_slow_loop()
+      
+    </span>
+  </a>
+  
+</li>
+        
+          <li class="md-nav__item">
+  <a href="#sstep_move_to-sstep_move_by" class="md-nav__link">
+    <span class="md-ellipsis">
+      
+        sstep_move_to(), sstep_move_by()
+      
+    </span>
+  </a>
+  
+</li>
+        
+          <li class="md-nav__item">
+  <a href="#sstep_run" class="md-nav__link">
+    <span class="md-ellipsis">
+      
+        sstep_run()
+      
+    </span>
+  </a>
+  
+</li>
+        
+          <li class="md-nav__item">
+  <a href="#sstep_stop" class="md-nav__link">
+    <span class="md-ellipsis">
+      
+        sstep_stop()
+      
+    </span>
+  </a>
+  
+</li>
+        
+          <li class="md-nav__item">
+  <a href="#sstep_set_position" class="md-nav__link">
+    <span class="md-ellipsis">
+      
+        sstep_set_position()
+      
+    </span>
+  </a>
+  
+</li>
+        
+          <li class="md-nav__item">
+  <a href="#sstep_set_current" class="md-nav__link">
+    <span class="md-ellipsis">
+      
+        sstep_set_current()
+      
+    </span>
+  </a>
+  
+</li>
+        
+          <li class="md-nav__item">
+  <a href="#sstep_set_motion_limits" class="md-nav__link">
+    <span class="md-ellipsis">
+      
+        sstep_set_motion_limits()
+      
+    </span>
+  </a>
+  
+</li>
+        
+          <li class="md-nav__item">
+  <a href="#sstep_report_fault" class="md-nav__link">
+    <span class="md-ellipsis">
+      
+        sstep_report_fault()
+      
+    </span>
+  </a>
+  
+</li>
+        
+          <li class="md-nav__item">
+  <a href="#sstep_clear_faults" class="md-nav__link">
+    <span class="md-ellipsis">
+      
+        sstep_clear_faults()
+      
+    </span>
+  </a>
+  
+</li>
+        
+          <li class="md-nav__item">
+  <a href="#sstep_get_status" class="md-nav__link">
+    <span class="md-ellipsis">
+      
+        sstep_get_status()
+      
+    </span>
+  </a>
+  
+</li>
+        
+      </ul>
+    </nav>
+  
+</li>
+      
+        <li class="md-nav__item">
+  <a href="#calling-contexts" class="md-nav__link">
+    <span class="md-ellipsis">
+      
+        Calling contexts
+      
+    </span>
+  </a>
+  
+</li>
+      
+    </ul>
+  
+</nav>
+                  </div>
+                </div>
+              </div>
+            
+          
+          
+            <div class="md-content" data-md-component="content">
+              
+              <article class="md-content__inner md-typeset">
+                
+                  
+
+
+
+<h1 id="api-reference">API Reference<a class="headerlink" href="#api-reference" title="Permanent link">&para;</a></h1>
+<p>The public API of Stepper-C 0.1.0 is declared in <code>inc/sstep_ctrl.h</code> and included through
+<code>sstep.h</code>. All functions return an <code>int</code> status code, never block and never allocate.
+Types and members marked <em>private</em> may change in any release.</p>
+<h2 id="headers">Headers<a class="headerlink" href="#headers" title="Permanent link">&para;</a></h2>
+<table>
+<thead>
+<tr>
+<th>Header</th>
+<th>Content</th>
+</tr>
+</thead>
+<tbody>
+<tr>
+<td><code>sstep.h</code></td>
+<td>umbrella header and version (<code>SSTEP_VERSION</code>, fallback <code>"0.1.0"</code>)</td>
+</tr>
+<tr>
+<td><code>inc/sstep_config.h</code></td>
+<td>build-time macros (see <a href="../library/#build-time-configuration">Build-time configuration</a>)</td>
+</tr>
+<tr>
+<td><code>inc/sstep_defs.h</code></td>
+<td>status codes, <code>enum sstep_topology</code>, fault flags, <code>enum sstep_state</code></td>
+</tr>
+<tr>
+<td><code>inc/sstep_math.h</code></td>
+<td>numeric types (<code>sstep_real_t</code>, <code>sstep_acc_t</code>, <code>sstep_angle_t</code>, <code>struct sstep_gain</code>)</td>
+</tr>
+<tr>
+<td><code>inc/sstep_ctrl.h</code></td>
+<td>configuration, callbacks, loops, commands</td>
+</tr>
+</tbody>
+</table>
+<h2 id="status-codes">Status codes<a class="headerlink" href="#status-codes" title="Permanent link">&para;</a></h2>
+<table>
+<thead>
+<tr>
+<th>Code</th>
+<th>Value</th>
+<th>Meaning</th>
+</tr>
+</thead>
+<tbody>
+<tr>
+<td><code>SSTEP_OK</code></td>
+<td>0</td>
+<td>success</td>
+</tr>
+<tr>
+<td><code>SSTEP_ERR_PARAM</code></td>
+<td>−1</td>
+<td>NULL pointer, missing required callback, value out of range</td>
+</tr>
+<tr>
+<td><code>SSTEP_ERR_CONFIG</code></td>
+<td>−2</td>
+<td>values that are valid alone but inconsistent together</td>
+</tr>
+<tr>
+<td><code>SSTEP_ERR_STATE</code></td>
+<td>−3</td>
+<td>command not allowed in the current state (disabled, faulted, moving)</td>
+</tr>
+<tr>
+<td><code>SSTEP_ERR_UNSUPPORTED</code></td>
+<td>−4</td>
+<td>topology not compiled in</td>
+</tr>
+</tbody>
+</table>
+<h2 id="enumerations-and-flags">Enumerations and flags<a class="headerlink" href="#enumerations-and-flags" title="Permanent link">&para;</a></h2>
+<table>
+<thead>
+<tr>
+<th>Name</th>
+<th>Values</th>
+</tr>
+</thead>
+<tbody>
+<tr>
+<td><code>enum sstep_topology</code></td>
+<td><code>SSTEP_TOPOLOGY_FULL_BRIDGE</code> = 0 (4 legs), <code>SSTEP_TOPOLOGY_SHARED_LEG</code> = 1 (3 legs); <code>SSTEP_LEGS_MAX</code> = 4</td>
+</tr>
+<tr>
+<td><code>enum sstep_drive_mode</code></td>
+<td><code>SSTEP_DRIVE_CURRENT</code> = 0 (PI current control), <code>SSTEP_DRIVE_VOLTAGE</code> = 1 (open loop <code>R·I + ff</code>)</td>
+</tr>
+<tr>
+<td><code>enum sstep_state</code></td>
+<td><code>SSTEP_STATE_DISABLED</code> = 0, <code>SSTEP_STATE_HOLDING</code> = 1, <code>SSTEP_STATE_MOVING</code> = 2, <code>SSTEP_STATE_FAULT</code> = 3</td>
+</tr>
+<tr>
+<td><code>enum sstep_event</code></td>
+<td><code>SSTEP_EVENT_MOVE_DONE</code> = 0, <code>SSTEP_EVENT_HOLD_CURRENT</code> = 1</td>
+</tr>
+<tr>
+<td>Fault flags (<code>uint16_t</code>)</td>
+<td><code>SSTEP_FAULT_NONE</code> 0x0000, <code>…_OVERCURRENT</code> 0x0001, <code>…_OVERVOLTAGE</code> 0x0002, <code>…_UNDERVOLTAGE</code> 0x0004, <code>…_HAL</code> 0x0008, <code>…_EXTERNAL</code> 0x0010</td>
+</tr>
+</tbody>
+</table>
+<h2 id="callbacks">Callbacks<a class="headerlink" href="#callbacks" title="Permanent link">&para;</a></h2>
+<div class="highlight"><pre><span></span><code><a id="__codelineno-0-1" name="__codelineno-0-1" href="#__codelineno-0-1"></a><span class="k">typedef</span><span class="w"> </span><span class="kt">int</span><span class="w">  </span><span class="p">(</span><span class="o">*</span><span class="n">sstep_pwm_write_fn</span><span class="p">)(</span><span class="kt">void</span><span class="o">*</span><span class="w"> </span><span class="n">context</span><span class="p">,</span><span class="w"> </span><span class="k">const</span><span class="w"> </span><span class="kt">uint16_t</span><span class="w"> </span><span class="n">compare</span><span class="p">[</span><span class="n">SSTEP_LEGS_MAX</span><span class="p">]);</span>
+<a id="__codelineno-0-2" name="__codelineno-0-2" href="#__codelineno-0-2"></a><span class="k">typedef</span><span class="w"> </span><span class="kt">int</span><span class="w">  </span><span class="p">(</span><span class="o">*</span><span class="n">sstep_output_enable_fn</span><span class="p">)(</span><span class="kt">void</span><span class="o">*</span><span class="w"> </span><span class="n">context</span><span class="p">,</span><span class="w"> </span><span class="kt">bool</span><span class="w"> </span><span class="n">enable</span><span class="p">);</span>
+<a id="__codelineno-0-3" name="__codelineno-0-3" href="#__codelineno-0-3"></a><span class="k">typedef</span><span class="w"> </span><span class="kt">void</span><span class="w"> </span><span class="p">(</span><span class="o">*</span><span class="n">sstep_fault_fn</span><span class="p">)(</span><span class="kt">void</span><span class="o">*</span><span class="w"> </span><span class="n">context</span><span class="p">,</span><span class="w"> </span><span class="kt">uint16_t</span><span class="w"> </span><span class="n">faults</span><span class="p">);</span>
+<a id="__codelineno-0-4" name="__codelineno-0-4" href="#__codelineno-0-4"></a><span class="k">typedef</span><span class="w"> </span><span class="kt">void</span><span class="w"> </span><span class="p">(</span><span class="o">*</span><span class="n">sstep_event_fn</span><span class="p">)(</span><span class="kt">void</span><span class="o">*</span><span class="w"> </span><span class="n">context</span><span class="p">,</span><span class="w"> </span><span class="k">enum</span><span class="w"> </span><span class="n">sstep_event</span><span class="w"> </span><span class="n">event</span><span class="p">);</span>
+</code></pre></div>
+<table>
+<thead>
+<tr>
+<th>Callback</th>
+<th>Required</th>
+<th>Called from</th>
+<th>Contract</th>
+</tr>
+</thead>
+<tbody>
+<tr>
+<td><code>pwm_write</code></td>
+<td>yes</td>
+<td>fast loop (interrupt)</td>
+<td>write one compare value per leg (0 … <code>pwm_period_ticks</code>; 0 = low side on); the array is valid only during the call; return &lt; 0 on error (raises <code>SSTEP_FAULT_HAL</code>)</td>
+</tr>
+<tr>
+<td><code>output_enable</code></td>
+<td>yes</td>
+<td>enable, disable, any fault</td>
+<td><code>true</code> enables the gate drivers, <code>false</code> switches every leg off (high impedance); return &lt; 0 on error</td>
+</tr>
+<tr>
+<td><code>on_fault</code></td>
+<td>no</td>
+<td>the context that detected the fault (may be the interrupt)</td>
+<td>newly raised flags</td>
+</tr>
+<tr>
+<td><code>on_event</code></td>
+<td>no</td>
+<td>slow loop</td>
+<td>move done, hold current applied</td>
+</tr>
+</tbody>
+</table>
+<h2 id="configuration-structures">Configuration structures<a class="headerlink" href="#configuration-structures" title="Permanent link">&para;</a></h2>
+<h3 id="struct-sstep_motor_cfg"><code>struct sstep_motor_cfg</code><a class="headerlink" href="#struct-sstep_motor_cfg" title="Permanent link">&para;</a></h3>
+<table>
+<thead>
+<tr>
+<th>Member</th>
+<th>Type</th>
+<th>Unit</th>
+<th>Range</th>
+<th>Meaning</th>
+</tr>
+</thead>
+<tbody>
+<tr>
+<td><code>r_mohm</code></td>
+<td><code>uint32_t</code></td>
+<td>mΩ</td>
+<td>1 … 10⁷</td>
+<td>phase resistance at 25 °C</td>
+</tr>
+<tr>
+<td><code>l_uh</code></td>
+<td><code>uint32_t</code></td>
+<td>µH</td>
+<td>1 … 10⁷</td>
+<td>phase inductance</td>
+</tr>
+<tr>
+<td><code>i_rated_ma</code></td>
+<td><code>uint32_t</code></td>
+<td>mA</td>
+<td>1 … 10⁷</td>
+<td>rated phase current (upper limit of <code>i_run_ma</code>)</td>
+</tr>
+<tr>
+<td><code>ke_uv_s_per_rad</code></td>
+<td><code>uint32_t</code></td>
+<td>µV·s/rad</td>
+<td>0 … 10⁷</td>
+<td>back-EMF constant = <code>K_t</code> in µN·m/A; 0 disables the feed-forward</td>
+</tr>
+<tr>
+<td><code>full_steps_per_rev</code></td>
+<td><code>uint16_t</code></td>
+<td>—</td>
+<td>≥ 1</td>
+<td>200 for 1.8°</td>
+</tr>
+</tbody>
+</table>
+<h3 id="struct-sstep_stage_cfg"><code>struct sstep_stage_cfg</code><a class="headerlink" href="#struct-sstep_stage_cfg" title="Permanent link">&para;</a></h3>
+<table>
+<thead>
+<tr>
+<th>Member</th>
+<th>Type</th>
+<th>Unit</th>
+<th>Meaning</th>
+</tr>
+</thead>
+<tbody>
+<tr>
+<td><code>topology</code></td>
+<td><code>enum sstep_topology</code></td>
+<td>—</td>
+<td>power stage topology</td>
+</tr>
+<tr>
+<td><code>vbus_nominal_mv</code></td>
+<td><code>uint32_t</code></td>
+<td>mV</td>
+<td>nominal bus voltage, base of the per-unit voltage</td>
+</tr>
+<tr>
+<td><code>vbus_min_mv</code></td>
+<td><code>uint32_t</code></td>
+<td>mV</td>
+<td>undervoltage trip, below nominal; 0 = disabled</td>
+</tr>
+<tr>
+<td><code>vbus_max_mv</code></td>
+<td><code>uint32_t</code></td>
+<td>mV</td>
+<td>overvoltage trip, above nominal; 0 = disabled</td>
+</tr>
+<tr>
+<td><code>i_full_scale_ma</code></td>
+<td><code>uint32_t</code></td>
+<td>mA</td>
+<td>phase current at ADC full scale, base of the per-unit current</td>
+</tr>
+<tr>
+<td><code>i_trip_ma</code></td>
+<td><code>uint32_t</code></td>
+<td>mA</td>
+<td>overcurrent trip, ≤ <code>i_full_scale_ma</code></td>
+</tr>
+<tr>
+<td><code>pwm_period_ticks</code></td>
+<td><code>uint16_t</code></td>
+<td>ticks</td>
+<td>compare value for 100 % duty (≥ 2)</td>
+</tr>
+<tr>
+<td><code>pwm_freq_hz</code></td>
+<td><code>uint32_t</code></td>
+<td>Hz</td>
+<td>PWM frequency</td>
+</tr>
+<tr>
+<td><code>dead_time_ns</code></td>
+<td><code>uint32_t</code></td>
+<td>ns</td>
+<td>dead time for compensation (stored; compensation planned)</td>
+</tr>
+<tr>
+<td><code>adc_i_zero</code></td>
+<td><code>uint16_t</code></td>
+<td>counts</td>
+<td>current ADC reading at 0 A (≤ <code>adc_full</code>)</td>
+</tr>
+<tr>
+<td><code>adc_i_span</code></td>
+<td><code>int32_t</code></td>
+<td>counts</td>
+<td>counts from 0 A to +<code>i_full_scale_ma</code>; negative for an inverting amplifier; ±1 … ±65535</td>
+</tr>
+<tr>
+<td><code>adc_vbus_mv_full</code></td>
+<td><code>uint32_t</code></td>
+<td>mV</td>
+<td>bus voltage at ADC reading <code>adc_full</code></td>
+</tr>
+<tr>
+<td><code>adc_full</code></td>
+<td><code>uint16_t</code></td>
+<td>counts</td>
+<td>largest ADC reading (4095 for 12 bits)</td>
+</tr>
+</tbody>
+</table>
+<h3 id="struct-sstep_ctrl_cfg"><code>struct sstep_ctrl_cfg</code><a class="headerlink" href="#struct-sstep_ctrl_cfg" title="Permanent link">&para;</a></h3>
+<table>
+<thead>
+<tr>
+<th>Member</th>
+<th>Type</th>
+<th>Unit</th>
+<th>Meaning</th>
+</tr>
+</thead>
+<tbody>
+<tr>
+<td><code>drive_mode</code></td>
+<td><code>enum sstep_drive_mode</code></td>
+<td>—</td>
+<td>current or voltage drive</td>
+</tr>
+<tr>
+<td><code>fast_loop_hz</code></td>
+<td><code>uint32_t</code></td>
+<td>Hz</td>
+<td>rate of <code>sstep_fast_loop()</code>; integer multiple of <code>slow_loop_hz</code>, ratio ≤ 65535</td>
+</tr>
+<tr>
+<td><code>slow_loop_hz</code></td>
+<td><code>uint32_t</code></td>
+<td>Hz</td>
+<td>rate of <code>sstep_slow_loop()</code></td>
+</tr>
+<tr>
+<td><code>microsteps</code></td>
+<td><code>uint16_t</code></td>
+<td>—</td>
+<td>microsteps per full step, power of two ≤ <code>SSTEP_CFG_MICROSTEPS_MAX</code></td>
+</tr>
+<tr>
+<td><code>current_bw_hz</code></td>
+<td><code>uint32_t</code></td>
+<td>Hz</td>
+<td>current loop bandwidth, ≤ <code>fast_loop_hz / 4</code></td>
+</tr>
+<tr>
+<td><code>i_run_ma</code></td>
+<td><code>uint32_t</code></td>
+<td>mA</td>
+<td>peak phase current while moving, ≤ <code>i_trip_ma</code> and ≤ <code>i_rated_ma</code></td>
+</tr>
+<tr>
+<td><code>i_hold_ma</code></td>
+<td><code>uint32_t</code></td>
+<td>mA</td>
+<td>peak phase current at standstill, ≤ <code>i_run_ma</code></td>
+</tr>
+<tr>
+<td><code>hold_delay_ms</code></td>
+<td><code>uint32_t</code></td>
+<td>ms</td>
+<td>standstill time before the hold current</td>
+</tr>
+<tr>
+<td><code>v_max</code></td>
+<td><code>uint32_t</code></td>
+<td>µsteps/s</td>
+<td>maximum velocity</td>
+</tr>
+<tr>
+<td><code>accel</code></td>
+<td><code>uint32_t</code></td>
+<td>µsteps/s²</td>
+<td>acceleration</td>
+</tr>
+<tr>
+<td><code>decel</code></td>
+<td><code>uint32_t</code></td>
+<td>µsteps/s²</td>
+<td>deceleration; 0 = same as <code>accel</code></td>
+</tr>
+</tbody>
+</table>
+<h3 id="struct-sstep_config-struct-sstep_callbacks"><code>struct sstep_config</code>, <code>struct sstep_callbacks</code><a class="headerlink" href="#struct-sstep_config-struct-sstep_callbacks" title="Permanent link">&para;</a></h3>
+<p><code>struct sstep_config</code> groups <code>motor</code>, <code>stage</code>, <code>ctrl</code> and <code>hal</code>
+(<code>struct sstep_callbacks</code>: <code>context</code>, <code>pwm_write</code>, <code>output_enable</code>, <code>on_fault</code>,
+<code>on_event</code>). It is copied by <code>sstep_init()</code> and may be discarded afterwards.</p>
+<h3 id="struct-sstep_sample"><code>struct sstep_sample</code><a class="headerlink" href="#struct-sstep_sample" title="Permanent link">&para;</a></h3>
+<table>
+<thead>
+<tr>
+<th>Member</th>
+<th>Type</th>
+<th>Meaning</th>
+</tr>
+</thead>
+<tbody>
+<tr>
+<td><code>i_a</code></td>
+<td><code>uint16_t</code></td>
+<td>phase A current, ADC counts (ignored in voltage drive)</td>
+</tr>
+<tr>
+<td><code>i_b</code></td>
+<td><code>uint16_t</code></td>
+<td>phase B current, ADC counts (ignored in voltage drive)</td>
+</tr>
+<tr>
+<td><code>vbus</code></td>
+<td><code>uint16_t</code></td>
+<td>bus voltage, ADC counts</td>
+</tr>
+</tbody>
+</table>
+<h3 id="struct-sstep_status"><code>struct sstep_status</code><a class="headerlink" href="#struct-sstep_status" title="Permanent link">&para;</a></h3>
+<table>
+<thead>
+<tr>
+<th>Member</th>
+<th>Type</th>
+<th>Unit</th>
+</tr>
+</thead>
+<tbody>
+<tr>
+<td><code>state</code></td>
+<td><code>enum sstep_state</code></td>
+<td>—</td>
+</tr>
+<tr>
+<td><code>faults</code></td>
+<td><code>uint16_t</code></td>
+<td>active fault flags</td>
+</tr>
+<tr>
+<td><code>position</code></td>
+<td><code>int32_t</code></td>
+<td>commanded position, µsteps</td>
+</tr>
+<tr>
+<td><code>target</code></td>
+<td><code>int32_t</code></td>
+<td>target of the move, µsteps</td>
+</tr>
+<tr>
+<td><code>velocity</code></td>
+<td><code>int32_t</code></td>
+<td>commanded velocity, µsteps/s</td>
+</tr>
+<tr>
+<td><code>i_a_ma</code>, <code>i_b_ma</code></td>
+<td><code>int32_t</code></td>
+<td>last measured phase currents, mA</td>
+</tr>
+<tr>
+<td><code>vbus_mv</code></td>
+<td><code>uint32_t</code></td>
+<td>last measured bus voltage, mV</td>
+</tr>
+</tbody>
+</table>
+<h3 id="struct-sstep-private"><code>struct sstep</code> (private)<a class="headerlink" href="#struct-sstep-private" title="Permanent link">&para;</a></h3>
+<p>The driver instance, allocated by the application and initialised by <code>sstep_init()</code>. Its
+members (configuration copy, derived gains, double-buffered setpoint, PI integrators,
+motion state, faults, state) are private; use the functions only.</p>
+<h2 id="functions">Functions<a class="headerlink" href="#functions" title="Permanent link">&para;</a></h2>
+<h3 id="sstep_init"><code>sstep_init()</code><a class="headerlink" href="#sstep_init" title="Permanent link">&para;</a></h3>
+<div class="highlight"><pre><span></span><code><a id="__codelineno-1-1" name="__codelineno-1-1" href="#__codelineno-1-1"></a><span class="kt">int</span><span class="w"> </span><span class="nf">sstep_init</span><span class="p">(</span><span class="k">struct</span><span class="w"> </span><span class="nc">sstep</span><span class="o">*</span><span class="w"> </span><span class="n">m</span><span class="p">,</span><span class="w"> </span><span class="k">const</span><span class="w"> </span><span class="k">struct</span><span class="w"> </span><span class="nc">sstep_config</span><span class="o">*</span><span class="w"> </span><span class="n">cfg</span><span class="p">);</span>
+</code></pre></div>
+<p>Validates the configuration, copies it, derives the per-unit gains (<code>Kp = L ωc</code>,
+<code>Ki = R ωc</code>, <code>Kb = Ts R / L</code>), the ADC scaling, the trip levels and the motion limits.
+No floating point is used with the fixed point backend. The outputs stay disabled.</p>
+<table>
+<thead>
+<tr>
+<th>Parameter</th>
+<th>Meaning</th>
+</tr>
+</thead>
+<tbody>
+<tr>
+<td><code>m</code></td>
+<td>driver instance</td>
+</tr>
+<tr>
+<td><code>cfg</code></td>
+<td>configuration; copied</td>
+</tr>
+</tbody>
+</table>
+<table>
+<thead>
+<tr>
+<th>Returns</th>
+<th>When</th>
+</tr>
+</thead>
+<tbody>
+<tr>
+<td><code>SSTEP_OK</code></td>
+<td>state <code>SSTEP_STATE_DISABLED</code></td>
+</tr>
+<tr>
+<td><code>SSTEP_ERR_PARAM</code></td>
+<td>NULL pointer, missing <code>pwm_write</code>/<code>output_enable</code>, a field out of range</td>
+</tr>
+<tr>
+<td><code>SSTEP_ERR_CONFIG</code></td>
+<td>inconsistent fields (trip above full scale, run current above trip or rated, loop rates, bandwidth, bus thresholds, gains that do not fit)</td>
+</tr>
+<tr>
+<td><code>SSTEP_ERR_UNSUPPORTED</code></td>
+<td>topology not compiled in</td>
+</tr>
+</tbody>
+</table>
+<h3 id="sstep_enable"><code>sstep_enable()</code><a class="headerlink" href="#sstep_enable" title="Permanent link">&para;</a></h3>
+<div class="highlight"><pre><span></span><code><a id="__codelineno-2-1" name="__codelineno-2-1" href="#__codelineno-2-1"></a><span class="kt">int</span><span class="w"> </span><span class="nf">sstep_enable</span><span class="p">(</span><span class="k">struct</span><span class="w"> </span><span class="nc">sstep</span><span class="o">*</span><span class="w"> </span><span class="n">m</span><span class="p">);</span>
+</code></pre></div>
+<p>Enables the outputs and holds the current position with the run current (the hold
+current follows after <code>hold_delay_ms</code>). Resets the integrators. No effect when already
+enabled.</p>
+<table>
+<thead>
+<tr>
+<th>Returns</th>
+<th>When</th>
+</tr>
+</thead>
+<tbody>
+<tr>
+<td><code>SSTEP_OK</code></td>
+<td>state <code>SSTEP_STATE_HOLDING</code></td>
+</tr>
+<tr>
+<td><code>SSTEP_ERR_PARAM</code></td>
+<td><code>m</code> is NULL</td>
+</tr>
+<tr>
+<td><code>SSTEP_ERR_STATE</code></td>
+<td>faulted, or <code>output_enable()</code> failed (then <code>SSTEP_FAULT_HAL</code>)</td>
+</tr>
+</tbody>
+</table>
+<h3 id="sstep_disable"><code>sstep_disable()</code><a class="headerlink" href="#sstep_disable" title="Permanent link">&para;</a></h3>
+<div class="highlight"><pre><span></span><code><a id="__codelineno-3-1" name="__codelineno-3-1" href="#__codelineno-3-1"></a><span class="kt">int</span><span class="w"> </span><span class="nf">sstep_disable</span><span class="p">(</span><span class="k">struct</span><span class="w"> </span><span class="nc">sstep</span><span class="o">*</span><span class="w"> </span><span class="n">m</span><span class="p">);</span>
+</code></pre></div>
+<p>Stops immediately and switches the outputs off: the motor coasts without holding torque.
+A faulted driver stays faulted. Returns <code>SSTEP_OK</code> or <code>SSTEP_ERR_PARAM</code>.</p>
+<h3 id="sstep_fast_loop"><code>sstep_fast_loop()</code><a class="headerlink" href="#sstep_fast_loop" title="Permanent link">&para;</a></h3>
+<div class="highlight"><pre><span></span><code><a id="__codelineno-4-1" name="__codelineno-4-1" href="#__codelineno-4-1"></a><span class="kt">int</span><span class="w"> </span><span class="nf">sstep_fast_loop</span><span class="p">(</span><span class="k">struct</span><span class="w"> </span><span class="nc">sstep</span><span class="o">*</span><span class="w"> </span><span class="n">m</span><span class="p">,</span><span class="w"> </span><span class="k">const</span><span class="w"> </span><span class="k">struct</span><span class="w"> </span><span class="nc">sstep_sample</span><span class="o">*</span><span class="w"> </span><span class="n">sample</span><span class="p">);</span>
+</code></pre></div>
+<p>Call once per PWM period from the PWM/ADC interrupt. Converts the sample, checks the
+overcurrent and bus voltage trips (when the outputs are on), runs the current
+controllers, limits and maps the voltage and calls <code>pwm_write()</code>. Bounded execution
+time. With the outputs off it only stores the measurements.</p>
+<table>
+<thead>
+<tr>
+<th>Returns</th>
+<th>When</th>
+</tr>
+</thead>
+<tbody>
+<tr>
+<td><code>SSTEP_OK</code></td>
+<td>always, except:</td>
+</tr>
+<tr>
+<td><code>SSTEP_ERR_PARAM</code></td>
+<td>NULL pointer (only with <code>SSTEP_CFG_ARG_CHECKS</code> = 1)</td>
+</tr>
+</tbody>
+</table>
+<h3 id="sstep_slow_loop"><code>sstep_slow_loop()</code><a class="headerlink" href="#sstep_slow_loop" title="Permanent link">&para;</a></h3>
+<div class="highlight"><pre><span></span><code><a id="__codelineno-5-1" name="__codelineno-5-1" href="#__codelineno-5-1"></a><span class="kt">int</span><span class="w"> </span><span class="nf">sstep_slow_loop</span><span class="p">(</span><span class="k">struct</span><span class="w"> </span><span class="nc">sstep</span><span class="o">*</span><span class="w"> </span><span class="n">m</span><span class="p">);</span>
+</code></pre></div>
+<p>Call at <code>slow_loop_hz</code>. Advances the motion generator, selects run or hold current,
+updates the bus voltage scale, publishes the setpoint for the fast loop, sets the state
+(HOLDING/MOVING, or FAULT if the fast loop tripped meanwhile) and reports events.
+Returns <code>SSTEP_OK</code> or <code>SSTEP_ERR_PARAM</code>.</p>
+<h3 id="sstep_move_to-sstep_move_by"><code>sstep_move_to()</code>, <code>sstep_move_by()</code><a class="headerlink" href="#sstep_move_to-sstep_move_by" title="Permanent link">&para;</a></h3>
+<div class="highlight"><pre><span></span><code><a id="__codelineno-6-1" name="__codelineno-6-1" href="#__codelineno-6-1"></a><span class="kt">int</span><span class="w"> </span><span class="nf">sstep_move_to</span><span class="p">(</span><span class="k">struct</span><span class="w"> </span><span class="nc">sstep</span><span class="o">*</span><span class="w"> </span><span class="n">m</span><span class="p">,</span><span class="w"> </span><span class="kt">int32_t</span><span class="w"> </span><span class="n">position</span><span class="p">);</span>
+<a id="__codelineno-6-2" name="__codelineno-6-2" href="#__codelineno-6-2"></a><span class="kt">int</span><span class="w"> </span><span class="nf">sstep_move_by</span><span class="p">(</span><span class="k">struct</span><span class="w"> </span><span class="nc">sstep</span><span class="o">*</span><span class="w"> </span><span class="n">m</span><span class="p">,</span><span class="w"> </span><span class="kt">int32_t</span><span class="w"> </span><span class="n">delta</span><span class="p">);</span>
+</code></pre></div>
+<p>Start a move to an absolute position, or relative to the current <em>target</em>, with the
+trapezoidal profile. A running command is replaced smoothly (no velocity step).</p>
+<table>
+<thead>
+<tr>
+<th>Returns</th>
+<th>When</th>
+</tr>
+</thead>
+<tbody>
+<tr>
+<td><code>SSTEP_OK</code></td>
+<td>move started</td>
+</tr>
+<tr>
+<td><code>SSTEP_ERR_PARAM</code></td>
+<td><code>m</code> is NULL; <code>move_by</code> target outside <code>int32_t</code></td>
+</tr>
+<tr>
+<td><code>SSTEP_ERR_STATE</code></td>
+<td>disabled or faulted</td>
+</tr>
+</tbody>
+</table>
+<h3 id="sstep_run"><code>sstep_run()</code><a class="headerlink" href="#sstep_run" title="Permanent link">&para;</a></h3>
+<div class="highlight"><pre><span></span><code><a id="__codelineno-7-1" name="__codelineno-7-1" href="#__codelineno-7-1"></a><span class="kt">int</span><span class="w"> </span><span class="nf">sstep_run</span><span class="p">(</span><span class="k">struct</span><span class="w"> </span><span class="nc">sstep</span><span class="o">*</span><span class="w"> </span><span class="n">m</span><span class="p">,</span><span class="w"> </span><span class="kt">int32_t</span><span class="w"> </span><span class="n">velocity</span><span class="p">);</span>
+</code></pre></div>
+<p>Run at a constant signed velocity [µsteps/s] until another command, accelerating with
+the configured limits. <code>|velocity|</code> ≤ <code>v_max</code>. Returns <code>SSTEP_OK</code>, <code>SSTEP_ERR_PARAM</code>
+(NULL or velocity above <code>v_max</code>) or <code>SSTEP_ERR_STATE</code> (disabled or faulted).</p>
+<h3 id="sstep_stop"><code>sstep_stop()</code><a class="headerlink" href="#sstep_stop" title="Permanent link">&para;</a></h3>
+<div class="highlight"><pre><span></span><code><a id="__codelineno-8-1" name="__codelineno-8-1" href="#__codelineno-8-1"></a><span class="kt">int</span><span class="w"> </span><span class="nf">sstep_stop</span><span class="p">(</span><span class="k">struct</span><span class="w"> </span><span class="nc">sstep</span><span class="o">*</span><span class="w"> </span><span class="n">m</span><span class="p">);</span>
+</code></pre></div>
+<p>Decelerates to standstill with the deceleration limit, then holds. No effect when
+nothing moves. Returns <code>SSTEP_OK</code> or <code>SSTEP_ERR_PARAM</code>.</p>
+<h3 id="sstep_set_position"><code>sstep_set_position()</code><a class="headerlink" href="#sstep_set_position" title="Permanent link">&para;</a></h3>
+<div class="highlight"><pre><span></span><code><a id="__codelineno-9-1" name="__codelineno-9-1" href="#__codelineno-9-1"></a><span class="kt">int</span><span class="w"> </span><span class="nf">sstep_set_position</span><span class="p">(</span><span class="k">struct</span><span class="w"> </span><span class="nc">sstep</span><span class="o">*</span><span class="w"> </span><span class="n">m</span><span class="p">,</span><span class="w"> </span><span class="kt">int32_t</span><span class="w"> </span><span class="n">position</span><span class="p">);</span>
+</code></pre></div>
+<p>Redefines the current position (homing). The rotor does not move: the electrical angle
+is kept and only the numbering changes. Returns <code>SSTEP_OK</code>, <code>SSTEP_ERR_PARAM</code> or
+<code>SSTEP_ERR_STATE</code> (a command is running).</p>
+<h3 id="sstep_set_current"><code>sstep_set_current()</code><a class="headerlink" href="#sstep_set_current" title="Permanent link">&para;</a></h3>
+<div class="highlight"><pre><span></span><code><a id="__codelineno-10-1" name="__codelineno-10-1" href="#__codelineno-10-1"></a><span class="kt">int</span><span class="w"> </span><span class="nf">sstep_set_current</span><span class="p">(</span><span class="k">struct</span><span class="w"> </span><span class="nc">sstep</span><span class="o">*</span><span class="w"> </span><span class="n">m</span><span class="p">,</span><span class="w"> </span><span class="kt">uint32_t</span><span class="w"> </span><span class="n">run_ma</span><span class="p">,</span><span class="w"> </span><span class="kt">uint32_t</span><span class="w"> </span><span class="n">hold_ma</span><span class="p">);</span>
+</code></pre></div>
+<p>Changes the run and hold currents; used from the next slow loop period.</p>
+<table>
+<thead>
+<tr>
+<th>Returns</th>
+<th>When</th>
+</tr>
+</thead>
+<tbody>
+<tr>
+<td><code>SSTEP_OK</code></td>
+<td>accepted</td>
+</tr>
+<tr>
+<td><code>SSTEP_ERR_PARAM</code></td>
+<td>NULL, <code>run_ma</code> = 0, a value above 10⁷</td>
+</tr>
+<tr>
+<td><code>SSTEP_ERR_CONFIG</code></td>
+<td><code>hold_ma</code> &gt; <code>run_ma</code>, <code>run_ma</code> above <code>i_trip_ma</code> or <code>i_rated_ma</code></td>
+</tr>
+</tbody>
+</table>
+<h3 id="sstep_set_motion_limits"><code>sstep_set_motion_limits()</code><a class="headerlink" href="#sstep_set_motion_limits" title="Permanent link">&para;</a></h3>
+<div class="highlight"><pre><span></span><code><a id="__codelineno-11-1" name="__codelineno-11-1" href="#__codelineno-11-1"></a><span class="kt">int</span><span class="w"> </span><span class="nf">sstep_set_motion_limits</span><span class="p">(</span><span class="k">struct</span><span class="w"> </span><span class="nc">sstep</span><span class="o">*</span><span class="w"> </span><span class="n">m</span><span class="p">,</span><span class="w"> </span><span class="kt">uint32_t</span><span class="w"> </span><span class="n">v_max</span><span class="p">,</span><span class="w"> </span><span class="kt">uint32_t</span><span class="w"> </span><span class="n">accel</span><span class="p">,</span><span class="w"> </span><span class="kt">uint32_t</span><span class="w"> </span><span class="n">decel</span><span class="p">);</span>
+</code></pre></div>
+<p>Changes the velocity [µsteps/s], acceleration and deceleration [µsteps/s²] limits
+(<code>decel</code> = 0: same as <code>accel</code>). The motion generator uses them from the next slow loop
+period, also for a running move. Returns <code>SSTEP_ERR_PARAM</code> for zero values or values
+that become zero or too large in the internal units (for example an acceleration below
+<code>slow_loop_hz² / 65536</code>).</p>
+<h3 id="sstep_report_fault"><code>sstep_report_fault()</code><a class="headerlink" href="#sstep_report_fault" title="Permanent link">&para;</a></h3>
+<div class="highlight"><pre><span></span><code><a id="__codelineno-12-1" name="__codelineno-12-1" href="#__codelineno-12-1"></a><span class="kt">int</span><span class="w"> </span><span class="nf">sstep_report_fault</span><span class="p">(</span><span class="k">struct</span><span class="w"> </span><span class="nc">sstep</span><span class="o">*</span><span class="w"> </span><span class="n">m</span><span class="p">,</span><span class="w"> </span><span class="kt">uint16_t</span><span class="w"> </span><span class="n">faults</span><span class="p">);</span>
+</code></pre></div>
+<p>Raises application faults (a driver fault pin, over-temperature), typically
+<code>SSTEP_FAULT_EXTERNAL</code>: the outputs switch off and the state becomes FAULT. May be called
+from an interrupt. Returns <code>SSTEP_OK</code> or <code>SSTEP_ERR_PARAM</code>.</p>
+<h3 id="sstep_clear_faults"><code>sstep_clear_faults()</code><a class="headerlink" href="#sstep_clear_faults" title="Permanent link">&para;</a></h3>
+<div class="highlight"><pre><span></span><code><a id="__codelineno-13-1" name="__codelineno-13-1" href="#__codelineno-13-1"></a><span class="kt">int</span><span class="w"> </span><span class="nf">sstep_clear_faults</span><span class="p">(</span><span class="k">struct</span><span class="w"> </span><span class="nc">sstep</span><span class="o">*</span><span class="w"> </span><span class="n">m</span><span class="p">);</span>
+</code></pre></div>
+<p>Clears all faults; the driver goes to DISABLED and must be enabled again. Returns
+<code>SSTEP_OK</code> or <code>SSTEP_ERR_PARAM</code>.</p>
+<h3 id="sstep_get_status"><code>sstep_get_status()</code><a class="headerlink" href="#sstep_get_status" title="Permanent link">&para;</a></h3>
+<div class="highlight"><pre><span></span><code><a id="__codelineno-14-1" name="__codelineno-14-1" href="#__codelineno-14-1"></a><span class="kt">int</span><span class="w"> </span><span class="nf">sstep_get_status</span><span class="p">(</span><span class="k">const</span><span class="w"> </span><span class="k">struct</span><span class="w"> </span><span class="nc">sstep</span><span class="o">*</span><span class="w"> </span><span class="n">m</span><span class="p">,</span><span class="w"> </span><span class="k">struct</span><span class="w"> </span><span class="nc">sstep_status</span><span class="o">*</span><span class="w"> </span><span class="n">status</span><span class="p">);</span>
+</code></pre></div>
+<p>Fills a snapshot in engineering units (state, faults, position, target, velocity,
+currents, bus voltage). Returns <code>SSTEP_OK</code> or <code>SSTEP_ERR_PARAM</code>.</p>
+<h2 id="calling-contexts">Calling contexts<a class="headerlink" href="#calling-contexts" title="Permanent link">&para;</a></h2>
+<table>
+<thead>
+<tr>
+<th>Function</th>
+<th>Context</th>
+</tr>
+</thead>
+<tbody>
+<tr>
+<td><code>sstep_fast_loop()</code></td>
+<td>PWM/ADC interrupt only</td>
+</tr>
+<tr>
+<td><code>sstep_report_fault()</code></td>
+<td>any (interrupt allowed)</td>
+</tr>
+<tr>
+<td>all others</td>
+<td>the slow loop context (one task), never concurrently with each other</td>
+</tr>
+</tbody>
+</table>
+
+
+
+
+
+
+
+
+
+
+
+
+                
+              </article>
+            </div>
+          
+          
+<script>var target=document.getElementById(location.hash.slice(1));target&&target.name&&(target.checked=target.name.startsWith("__tabbed_"))</script>
+        </div>
+        
+          <button type="button" class="md-top md-icon" data-md-component="top" hidden>
+  
+  <svg xmlns="http://www.w3.org/2000/svg" viewBox="0 0 24 24"><path d="M13 20h-2V8l-5.5 5.5-1.42-1.42L12 4.16l7.92 7.92-1.42 1.42L13 8z"/></svg>
+  Back to top
+</button>
+        
+      </main>
+      
+        <footer class="md-footer">
+  
+    
+      
+      <nav class="md-footer__inner md-grid" aria-label="Footer" >
+        
+          
+          <a href="../library/" class="md-footer__link md-footer__link--prev" aria-label="Previous: Stepper-C Library">
+            <div class="md-footer__button md-icon">
+              
+              <svg xmlns="http://www.w3.org/2000/svg" viewBox="0 0 24 24"><path d="M20 11v2H8l5.5 5.5-1.42 1.42L4.16 12l7.92-7.92L13.5 5.5 8 11z"/></svg>
+            </div>
+            <div class="md-footer__title">
+              <span class="md-footer__direction">
+                Previous
+              </span>
+              <div class="md-ellipsis">
+                Stepper-C Library
+              </div>
+            </div>
+          </a>
+        
+        
+          
+          <a href="../simulation/" class="md-footer__link md-footer__link--next" aria-label="Next: Simulation">
+            <div class="md-footer__title">
+              <span class="md-footer__direction">
+                Next
+              </span>
+              <div class="md-ellipsis">
+                Simulation
+              </div>
+            </div>
+            <div class="md-footer__button md-icon">
+              
+              <svg xmlns="http://www.w3.org/2000/svg" viewBox="0 0 24 24"><path d="M4 11v2h12l-5.5 5.5 1.42 1.42L19.84 12l-7.92-7.92L10.5 5.5 16 11z"/></svg>
+            </div>
+          </a>
+        
+      </nav>
+    
+  
+  <div class="md-footer-meta md-typeset">
+    <div class="md-footer-meta__inner md-grid">
+      <div class="md-copyright">
+  
+    <div class="md-copyright__highlight">
+      Copyright &copy; 2026 Anton Vynohradov · <a href="https://systemfromscratch.com">SystemFromScratch®</a> · Licensed under the <a href="https://www.apache.org/licenses/LICENSE-2.0">Apache License 2.0</a>
+    </div>
+  
+  
+</div>
+      
+        
+<div class="md-social">
+  
+    
+    
+    
+    
+    <a href="https://github.com/AntonVynohradov" target="_blank" rel="noopener" title="Anton Vynohradov on GitHub" class="md-social__link">
+      <svg xmlns="http://www.w3.org/2000/svg" viewBox="0 0 512 512"><!--! Font Awesome Free 7.1.0 by @fontawesome - https://fontawesome.com License - https://fontawesome.com/license/free (Icons: CC BY 4.0, Fonts: SIL OFL 1.1, Code: MIT License) Copyright 2025 Fonticons, Inc.--><path d="M173.9 397.4c0 2-2.3 3.6-5.2 3.6-3.3.3-5.6-1.3-5.6-3.6 0-2 2.3-3.6 5.2-3.6 3-.3 5.6 1.3 5.6 3.6m-31.1-4.5c-.7 2 1.3 4.3 4.3 4.9 2.6 1 5.6 0 6.2-2s-1.3-4.3-4.3-5.2c-2.6-.7-5.5.3-6.2 2.3m44.2-1.7c-2.9.7-4.9 2.6-4.6 4.9.3 2 2.9 3.3 5.9 2.6 2.9-.7 4.9-2.6 4.6-4.6-.3-1.9-3-3.2-5.9-2.9M252.8 8C114.1 8 8 113.3 8 252c0 110.9 69.8 205.8 169.5 239.2 12.8 2.3 17.3-5.6 17.3-12.1 0-6.2-.3-40.4-.3-61.4 0 0-70 15-84.7-29.8 0 0-11.4-29.1-27.8-36.6 0 0-22.9-15.7 1.6-15.4 0 0 24.9 2 38.6 25.8 21.9 38.6 58.6 27.5 72.9 20.9 2.3-16 8.8-27.1 16-33.7-55.9-6.2-112.3-14.3-112.3-110.5 0-27.5 7.6-41.3 23.6-58.9-2.6-6.5-11.1-33.3 2.6-67.9 20.9-6.5 69 27 69 27 20-5.6 41.5-8.5 62.8-8.5s42.8 2.9 62.8 8.5c0 0 48.1-33.6 69-27 13.7 34.7 5.2 61.4 2.6 67.9 16 17.7 25.8 31.5 25.8 58.9 0 96.5-58.9 104.2-114.8 110.5 9.2 7.9 17 22.9 17 46.4 0 33.7-.3 75.4-.3 83.6 0 6.5 4.6 14.4 17.3 12.1C436.2 457.8 504 362.9 504 252 504 113.3 391.5 8 252.8 8M105.2 352.9c-1.3 1-1 3.3.7 5.2 1.6 1.6 3.9 2.3 5.2 1 1.3-1 1-3.3-.7-5.2-1.6-1.6-3.9-2.3-5.2-1m-10.8-8.1c-.7 1.3.3 2.9 2.3 3.9 1.6 1 3.6.7 4.3-.7.7-1.3-.3-2.9-2.3-3.9-2-.6-3.6-.3-4.3.7m32.4 35.6c-1.6 1.3-1 4.3 1.3 6.2 2.3 2.3 5.2 2.6 6.5 1 1.3-1.3.7-4.3-1.3-6.2-2.2-2.3-5.2-2.6-6.5-1m-11.4-14.7c-1.6 1-1.6 3.6 0 5.9s4.3 3.3 5.6 2.3c1.6-1.3 1.6-3.9 0-6.2-1.4-2.3-4-3.3-5.6-2"/></svg>
+    </a>
+  
+    
+    
+    
+    
+    <a href="https://www.linkedin.com/in/vynohradov" target="_blank" rel="noopener" title="Anton Vynohradov on LinkedIn" class="md-social__link">
+      <svg xmlns="http://www.w3.org/2000/svg" viewBox="0 0 448 512"><!--! Font Awesome Free 7.1.0 by @fontawesome - https://fontawesome.com License - https://fontawesome.com/license/free (Icons: CC BY 4.0, Fonts: SIL OFL 1.1, Code: MIT License) Copyright 2025 Fonticons, Inc.--><path d="M416 32H31.9C14.3 32 0 46.5 0 64.3v383.4C0 465.5 14.3 480 31.9 480H416c17.6 0 32-14.5 32-32.3V64.3c0-17.8-14.4-32.3-32-32.3M135.4 416H69V202.2h66.5V416zM102.2 96a38.5 38.5 0 1 1 0 77 38.5 38.5 0 1 1 0-77m282.1 320h-66.4V312c0-24.8-.5-56.7-34.5-56.7-34.6 0-39.9 27-39.9 54.9V416h-66.4V202.2h63.7v29.2h.9c8.9-16.8 30.6-34.5 62.9-34.5 67.2 0 79.7 44.3 79.7 101.9z"/></svg>
+    </a>
+  
+    
+    
+    
+    
+    <a href="https://orcid.org/0009-0005-6965-0911" target="_blank" rel="noopener" title="Anton Vynohradov on ORCID" class="md-social__link">
+      <svg xmlns="http://www.w3.org/2000/svg" viewBox="0 0 512 512"><!--! Font Awesome Free 7.1.0 by @fontawesome - https://fontawesome.com License - https://fontawesome.com/license/free (Icons: CC BY 4.0, Fonts: SIL OFL 1.1, Code: MIT License) Copyright 2025 Fonticons, Inc.--><path d="M294.7 188.2h-45.9V342h47.5c67.6 0 83.1-51.3 83.1-76.9 0-41.6-26.5-76.9-84.7-76.9M256 8a248 248 0 1 0 0 496 248 248 0 1 0 0-496m-80.8 360.8h-29.8V161.3h29.8zM160.3 98.5a19.6 19.6 0 1 1 0 39.2 19.6 19.6 0 1 1 0-39.2M300 369h-81V161.3h80.6c76.7 0 110.4 54.8 110.4 103.9 0 53.3-41.7 103.9-110 103.9z"/></svg>
+    </a>
+  
+    
+    
+    
+    
+    <a href="https://systemfromscratch.com" target="_blank" rel="noopener" title="SystemFromScratch®" class="md-social__link">
+      <svg xmlns="http://www.w3.org/2000/svg" viewBox="0 0 24 24"><path d="M16.36 14c.08-.66.14-1.32.14-2s-.06-1.34-.14-2h3.38c.16.64.26 1.31.26 2s-.1 1.36-.26 2m-5.15 5.56c.6-1.11 1.06-2.31 1.38-3.56h2.95a8.03 8.03 0 0 1-4.33 3.56M14.34 14H9.66c-.1-.66-.16-1.32-.16-2s.06-1.35.16-2h4.68c.09.65.16 1.32.16 2s-.07 1.34-.16 2M12 19.96c-.83-1.2-1.5-2.53-1.91-3.96h3.82c-.41 1.43-1.08 2.76-1.91 3.96M8 8H5.08A7.92 7.92 0 0 1 9.4 4.44C8.8 5.55 8.35 6.75 8 8m-2.92 8H8c.35 1.25.8 2.45 1.4 3.56A8 8 0 0 1 5.08 16m-.82-2C4.1 13.36 4 12.69 4 12s.1-1.36.26-2h3.38c-.08.66-.14 1.32-.14 2s.06 1.34.14 2M12 4.03c.83 1.2 1.5 2.54 1.91 3.97h-3.82c.41-1.43 1.08-2.77 1.91-3.97M18.92 8h-2.95a15.7 15.7 0 0 0-1.38-3.56c1.84.63 3.37 1.9 4.33 3.56M12 2C6.47 2 2 6.5 2 12a10 10 0 0 0 10 10 10 10 0 0 0 10-10A10 10 0 0 0 12 2"/></svg>
+    </a>
+  
+</div>
+      
+    </div>
+  </div>
+</footer>
+      
+    </div>
+    <div class="md-dialog" data-md-component="dialog">
+      <div class="md-dialog__inner md-typeset"></div>
+    </div>
+    
+    
+    
+      
+      
+      <script id="__config" type="application/json">{"annotate": null, "base": "..", "features": ["navigation.tabs", "navigation.sections", "navigation.top", "navigation.footer", "navigation.instant", "navigation.tracking", "search.suggest", "search.highlight", "content.code.copy", "content.code.annotate", "toc.follow"], "search": "../assets/javascripts/workers/search.a7633da7.min.js", "tags": null, "translations": {"clipboard.copied": "Copied to clipboard", "clipboard.copy": "Copy to clipboard", "search.result.more.one": "1 more on this page", "search.result.more.other": "# more on this page", "search.result.none": "No matching documents", "search.result.one": "1 matching document", "search.result.other": "# matching documents", "search.result.placeholder": "Type to start searching", "search.result.term.missing": "Missing", "select.version": "Select version"}, "version": null}</script>
+    
+    
+      <script src="../assets/javascripts/bundle.c21346df.min.js"></script>
+      
+        <script src="../assets/javascripts/mathjax.js"></script>
+      
+        <script src="https://cdn.jsdelivr.net/npm/mathjax@3.2.2/es5/tex-mml-chtml.js"></script>
+      
+    
+  </body>
+</html>
