@@ -1,0 +1,27 @@
+cff-version: 1.2.0
+message: "If you use the Stepper-C system or this manual in your work, please cite it as below."
+type: software
+title: "Stepper-C System Manual"
+abstract: >-
+  User manual of the Stepper-C system: a hardware-agnostic stepper motor control library
+  in C11, its Scilab/Xcos simulation with software in the loop and the ngspice model of
+  the B-G431B-ESC1 power stage.
+authors:
+  - family-names: Vynohradov
+    given-names: Anton
+    orcid: "https://orcid.org/0009-0005-6965-0911"
+    affiliation: SystemFromScratch
+    website: "https://systemfromscratch.com"
+repository-code: "https://github.com/SystemFromScratch-Articles/Stepper-C-Motor-Control-Library"
+url: "https://systemfromscratch-articles.github.io/Stepper-C-Motor-Control-Library/"
+license: Apache-2.0
+version: "0.1.0"
+date-released: "2026-10-30"
+keywords:
+  - stepper motor
+  - microstepping
+  - embedded systems
+  - C11
+  - Scilab
+  - Xcos
+  - ngspice

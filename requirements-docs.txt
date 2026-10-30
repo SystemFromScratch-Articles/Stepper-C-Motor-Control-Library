@@ -1,0 +1,13 @@
+# Website
+mkdocs>=1.6,<2
+mkdocs-material>=9.5,<10
+pymdown-extensions>=10.0
+# PDF manual (also needs the Pango library, see README)
+weasyprint>=62
+pyyaml>=6.0
+pygments>=2.17
+markdown>=3.5
+# Data figures (tools/docs/figures.py runs the twins of sfs-stepper-sim)
+numpy>=1.24
+scipy>=1.10
+matplotlib>=3.7

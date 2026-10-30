@@ -1,0 +1,15 @@
+# Build output: the website, the PDF published with it and the local PDF build.
+# The PDF is built by the workflow (.github/workflows/documentation.yml), never committed.
+site/
+docs/downloads/
+pdf/
+
+# Python
+__pycache__/
+.venv/
+
+# Editors (the shared VS Code tasks and recommendations are committed)
+.vscode/*
+!.vscode/tasks.json
+!.vscode/extensions.json
+.idea/

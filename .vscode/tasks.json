@@ -1,0 +1,165 @@
+{
+  // Stepper-C System Manual tasks. Task menu: Ctrl+Shift+B (no default build task, so
+  // VS Code shows the list) or Terminal > Run Task...
+  // Python tasks use the project virtual environment in .venv; run
+  // "Python: Setup venv" once before the documentation tasks.
+  // Works on Windows, Linux and macOS ("windows"/"osx" blocks override the defaults).
+  // Every task is "type": "process" with explicit args (the default Windows shell,
+  // PowerShell 5.1, has no "&&"). Destructive tasks (Delete venv) are never dependencies.
+  // The PDF needs the Pango library: on Windows install mingw-w64-x86_64-pango in MSYS2
+  // (build_manual.py finds C:\msys64\mingw64\bin), on Linux libpango-1.0-0 libpangoft2-1.0-0.
+  "version": "2.0.0",
+  "options": {
+    "cwd": "${workspaceFolder}"
+  },
+  "tasks": [
+    // ======================================================================
+    // Python virtual environment
+    // ======================================================================
+    {
+      "label": "Python: Create venv",
+      "hide": true,
+      "detail": "Create the .venv virtual environment",
+      "type": "process",
+      "command": "python3",
+      "args": ["-m", "venv", ".venv"],
+      "windows": {
+        "command": "py",
+        "args": ["-3", "-m", "venv", ".venv"]
+      },
+      "problemMatcher": []
+    },
+    {
+      "label": "Python: Install requirements",
+      "hide": true,
+      "detail": "pip install -r requirements-docs.txt (MkDocs, WeasyPrint, figures)",
+      "type": "process",
+      "command": "${workspaceFolder}/.venv/bin/python",
+      "windows": {
+        "command": "${workspaceFolder}\\.venv\\Scripts\\python.exe"
+      },
+      "args": ["-m", "pip", "install", "--upgrade", "-r", "requirements-docs.txt"],
+      "problemMatcher": []
+    },
+    {
+      "label": "Python: Setup venv",
+      "group": "build",
+      "detail": "Create .venv and install all documentation requirements",
+      "dependsOrder": "sequence",
+      "dependsOn": ["Python: Create venv", "Python: Install requirements"],
+      "problemMatcher": []
+    },
+    {
+      "label": "Python: Delete venv",
+      "group": "build",
+      "detail": "Remove the .venv folder",
+      "type": "process",
+      "command": "python3",
+      "args": ["-c", "import shutil; shutil.rmtree('.venv', ignore_errors=True)"],
+      "windows": {
+        "command": "py",
+        "args": ["-3", "-c", "import shutil; shutil.rmtree('.venv', ignore_errors=True)"]
+      },
+      "problemMatcher": []
+    },
+
+    // ======================================================================
+    // Documentation (MkDocs Material website + WeasyPrint PDF)
+    // ======================================================================
+    {
+      "label": "Docs: Serve on localhost",
+      "group": "build",
+      "detail": "mkdocs serve on http://127.0.0.1:<port> with live reload; opens the browser",
+      "type": "process",
+      "command": "${workspaceFolder}/.venv/bin/python",
+      "windows": {
+        "command": "${workspaceFolder}\\.venv\\Scripts\\python.exe"
+      },
+      "args": ["-m", "mkdocs", "serve", "--dev-addr", "127.0.0.1:${input:docsPort}", "--open"],
+      "isBackground": true,
+      "presentation": { "reveal": "always", "panel": "dedicated" },
+      "problemMatcher": {
+        "owner": "mkdocs",
+        "pattern": { "regexp": "^(ERROR|WARNING)\\s+-\\s+(.*)$", "severity": 1, "message": 2 },
+        "background": {
+          "activesBegin": true,
+          "beginsPattern": "Building documentation",
+          "endsPattern": "Serving on"
+        }
+      }
+    },
+    {
+      "label": "Docs: Build site (strict)",
+      "group": "build",
+      "detail": "mkdocs build --strict into site/ (the same check as the workflow)",
+      "type": "process",
+      "command": "${workspaceFolder}/.venv/bin/python",
+      "windows": {
+        "command": "${workspaceFolder}\\.venv\\Scripts\\python.exe"
+      },
+      "args": ["-m", "mkdocs", "build", "--clean", "--strict"],
+      "problemMatcher": {
+        "owner": "mkdocs",
+        "pattern": { "regexp": "^(ERROR|WARNING)\\s+-\\s+(.*)$", "severity": 1, "message": 2 }
+      }
+    },
+    {
+      "label": "Docs: Build PDF manual",
+      "group": "build",
+      "detail": "Print-ready A4 manual into pdf/Stepper-C_System_Manual_v<version>.pdf (not committed)",
+      "type": "process",
+      "command": "${workspaceFolder}/.venv/bin/python",
+      "windows": {
+        "command": "${workspaceFolder}\\.venv\\Scripts\\python.exe"
+      },
+      "args": ["tools/docs/build_manual.py"],
+      "problemMatcher": []
+    },
+    {
+      "label": "Docs: Build and open PDF manual",
+      "group": "build",
+      "detail": "Build the PDF, then open it in the default PDF viewer",
+      "type": "process",
+      "command": "${workspaceFolder}/.venv/bin/python",
+      "windows": {
+        "command": "${workspaceFolder}\\.venv\\Scripts\\python.exe"
+      },
+      "args": ["tools/docs/open_manual.py"],
+      "dependsOn": ["Docs: Build PDF manual"],
+      "problemMatcher": []
+    },
+    {
+      "label": "Docs: Generate diagrams",
+      "group": "build",
+      "detail": "Regenerate the SVG diagrams in docs/assets/images from tools/docs/diagrams.py",
+      "type": "process",
+      "command": "${workspaceFolder}/.venv/bin/python",
+      "windows": {
+        "command": "${workspaceFolder}\\.venv\\Scripts\\python.exe"
+      },
+      "args": ["tools/docs/diagrams.py"],
+      "problemMatcher": []
+    },
+    {
+      "label": "Docs: Generate data figures",
+      "group": "build",
+      "detail": "Regenerate docs/assets/figures (needs ../sfs-stepper-sim and ../sfs-stepper-power-spice)",
+      "type": "process",
+      "command": "${workspaceFolder}/.venv/bin/python",
+      "windows": {
+        "command": "${workspaceFolder}\\.venv\\Scripts\\python.exe"
+      },
+      "args": ["tools/docs/figures.py"],
+      "problemMatcher": []
+    }
+  ],
+
+  "inputs": [
+    {
+      "id": "docsPort",
+      "type": "promptString",
+      "description": "Local documentation port",
+      "default": "8000"
+    }
+  ]
+}

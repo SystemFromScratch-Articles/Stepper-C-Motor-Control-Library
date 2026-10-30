@@ -1,0 +1,244 @@
+# MkDocs configuration of the Stepper-C system user manual (SystemFromScratch® style).
+# The same Markdown builds the website (mkdocs build) and the print PDF
+# (python tools/docs/build_manual.py).
+
+site_name: Stepper-C System Manual
+site_description: >-
+  User manual of the Stepper-C system: a hardware-agnostic stepper motor control library
+  in C11, its Scilab/Xcos simulation with software in the loop and the ngspice model of
+  the B-G431B-ESC1 power stage.
+site_author: Anton Vynohradov
+site_url: https://systemfromscratch-articles.github.io/Stepper-C-Motor-Control-Library/   # GitHub Pages path = repository name
+repo_url: https://github.com/AntonVynohradov/Stepper-C
+repo_name: "Motor Control Library"
+edit_uri: ""
+copyright: >-
+  Copyright &copy; 2026 Anton Vynohradov ·
+  <a href="https://systemfromscratch.com">SystemFromScratch®</a> ·
+  Licensed under the <a href="https://www.apache.org/licenses/LICENSE-2.0">Apache License 2.0</a>
+
+nav:
+  - Home: index.md
+  - Guide:
+      - Introduction: overview.md
+      - System Architecture: system.md
+      - Getting Started: getting-started.md
+  - Theory:
+      - Motor Model: motor-model.md
+      - Control Algorithms: control.md
+  - Modules:
+      - Stepper-C Library: library.md
+      - API Reference: api.md
+      - Simulation: simulation.md
+      - Software in the Loop: sil.md
+      - Power Stage Model: power-stage.md
+  - Verification:
+      - Test Catalogue: tests.md
+      - Results and Design Guidance: results.md
+      - Hardware Bring-up: hardware.md
+  - Reference:
+      - Parameter Reference: parameters.md
+      - Glossary: glossary.md
+      - Changelog: changelog.md
+  - About:
+      - Author & Company: about.md
+      - License: LICENSE.md
+
+theme:
+  name: material
+  custom_dir: overrides
+  language: en
+  logo: assets/images/brand/systemfromscratch-logo-on-dark.png
+  favicon: assets/images/brand/systemfromscratch-logo.png
+  font:
+    text: Inter
+    code: JetBrains Mono
+  icon:
+    repo: fontawesome/brands/github
+  palette:
+    - media: "(prefers-color-scheme: light)"
+      scheme: default
+      primary: custom
+      accent: custom
+      toggle:
+        icon: material/weather-night
+        name: Switch to dark mode
+    - media: "(prefers-color-scheme: dark)"
+      scheme: slate
+      primary: custom
+      accent: custom
+      toggle:
+        icon: material/weather-sunny
+        name: Switch to light mode
+  features:
+    - navigation.tabs
+    - navigation.sections
+    - navigation.top
+    - navigation.footer
+    - navigation.instant
+    - navigation.tracking
+    - search.suggest
+    - search.highlight
+    - content.code.copy
+    - content.code.annotate
+    - toc.follow
+
+extra:
+  generator: false
+  # Header download button (overrides/partials/header.html); CI copies the PDF there
+  manual_pdf: downloads/Stepper-C_System_Manual.pdf
+  social:
+    - icon: fontawesome/brands/github
+      link: https://github.com/AntonVynohradov
+      name: Anton Vynohradov on GitHub
+    - icon: fontawesome/brands/linkedin
+      link: https://www.linkedin.com/in/vynohradov
+      name: Anton Vynohradov on LinkedIn
+    - icon: fontawesome/brands/orcid
+      link: https://orcid.org/0009-0005-6965-0911
+      name: Anton Vynohradov on ORCID
+    - icon: material/web
+      link: https://systemfromscratch.com
+      name: SystemFromScratch®
+
+  # ---------------------------------------------------------------- landing page
+  landing:
+    eyebrow: Open-source motor control system
+    title: Stepper motor control
+    accent: from model to metal
+    lead: >-
+      Stepper-C turns a position command into phase voltages for any two-phase stepper
+      motor — and the same C code is verified against a motor model in Scilab/Xcos and a
+      transistor-level model of the power stage before it drives real hardware.
+    hero_image: assets/images/hero-3d.svg
+    hero_alt: >-
+      A board with the Stepper-C chip driving three half-bridge legs; sine-shaped phase
+      currents flow to a stepper motor whose shaft turns.
+    buttons:
+      - {text: Get started, link: getting-started/, style: primary}
+      - {text: View on GitHub, link: "https://github.com/AntonVynohradov/Stepper-C", style: outline}
+    features:
+      - {icon: chip, line1: C11, line2: no heap, no RTOS}
+      - {icon: layers, line1: Fixed point, line2: or float}
+      - {icon: flask, line1: 100 % line &, line2: branch coverage}
+      - {icon: code, line1: Apache-2.0, line2: open source}
+    problem:
+      eyebrow: The problem
+      title: A stepper that loses steps is found on the bench, not in the code
+      intro: >-
+        Microstepping drivers hide the physics: a current loop that lags at speed, a
+        bus voltage that runs out, a rotor resonance, a dead time that distorts the
+        current. Finding them on hardware costs boards and time; a library tested only
+        on its own unit tests does not see them at all.
+      cards:
+        - icon: wave
+          title: The motor is a dynamic system
+          text: >-
+            A two-phase motor model with back-EMF, detent torque and friction shows load
+            angle, loss of synchronism and resonance before the motor is connected.
+          tags: [Back-EMF, Resonance, Load angle]
+        - icon: memory
+          title: Every MCU is different
+          text: >-
+            Configuration in engineering units, callbacks for PWM and outputs, a fixed
+            point backend without FPU and a float backend with one; no clock, no heap.
+          tags: [Q15/Q31, float, Callbacks]
+        - icon: shield
+          title: The same code everywhere
+          text: >-
+            The C library runs unchanged inside Xcos (software in the loop) and is
+            compared sample by sample with the Scilab prototype and its Python twin.
+          tags: [SIL, Bit-exact twins, ngspice]
+    offer:
+      eyebrow: What you get
+      title: Three repositories, one verified chain
+      intro: >-
+        A control library, a simulation environment and a power stage model that hand
+        their results to each other.
+      cards:
+        - {icon: layers, title: Stepper-C library, text: Current control, motion generator and power stage mapping for two topologies., tags: [Stepper-C on GitHub], link: "https://github.com/AntonVynohradov/Stepper-C"}
+        - {icon: plug, title: Simple integration, text: Two loop functions and four callbacks connect it to any board., tags: [API, ISR], link: api/}
+        - {icon: monitor, title: Software in the loop, text: Open one file in Scilab and watch the real C code drive the motor model., tags: [Xcos, Scilab], link: sil/}
+        - {icon: brackets, title: Motor and control theory, text: Equations, conventions and the algorithms behind every loop., tags: [Model, PI, Profile], link: motor-model/}
+        - {icon: document, title: Power stage in ngspice, text: Dead time, diodes and shunt sampling of the B-G431B-ESC1 leg., tags: [ngspice, STL180N6F7], link: power-stage/}
+        - {icon: check, title: Measured results, text: Test catalogue and design limits from the models., tags: [T00–T12, S01–S04, SP01–SP03], link: results/}
+    stats:
+      - {value: "15", label: control API functions}
+      - {value: "8.2 kB", label: code size, Cortex-M4F fixed point}
+      - {value: "76", label: unit tests (fixed point)}
+      - {value: "100 %", label: line and branch coverage}
+    portfolio:
+      title: Part of an open-source embedded portfolio
+      text: >-
+        Stepper-C is developed by Anton Vynohradov under SystemFromScratch® — embedded
+        software and hardware built from the first schematic to certification.
+      buttons:
+        - {text: SystemFromScratch®, link: "https://systemfromscratch.com", style: primary}
+        - {text: About the author, link: about/, style: outline}
+    trademark: >-
+      SystemFromScratch® is a registered trademark. STM32 and B-G431B-ESC1 are trademarks
+      of STMicroelectronics; Stepper-C is not affiliated with or endorsed by
+      STMicroelectronics.
+
+  # ---------------------------------------------------------------- PDF manual
+  # Read by tools/docs/build_manual.py.
+  manual:
+    title: Stepper-C
+    subtitle: Stepper Motor Control Library, Simulation and Power Stage Model
+    kind: System User Manual
+    version: 0.1.0
+    output: pdf/Stepper-C_System_Manual_v{version}.pdf
+    eyebrow: Open-source motor control system
+    cover_image: assets/images/cover-3d.svg
+    appendices: [parameters.md, glossary.md, changelog.md, LICENSE.md]
+    unnumbered: [about.md]
+    web_only: [index.md]
+    keywords: stepper motor, microstepping, current control, embedded C, Scilab, Xcos, ngspice, B-G431B-ESC1
+    vendor_trademarks: >-
+      STM32, STM32G4 and B-G431B-ESC1 are trademarks of STMicroelectronics. Scilab and
+      Xcos are trademarks of their respective owners. They are used only to identify the
+      products this manual refers to; Stepper-C is not affiliated with or endorsed by
+      their owners.
+
+validation:
+  links:
+    anchors: warn
+
+extra_css:
+  - assets/stylesheets/extra.css
+
+# Formulas: Arithmatex marks them, MathJax typesets them on the website; the PDF
+# renders the same LaTeX to SVG with matplotlib (tools/docs/build_manual.py).
+extra_javascript:
+  - assets/javascripts/mathjax.js
+  - https://cdn.jsdelivr.net/npm/mathjax@3.2.2/es5/tex-mml-chtml.js
+
+plugins:
+  - search
+
+markdown_extensions:
+  - abbr
+  - admonition
+  - pymdownx.arithmatex:
+      generic: true
+  - attr_list
+  - def_list
+  - footnotes
+  - md_in_html
+  - tables
+  - toc:
+      permalink: true
+  - pymdownx.details
+  - pymdownx.highlight:
+      anchor_linenums: true
+      use_pygments: true
+  - pymdownx.inlinehilite
+  - pymdownx.snippets:
+      base_path: ["."]
+      check_paths: true
+  - pymdownx.superfences
+  - pymdownx.tasklist:
+      custom_checkbox: true
+  - pymdownx.emoji:
+      emoji_index: !!python/name:material.extensions.emoji.twemoji
+      emoji_generator: !!python/name:material.extensions.emoji.to_svg
